@@ -1,7 +1,7 @@
 ---
 title: "SOCI 385, Week One, Class Two"
 author: "Matt Lawrence"
-date: "9/14/2019"
+date: "9/15/2021"
 output:
   pdf_document: default
 ---
@@ -138,7 +138,7 @@ plot + geom_col() + geom_text(aes(label = deaths_mean), size = 6, vjust = 0) +
   theme_fivethirtyeight() + scale_fill_fivethirtyeight(name = "") + ylim(c(0,25)) +
        theme(axis.title = element_text(size = 18),
            axis.text = element_text(size = 18),
-           title = element_text(size = 12)) + guides(fill = FALSE)
+           title = element_text(size = 12)) + guides(fill = "none")
 ```
 
 If the code above executed correctly, you should now see the data frame loaded and saved with the object name you created in the `environment` panel in the top right quadrant of R Studio. There should be 92 observations of 7 variables in the data frame named hurricanes.
@@ -208,7 +208,7 @@ summary(hurricanes$deaths)
 
 How could we find the hurricane with 256 deaths? Sometimes we only want to use a function for some observations rather than all observations. `R` calls this *indexing*. We use brackets to indicate the variable names and values we want to index.
 
-In this next chunk, we want to pull the value for the `name` variable for the observation where the value for the `deaths` variable equals 256. Note that in R we will use two equal signs when referecing a specific value that exists in a data frame.
+In this next chunk, we want to pull the value for the `name` variable for the observation where the value for the `deaths` variable equals 256. Note that in R we will use two equal signs when referencing a specific value that exists in a data frame.
 
 ```{r finding observation with certain value of a variable}
 hurricanes$name[hurricanes$deaths==256]
@@ -250,5 +250,5 @@ plot + geom_col() + geom_text(aes(label = deaths_mean), size = 6, vjust = 0) +
   theme_fivethirtyeight() + scale_fill_fivethirtyeight(name = "") + ylim(c(0,25)) +
        theme(axis.title = element_text(size = 18),
            axis.text = element_text(size = 18),
-           title = element_text(size = 12)) + guides(fill = FALSE)
+           title = element_text(size = 12)) + guides(fill = "none")
 ```
