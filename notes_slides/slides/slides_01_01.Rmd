@@ -1,0 +1,187 @@
+---
+title: "Social Statistics"
+subtitle: "Reviewing Research Design, Introducing R"
+date: "September 15, 2021"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
+    nature:
+        highlightLines: true
+        highlightStyle: zenburn
+        highlightSpans: true
+        titleSlideClass: ["middle"]
+        beforeInit: "macros.js"
+---
+
+```{r setup, include=FALSE}
+# Change css [here](/Users/lawrence/documents/github/soci385_f21/notes_slides/slides/metropolis.css)
+
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+```
+
+# Jung et al (2014): Research Design
+
+### What are the observations that launched their project?
+
+### What possible explanations for this observation do they want to test?
+
+### What theories could support those explanations?
+
+### What are their specific hypotheses?
+
+### What data and methods do they need to test those hypotheses?
+
+
+---
+
+# Observations and Interesting Questions
+
+--
+
+### Hurricanes kill different numbers of people
+
+--
+
+- Already have their dependent or outcome variable
+
+--
+
+### Some people do not adequately prepare or evacuate when hurricanes are approaching
+
+--
+
+### *Why does that matter?*
+
+--
+
+- Global warming means there could be more hurricanes in the future, and their intensity may strengthen
+
+--
+
+- If there are more successful ways to signal to people that they should evacuate, perhaps cities or local leaders can adopt those techniques
+
+---
+
+# Possible Explanations To Test
+
+--
+
+### Perhaps the name assigned to an approaching hurricane signals the "subjective risk preference" associated with it
+
+--
+
+- Sounds like an independent or predictor variable
+
+--
+
+### Hurricane names have two types - male and female
+
+--
+
+- Perhaps "people judge hurricane risks in the context of gender-based expectations"
+
+--
+
+- Perhaps these expectations and risks vary by *how* masculine or female a name is perceived to be
+
+---
+
+# Theories To Support Explanations
+
+--
+
+#### "Research shows that women and men are socialized to have different social roles and self-schemas, in turn generating descriptive and prescriptive expectancies about women and men. Men are often expected to be strong, competent, and aggressive, whereas women are often expected to be weak, warm, and passive. Men are more likely than women to commit violent behaviors, and thus males are perceived to be more strongly associated than females with negative potencies such as violence and destruction."
+
+---
+
+# Hypotheses Map To Experiments
+
+--
+
+### Participants will predict hurricanes with male names will be more intense than hurricanes with female names
+
+--
+
+### Participants will predict hurricanes with male names will be riskier than hurricanes with female names
+
+--
+
+### Participants will be more likely to say they intend to evacuate if a hurricane has male name
+
+--
+
+### Participants will be more likely to follow an evacuation order if a hurricane has a male name
+
+--
+
+### Vary experiments so differences not associated with: sex of respondent, popularity of name, familiarity of name
+
+---
+
+# What's Needed
+
+--
+
+## Data:
+
+--
+
+- Hurricane names, number of deaths
+
+--
+
+- Scores for each name on masculine-feminine scale
+
+--
+
+## Methods:
+
+--
+
+- Starts with archival study
+
+--
+
+- Experiments with randomly (?) chosen participants
+
+---
+
+# Research Design - Why The Controversy?
+
+(Summarized by Malter 2014 and Christiansen and Christiansen 2014)
+
+--
+
+### Concerns about *hypothesis*: relationship between phenomenon and prediction is tenuous (validity)
+
+--
+
+### Concerns about *data*: all hurricanes had female names before 1979
+
+--
+
+### Concerns about *analysis*: other variables (like barometric pressure) not included
+
+---
+
+# Research Design - Why The Controversy?
+
+### Concerns about *interpretation of results*: "selective and overstated"
+
+--
+
+### Concerns about *inference*: do experimental results apply to "at-risk populations in at-risk situations"? (reliability)
+
+--
+
+### Concerns about *implications*: what would the appropriate response be?
+
+--
+
+### Many of these concerns could have been avoided at the design stage.
+
+--
+
+### ***Preparedness does matter!***
