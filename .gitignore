@@ -37,3 +37,600 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+fall_2019/.DS_Store
+fall_2019/assignments/.DS_Store
+fall_2019/assignments/assignment_01/assignment_01_mac 2.md
+fall_2019/assignments/assignment_01/assignment_01_mac 2.pdf
+fall_2019/assignments/assignment_01/assignment_01_mac.md
+fall_2019/assignments/assignment_01/assignment_01_mac.pdf
+fall_2019/assignments/assignment_01/assignment_01_pc 2.md
+fall_2019/assignments/assignment_01/assignment_01_pc 2.pdf
+fall_2019/assignments/assignment_01/assignment_01_pc.md
+fall_2019/assignments/assignment_01/assignment_01_pc.pdf
+fall_2019/assignments/assignment_02/assignment_02 2.md
+fall_2019/assignments/assignment_02/assignment_02 2.pdf
+fall_2019/assignments/assignment_02/assignment_02 2.Rmd
+fall_2019/assignments/assignment_02/assignment_02.md
+fall_2019/assignments/assignment_02/assignment_02.pdf
+fall_2019/assignments/assignment_02/assignment_02.Rmd
+fall_2019/assignments/assignment_03/assignment_03 2.md
+fall_2019/assignments/assignment_03/assignment_03 2.pdf
+fall_2019/assignments/assignment_03/assignment_03.md
+fall_2019/assignments/assignment_03/assignment_03.pdf
+fall_2019/assignments/assignment_03/assignment_03_master 2.pdf
+fall_2019/assignments/assignment_03/assignment_03_master 2.Rmd
+fall_2019/assignments/assignment_03/assignment_03_master.pdf
+fall_2019/assignments/assignment_03/assignment_03_master.Rmd
+fall_2019/assignments/assignment_05/assignment_05 2.md
+fall_2019/assignments/assignment_05/assignment_05 2.pdf
+fall_2019/assignments/assignment_05/assignment_05.md
+fall_2019/assignments/assignment_05/assignment_05.pdf
+fall_2019/assignments/assignment_06/assignment_06 2.md
+fall_2019/assignments/assignment_06/assignment_06 2.pdf
+fall_2019/assignments/assignment_06/assignment_06.md
+fall_2019/assignments/assignment_06/assignment_06.pdf
+fall_2019/assignments/assignment_06/assignment_6_master 2.pdf
+fall_2019/assignments/assignment_06/assignment_6_master 2.Rmd
+fall_2019/assignments/assignment_06/assignment_6_master.pdf
+fall_2019/assignments/assignment_06/assignment_6_master.Rmd
+fall_2019/assignments/assignment_07/assignment_07 2.md
+fall_2019/assignments/assignment_07/assignment_07 2.pdf
+fall_2019/assignments/assignment_07/assignment_07.md
+fall_2019/assignments/assignment_07/assignment_07.pdf
+fall_2019/assignments/assignment_08/assignment_08 2.md
+fall_2019/assignments/assignment_08/assignment_08 2.pdf
+fall_2019/assignments/assignment_08/assignment_08.md
+fall_2019/assignments/assignment_08/assignment_08.pdf
+fall_2019/assignments/assignment_08/assignment_08_master 2.Rmd
+fall_2019/assignments/assignment_08/assignment_08_master.Rmd
+fall_2019/assignments/Book1.xlsx
+fall_2019/assignments/final/final 2.md
+fall_2019/assignments/final/final 2.pdf
+fall_2019/assignments/final/final.md
+fall_2019/assignments/final/final.pdf
+fall_2019/assignments/ps_01/ps1_master 2.pdf
+fall_2019/assignments/ps_01/ps1_master 2.Rmd
+fall_2019/assignments/ps_01/ps1_master.nb 2.html
+fall_2019/assignments/ps_01/ps1_master.nb.html
+fall_2019/assignments/ps_01/ps1_master.pdf
+fall_2019/assignments/ps_01/ps1_master.Rmd
+fall_2019/assignments/ps_01/ps_01 2.md
+fall_2019/assignments/ps_01/ps_01 2.pdf
+fall_2019/assignments/ps_01/ps_01.md
+fall_2019/assignments/ps_01/ps_01.pdf
+fall_2019/assignments/ps_02/.Rhistory 2
+fall_2019/assignments/ps_02/ps2_solutions 2.Rmd
+fall_2019/assignments/ps_02/ps2_solutions.Rmd
+fall_2019/assignments/ps_02/ps_02 2.md
+fall_2019/assignments/ps_02/ps_02 2.pdf
+fall_2019/assignments/ps_02/ps_02.md
+fall_2019/assignments/ps_02/ps_02.pdf
+fall_2019/data/assignment_02.csv
+fall_2019/data/assignment_03.csv
+fall_2019/data/assignment_05.csv
+fall_2019/data/college_mobility.csv
+fall_2019/data/commuting_zones.csv
+fall_2019/data/counties.csv
+fall_2019/data/cupid.csv
+fall_2019/data/final_review.csv
+fall_2019/data/gss_week3.csv
+fall_2019/data/gss_week7.csv
+fall_2019/data/gss_week_11.csv
+fall_2019/data/hdi.csv
+fall_2019/data/hurricanes.csv
+fall_2019/data/midd_survey.csv
+fall_2019/data/ps1.csv
+fall_2019/data/ps2.csv
+fall_2019/data/week_8_1.csv
+fall_2019/data/week_8_2.csv
+fall_2019/data/week_9.csv
+fall_2019/notebooks/final_review.Rmd
+fall_2019/notebooks/final_review_master.log
+fall_2019/notebooks/final_review_master.pdf
+fall_2019/notebooks/final_review_master.Rmd
+fall_2019/notebooks/gss_cleanup.pdf
+fall_2019/notebooks/gss_cleanup.Rmd
+fall_2019/notebooks/notebook_01_02.Rmd
+fall_2019/notebooks/notebook_01_02_master.pdf
+fall_2019/notebooks/notebook_01_02_master.Rmd
+fall_2019/notebooks/notebook_02_01.Rmd
+fall_2019/notebooks/notebook_02_01_master.pdf
+fall_2019/notebooks/notebook_02_01_master.Rmd
+fall_2019/notebooks/notebook_03_01.Rmd
+fall_2019/notebooks/notebook_03_01_master.pdf
+fall_2019/notebooks/notebook_03_01_master.Rmd
+fall_2019/notebooks/notebook_03_02.Rmd
+fall_2019/notebooks/notebook_03_02_master.Rmd
+fall_2019/notebooks/notebook_04_01.Rmd
+fall_2019/notebooks/notebook_04_01_master.pdf
+fall_2019/notebooks/notebook_04_01_master.Rmd
+fall_2019/notebooks/notebook_04_02.Rmd
+fall_2019/notebooks/notebook_04_02_master.Rmd
+fall_2019/notebooks/notebook_05_01.nb.html
+fall_2019/notebooks/notebook_05_01.Rmd
+fall_2019/notebooks/notebook_05_01_master.nb.html
+fall_2019/notebooks/notebook_05_01_master.pdf
+fall_2019/notebooks/notebook_05_01_master.Rmd
+fall_2019/notebooks/notebook_05_02.Rmd
+fall_2019/notebooks/notebook_05_02_master.pdf
+fall_2019/notebooks/notebook_05_02_master.Rmd
+fall_2019/notebooks/notebook_06_01.nb.html
+fall_2019/notebooks/notebook_06_01.Rmd
+fall_2019/notebooks/notebook_06_01_master.nb.html
+fall_2019/notebooks/notebook_06_01_master.Rmd
+fall_2019/notebooks/notebook_06_02.nb.html
+fall_2019/notebooks/notebook_06_02.Rmd
+fall_2019/notebooks/notebook_06_02_master.nb.html
+fall_2019/notebooks/notebook_06_02_master.Rmd
+fall_2019/notebooks/notebook_07_01.nb.html
+fall_2019/notebooks/notebook_07_01.Rmd
+fall_2019/notebooks/notebook_07_01_master.nb.html
+fall_2019/notebooks/notebook_07_01_master.Rmd
+fall_2019/notebooks/notebook_08_01.nb.html
+fall_2019/notebooks/notebook_08_01.Rmd
+fall_2019/notebooks/notebook_08_01_master.nb.html
+fall_2019/notebooks/notebook_08_01_master.Rmd
+fall_2019/notebooks/notebook_08_02.Rmd
+fall_2019/notebooks/notebook_08_02_master.Rmd
+fall_2019/notebooks/notebook_09_01.nb.html
+fall_2019/notebooks/notebook_09_01.Rmd
+fall_2019/notebooks/notebook_09_01_master.nb.html
+fall_2019/notebooks/notebook_09_01_master.Rmd
+fall_2019/notebooks/notebook_09_02.Rmd
+fall_2019/notebooks/notebook_09_02_master.Rmd
+fall_2019/notebooks/notebook_10_01.nb.html
+fall_2019/notebooks/notebook_10_01.Rmd
+fall_2019/notebooks/notebook_10_01_master.nb.html
+fall_2019/notebooks/notebook_10_01_master.Rmd
+fall_2019/notebooks/notebook_10_02.Rmd
+fall_2019/notebooks/notebook_10_02_master.Rmd
+fall_2019/notebooks/notebook_11_01.Rmd
+fall_2019/notebooks/notebook_11_01_master.Rmd
+fall_2019/notebooks/notebook_11_02.nb.html
+fall_2019/notebooks/notebook_11_02.Rmd
+fall_2019/notebooks/notebook_11_02_master.nb.html
+fall_2019/notebooks/notebook_11_02_master.Rmd
+fall_2019/notebooks/shiny_app_example.R
+fall_2019/notebooks/shiny_app_example_2.R
+fall_2019/notebooks/stargazer.html
+fall_2019/notebooks/stargazer.log
+fall_2019/notebooks/stargazer.pdf
+fall_2019/notebooks/stargazer.Rmd
+fall_2019/notebooks/stargazer_master.log
+fall_2019/notebooks/stargazer_master.pdf
+fall_2019/notebooks/stargazer_master.Rmd
+fall_2019/notes_slides/.DS_Store
+fall_2019/notes_slides/01_introduction/.DS_Store
+fall_2019/notes_slides/01_introduction/class_01_01/notes_01_01 2.md
+fall_2019/notes_slides/01_introduction/class_01_01/notes_01_01 2.pdf
+fall_2019/notes_slides/01_introduction/class_01_01/notes_01_01.md
+fall_2019/notes_slides/01_introduction/class_01_01/notes_01_01.pdf
+fall_2019/notes_slides/01_introduction/class_01_02/.Rhistory 2
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02 2.Rmd
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02.Rmd
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master 2.html
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master 2.pdf
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master 2.Rmd
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master.html
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master.pdf
+fall_2019/notes_slides/01_introduction/class_01_02/notebook_01_02_master.Rmd
+fall_2019/notes_slides/02_descriptives/.DS_Store
+fall_2019/notes_slides/02_descriptives/Class_02_01/.DS_Store
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/.DS_Store
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/.Rhistory 2
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/default 2.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/default.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/metropolis 2.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/metropolis-fonts 2.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/metropolis-fonts.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/libs/remark-css-0.0.1/metropolis.css
+fall_2019/notes_slides/02_descriptives/Class_02_01/slides_02_01 2.html
+fall_2019/notes_slides/02_descriptives/Class_02_01/slides_02_01 2.Rmd
+fall_2019/notes_slides/02_descriptives/Class_02_01/slides_02_01.html
+fall_2019/notes_slides/02_descriptives/Class_02_01/slides_02_01.Rmd
+fall_2019/notes_slides/slides/.DS_Store
+fall_2019/notes_slides/slides/385_figures/agekd_educ_religion.png
+fall_2019/notes_slides/slides/385_figures/agekd_educ_religion_race 2.png
+fall_2019/notes_slides/slides/385_figures/agekd_educ_religion_race.png
+fall_2019/notes_slides/slides/385_figures/bbc_less_sex.png
+fall_2019/notes_slides/slides/385_figures/besbris_khan.png
+fall_2019/notes_slides/slides/385_figures/chetty_correlations.png
+fall_2019/notes_slides/slides/385_figures/chisq_region_courts.png
+fall_2019/notes_slides/slides/385_figures/chris_prob_college 2.png
+fall_2019/notes_slides/slides/385_figures/chris_prob_college.png
+fall_2019/notes_slides/slides/385_figures/class_abany_table_1 2.png
+fall_2019/notes_slides/slides/385_figures/class_abany_table_1.png
+fall_2019/notes_slides/slides/385_figures/class_abany_table_2 2.png
+fall_2019/notes_slides/slides/385_figures/class_abany_table_2.png
+fall_2019/notes_slides/slides/385_figures/critical_region 2.png
+fall_2019/notes_slides/slides/385_figures/critical_region.png
+fall_2019/notes_slides/slides/385_figures/election_1 2.png
+fall_2019/notes_slides/slides/385_figures/election_1.png
+fall_2019/notes_slides/slides/385_figures/election_2 2.png
+fall_2019/notes_slides/slides/385_figures/election_2.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibs_class_gender_model.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibs_class_model.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibs_gender_model 2.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibs_gender_model.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibs_model.png
+fall_2019/notes_slides/slides/385_figures/gpa_sibsXclass_model.png
+fall_2019/notes_slides/slides/385_figures/gss_abany 2.png
+fall_2019/notes_slides/slides/385_figures/gss_abany.png
+fall_2019/notes_slides/slides/385_figures/height_earnings_female.png
+fall_2019/notes_slides/slides/385_figures/height_earnings_male 2.png
+fall_2019/notes_slides/slides/385_figures/height_earnings_male.png
+fall_2019/notes_slides/slides/385_figures/hours_density 2.png
+fall_2019/notes_slides/slides/385_figures/hours_density.png
+fall_2019/notes_slides/slides/385_figures/hours_histogram 2.png
+fall_2019/notes_slides/slides/385_figures/hours_histogram.png
+fall_2019/notes_slides/slides/385_figures/income_log 2.png
+fall_2019/notes_slides/slides/385_figures/income_log.png
+fall_2019/notes_slides/slides/385_figures/income_mean 2.png
+fall_2019/notes_slides/slides/385_figures/income_mean.png
+fall_2019/notes_slides/slides/385_figures/income_median 2.png
+fall_2019/notes_slides/slides/385_figures/income_median.png
+fall_2019/notes_slides/slides/385_figures/income_middlebury 2.png
+fall_2019/notes_slides/slides/385_figures/income_middlebury.png
+fall_2019/notes_slides/slides/385_figures/income_overall 2.png
+fall_2019/notes_slides/slides/385_figures/income_overall.png
+fall_2019/notes_slides/slides/385_figures/leftskew 2.png
+fall_2019/notes_slides/slides/385_figures/leftskew.png
+fall_2019/notes_slides/slides/385_figures/library_tidyverse.png
+fall_2019/notes_slides/slides/385_figures/lm_model_1.png
+fall_2019/notes_slides/slides/385_figures/lm_model_2.png
+fall_2019/notes_slides/slides/385_figures/lm_model_3.png
+fall_2019/notes_slides/slides/385_figures/lm_model_4.png
+fall_2019/notes_slides/slides/385_figures/lm_model_5.png
+fall_2019/notes_slides/slides/385_figures/lm_model_maternal_mortality 2.png
+fall_2019/notes_slides/slides/385_figures/lm_model_maternal_mortality.png
+fall_2019/notes_slides/slides/385_figures/lm_model_parliament 2.png
+fall_2019/notes_slides/slides/385_figures/lm_model_parliament.png
+fall_2019/notes_slides/slides/385_figures/meier_musick_table.png
+fall_2019/notes_slides/slides/385_figures/model1.png
+fall_2019/notes_slides/slides/385_figures/model2.png
+fall_2019/notes_slides/slides/385_figures/model3.png
+fall_2019/notes_slides/slides/385_figures/n100.png
+fall_2019/notes_slides/slides/385_figures/n1000 2.png
+fall_2019/notes_slides/slides/385_figures/n1000.png
+fall_2019/notes_slides/slides/385_figures/n200.png
+fall_2019/notes_slides/slides/385_figures/n208 2.png
+fall_2019/notes_slides/slides/385_figures/n208.png
+fall_2019/notes_slides/slides/385_figures/n50 2.png
+fall_2019/notes_slides/slides/385_figures/n50.png
+fall_2019/notes_slides/slides/385_figures/n500.png
+fall_2019/notes_slides/slides/385_figures/n5000 2.png
+fall_2019/notes_slides/slides/385_figures/n5000.png
+fall_2019/notes_slides/slides/385_figures/newpeople_model 2.png
+fall_2019/notes_slides/slides/385_figures/newpeople_model.png
+fall_2019/notes_slides/slides/385_figures/newpeople_plot.png
+fall_2019/notes_slides/slides/385_figures/normal 2.png
+fall_2019/notes_slides/slides/385_figures/normal.png
+fall_2019/notes_slides/slides/385_figures/normal1.png
+fall_2019/notes_slides/slides/385_figures/normal2.png
+fall_2019/notes_slides/slides/385_figures/normal3.png
+fall_2019/notes_slides/slides/385_figures/noskew 2.png
+fall_2019/notes_slides/slides/385_figures/noskew.png
+fall_2019/notes_slides/slides/385_figures/pander_example 2.png
+fall_2019/notes_slides/slides/385_figures/pander_example.png
+fall_2019/notes_slides/slides/385_figures/predicted1_depression 2.png
+fall_2019/notes_slides/slides/385_figures/predicted1_depression.png
+fall_2019/notes_slides/slides/385_figures/predicted2_substance_use 2.png
+fall_2019/notes_slides/slides/385_figures/predicted2_substance_use.png
+fall_2019/notes_slides/slides/385_figures/predicted3_delinquency 2.png
+fall_2019/notes_slides/slides/385_figures/predicted3_delinquency.png
+fall_2019/notes_slides/slides/385_figures/proptest_kidssol_1 2.png
+fall_2019/notes_slides/slides/385_figures/proptest_kidssol_1.png
+fall_2019/notes_slides/slides/385_figures/proptest_kidssol_2 2.png
+fall_2019/notes_slides/slides/385_figures/proptest_kidssol_2.png
+fall_2019/notes_slides/slides/385_figures/pvalue_press_release_1.png
+fall_2019/notes_slides/slides/385_figures/pvalue_press_release_2.png
+fall_2019/notes_slides/slides/385_figures/pvalue_press_release_3.png
+fall_2019/notes_slides/slides/385_figures/relationship_model1 2.png
+fall_2019/notes_slides/slides/385_figures/relationship_model1.png
+fall_2019/notes_slides/slides/385_figures/relationship_model2 2.png
+fall_2019/notes_slides/slides/385_figures/relationship_model2.png
+fall_2019/notes_slides/slides/385_figures/relationship_model3 2.png
+fall_2019/notes_slides/slides/385_figures/relationship_model3.png
+fall_2019/notes_slides/slides/385_figures/rightskew 2.png
+fall_2019/notes_slides/slides/385_figures/rightskew.png
+fall_2019/notes_slides/slides/385_figures/rsquared_1.png
+fall_2019/notes_slides/slides/385_figures/rsquared_2 2.png
+fall_2019/notes_slides/slides/385_figures/rsquared_2.png
+fall_2019/notes_slides/slides/385_figures/rsquared_3 2.png
+fall_2019/notes_slides/slides/385_figures/rsquared_3.png
+fall_2019/notes_slides/slides/385_figures/rsquared_4.png
+fall_2019/notes_slides/slides/385_figures/scatter 2.png
+fall_2019/notes_slides/slides/385_figures/scatter.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg2.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg4.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg6.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg8 2.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg8.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg9 2.png
+fall_2019/notes_slides/slides/385_figures/scatter_neg9.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos2 2.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos2.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos4 2.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos4.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos6 2.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos6.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos8.png
+fall_2019/notes_slides/slides/385_figures/scatter_pos9.png
+fall_2019/notes_slides/slides/385_figures/spouses 2.png
+fall_2019/notes_slides/slides/385_figures/spouses.png
+fall_2019/notes_slides/slides/385_figures/stargazer 2.png
+fall_2019/notes_slides/slides/385_figures/stargazer.png
+fall_2019/notes_slides/slides/385_figures/t_normal.png
+fall_2019/notes_slides/slides/385_figures/table_kidssol.png
+fall_2019/notes_slides/slides/385_figures/ttest_1.png
+fall_2019/notes_slides/slides/385_figures/ttest_2.png
+fall_2019/notes_slides/slides/385_figures/ttest_childs.png
+fall_2019/notes_slides/slides/385_figures/ttest_childs_2 2.png
+fall_2019/notes_slides/slides/385_figures/ttest_childs_2.png
+fall_2019/notes_slides/slides/385_figures/ttest_ideal_childs_1.png
+fall_2019/notes_slides/slides/385_figures/ttest_ideal_childs_2 2.png
+fall_2019/notes_slides/slides/385_figures/ttest_ideal_childs_2.png
+fall_2019/notes_slides/slides/385_figures/ttest_idealchilds_1 2.png
+fall_2019/notes_slides/slides/385_figures/ttest_idealchilds_1.png
+fall_2019/notes_slides/slides/385_figures/ttest_idealchilds_2 2.png
+fall_2019/notes_slides/slides/385_figures/ttest_idealchilds_2.png
+fall_2019/notes_slides/slides/385_figures/vox_pvalues 2.png
+fall_2019/notes_slides/slides/385_figures/vox_pvalues.png
+fall_2019/notes_slides/slides/libs/.DS_Store
+fall_2019/notes_slides/slides/libs/crosstalk/css/crosstalk 2.css
+fall_2019/notes_slides/slides/libs/crosstalk/css/crosstalk.css
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk 2.js
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.js
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.js 2.map
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.js.map
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.min 2.js
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.min.js
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.min.js 2.map
+fall_2019/notes_slides/slides/libs/crosstalk/js/crosstalk.min.js.map
+fall_2019/notes_slides/slides/libs/datatables-binding/datatables 2.js
+fall_2019/notes_slides/slides/libs/datatables-binding/datatables.js
+fall_2019/notes_slides/slides/libs/datatables-css/datatables-crosstalk 2.css
+fall_2019/notes_slides/slides/libs/datatables-css/datatables-crosstalk.css
+fall_2019/notes_slides/slides/libs/default.css
+fall_2019/notes_slides/slides/libs/dt-core/css/jquery.dataTables.extra 2.css
+fall_2019/notes_slides/slides/libs/dt-core/css/jquery.dataTables.extra.css
+fall_2019/notes_slides/slides/libs/dt-core/css/jquery.dataTables.min 2.css
+fall_2019/notes_slides/slides/libs/dt-core/css/jquery.dataTables.min.css
+fall_2019/notes_slides/slides/libs/dt-core/js/jquery.dataTables.min 2.js
+fall_2019/notes_slides/slides/libs/dt-core/js/jquery.dataTables.min.js
+fall_2019/notes_slides/slides/libs/header-attrs-2.4/.Rhistory 2
+fall_2019/notes_slides/slides/libs/header-attrs-2.4/header-attrs 2.js
+fall_2019/notes_slides/slides/libs/header-attrs-2.4/header-attrs.js
+fall_2019/notes_slides/slides/libs/header-attrs/header-attrs 2.js
+fall_2019/notes_slides/slides/libs/header-attrs/header-attrs.js
+fall_2019/notes_slides/slides/libs/htmlwidgets/htmlwidgets 2.js
+fall_2019/notes_slides/slides/libs/htmlwidgets/htmlwidgets.js
+fall_2019/notes_slides/slides/libs/jquery/jquery 2.js
+fall_2019/notes_slides/slides/libs/jquery/jquery-AUTHORS 2.txt
+fall_2019/notes_slides/slides/libs/jquery/jquery-AUTHORS.txt
+fall_2019/notes_slides/slides/libs/jquery/jquery.js
+fall_2019/notes_slides/slides/libs/jquery/jquery.min 2.js
+fall_2019/notes_slides/slides/libs/jquery/jquery.min 2.map
+fall_2019/notes_slides/slides/libs/jquery/jquery.min.js
+fall_2019/notes_slides/slides/libs/jquery/jquery.min.map
+fall_2019/notes_slides/slides/libs/kePrint-0.0.1/kePrint 2.js
+fall_2019/notes_slides/slides/libs/kePrint-0.0.1/kePrint.js
+fall_2019/notes_slides/slides/libs/leaflet-binding/leaflet 2.js
+fall_2019/notes_slides/slides/libs/leaflet-binding/leaflet.js
+fall_2019/notes_slides/slides/libs/leaflet/images/layers 2.png
+fall_2019/notes_slides/slides/libs/leaflet/images/layers-2x 2.png
+fall_2019/notes_slides/slides/libs/leaflet/images/layers-2x.png
+fall_2019/notes_slides/slides/libs/leaflet/images/layers.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-icon 2.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-icon-2x 2.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-icon-2x.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-icon.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-shadow 2.png
+fall_2019/notes_slides/slides/libs/leaflet/images/marker-shadow.png
+fall_2019/notes_slides/slides/libs/leaflet/leaflet 2.css
+fall_2019/notes_slides/slides/libs/leaflet/leaflet 2.js
+fall_2019/notes_slides/slides/libs/leaflet/leaflet.css
+fall_2019/notes_slides/slides/libs/leaflet/leaflet.js
+fall_2019/notes_slides/slides/libs/leafletfix/leafletfix 2.css
+fall_2019/notes_slides/slides/libs/leafletfix/leafletfix.css
+fall_2019/notes_slides/slides/libs/metropolis-fonts.css
+fall_2019/notes_slides/slides/libs/metropolis.css
+fall_2019/notes_slides/slides/libs/monofont.css
+fall_2019/notes_slides/slides/libs/proj4/proj4.min 2.js
+fall_2019/notes_slides/slides/libs/proj4/proj4.min.js
+fall_2019/notes_slides/slides/libs/Proj4Leaflet/proj4leaflet 2.js
+fall_2019/notes_slides/slides/libs/Proj4Leaflet/proj4leaflet.js
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/default 2.css
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/default.css
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/metropolis 2.css
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/metropolis-fonts 2.css
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/metropolis-fonts.css
+fall_2019/notes_slides/slides/libs/remark-css-0.0.1/metropolis.css
+fall_2019/notes_slides/slides/libs/remark-css/default 2.css
+fall_2019/notes_slides/slides/libs/remark-css/default.css
+fall_2019/notes_slides/slides/libs/remark-css/metropolis 2.css
+fall_2019/notes_slides/slides/libs/remark-css/metropolis-fonts 2.css
+fall_2019/notes_slides/slides/libs/remark-css/metropolis-fonts.css
+fall_2019/notes_slides/slides/libs/remark-css/metropolis.css
+fall_2019/notes_slides/slides/libs/rstudio_leaflet/images/1px 2.png
+fall_2019/notes_slides/slides/libs/rstudio_leaflet/images/1px.png
+fall_2019/notes_slides/slides/libs/rstudio_leaflet/rstudio_leaflet 2.css
+fall_2019/notes_slides/slides/libs/rstudio_leaflet/rstudio_leaflet.css
+fall_2019/notes_slides/slides/macros.js
+fall_2019/notes_slides/slides/monofont.css
+fall_2019/notes_slides/slides/slides_01_02 2.html
+fall_2019/notes_slides/slides/slides_01_02.html
+fall_2019/notes_slides/slides/slides_01_02.Rmd
+fall_2019/notes_slides/slides/slides_03_01.html
+fall_2019/notes_slides/slides/slides_03_01.Rmd
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-35-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-35-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-36-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-36-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-37-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-37-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-38-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-38-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-39-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-39-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-40-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-40-1.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-41-1 2.png
+fall_2019/notes_slides/slides/slides_03_01_files/figure-html/unnamed-chunk-41-1.png
+fall_2019/notes_slides/slides/slides_04_01.html
+fall_2019/notes_slides/slides/slides_04_01.Rmd
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-13-1 2.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-13-1.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-14-1 2.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-14-1.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-3-1 2.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-3-1.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-5-1 2.png
+fall_2019/notes_slides/slides/slides_04_01_files/figure-html/unnamed-chunk-5-1.png
+fall_2019/notes_slides/slides/slides_05_01.html
+fall_2019/notes_slides/slides/slides_05_01.Rmd
+fall_2019/notes_slides/slides/slides_05_02.html
+fall_2019/notes_slides/slides/slides_05_02.Rmd
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-11-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-11-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-13-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-13-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-14-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-14-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-19-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-19-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-3-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-3-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-7-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-7-1.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-9-1 2.png
+fall_2019/notes_slides/slides/slides_05_02_files/figure-html/unnamed-chunk-9-1.png
+fall_2019/notes_slides/slides/slides_06_01.html
+fall_2019/notes_slides/slides/slides_06_01.Rmd
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-3-1 2.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-3-1.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-4-1 2.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-4-1.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-6-1 2.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-6-1.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-8-1 2.png
+fall_2019/notes_slides/slides/slides_06_01_files/figure-html/unnamed-chunk-8-1.png
+fall_2019/notes_slides/slides/slides_07_01.html
+fall_2019/notes_slides/slides/slides_07_01.Rmd
+fall_2019/notes_slides/slides/slides_07_01_files/figure-html/unnamed-chunk-18-1 2.png
+fall_2019/notes_slides/slides/slides_07_01_files/figure-html/unnamed-chunk-18-1.png
+fall_2019/notes_slides/slides/slides_08_01.html
+fall_2019/notes_slides/slides/slides_08_01.Rmd
+fall_2019/notes_slides/slides/slides_09_01.html
+fall_2019/notes_slides/slides/slides_09_01.Rmd
+fall_2019/notes_slides/slides/slides_09_02.html
+fall_2019/notes_slides/slides/slides_09_02.Rmd
+fall_2019/notes_slides/slides/slides_10_01.html
+fall_2019/notes_slides/slides/slides_10_01.Rmd
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-16-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-16-1.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-18-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-18-1.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-21-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-21-1.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-29-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-29-1.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-5-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-5-1.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-9-1 2.png
+fall_2019/notes_slides/slides/slides_10_01_files/figure-html/unnamed-chunk-9-1.png
+fall_2019/notes_slides/slides/slides_10_02.html
+fall_2019/notes_slides/slides/slides_10_02.Rmd
+fall_2019/notes_slides/slides/slides_10_02_files/figure-html/unnamed-chunk-4-1 2.png
+fall_2019/notes_slides/slides/slides_10_02_files/figure-html/unnamed-chunk-4-1.png
+fall_2019/notes_slides/slides/slides_10_02_files/figure-html/unnamed-chunk-6-1 2.png
+fall_2019/notes_slides/slides/slides_10_02_files/figure-html/unnamed-chunk-6-1.png
+fall_2019/notes_slides/slides/slides_11_01.html
+fall_2019/notes_slides/slides/slides_11_01.Rmd
+fall_2019/notes_slides/slides/slides_11_01_files/figure-html/unnamed-chunk-20-1 2.png
+fall_2019/notes_slides/slides/slides_11_01_files/figure-html/unnamed-chunk-20-1.png
+fall_2019/notes_slides/slides/slides_11_02.html
+fall_2019/notes_slides/slides/slides_11_02.Rmd
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-11-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-11-1.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-14-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-14-1.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-15-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-15-1.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-22-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-22-1.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-3-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-3-1.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-7-1 2.png
+fall_2019/notes_slides/slides/slides_11_02_files/figure-html/unnamed-chunk-7-1.png
+fall_2019/notes_slides/slides/slides_13_01.html
+fall_2019/notes_slides/slides/slides_13_01.Rmd
+fall_2019/notes_slides/slides/test.Rmd
+fall_2019/notes_slides/slides/test2.html
+fall_2019/notes_slides/slides/test2.Rmd
+fall_2019/notes_slides/slides/to_post/slides_01_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_02_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_03_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_04_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_05_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_05_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_06_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_07_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_08_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_09_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_09_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_10_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_10_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_11_01.pdf
+fall_2019/notes_slides/slides/to_post/slides_11_02.pdf
+fall_2019/notes_slides/slides/to_post/slides_13_01.pdf
+fall_2019/notes_slides/slides/xaringan-themer.css
+fall_2019/notes_slides/slides/xaringan-themer2.css
+resources/cheatsheets/base_r 2.pdf
+resources/cheatsheets/base_r.pdf
+resources/cheatsheets/dplyr 2.pdf
+resources/cheatsheets/dplyr.pdf
+resources/cheatsheets/ggplot2 2.pdf
+resources/cheatsheets/ggplot2.pdf
+resources/cheatsheets/rmarkdown 2.pdf
+resources/cheatsheets/rmarkdown.pdf
+resources/cheatsheets/rstudio 2.pdf
+resources/cheatsheets/rstudio.pdf
+resources/cheatsheets/tidyr 2.pdf
+resources/cheatsheets/tidyr.pdf
+resources/dataviz/
+resources/notes_meier_musick_2014 2.md
+resources/notes_meier_musick_2014 2.pdf
+resources/notes_meier_musick_2014.md
+resources/notes_meier_musick_2014.pdf
+resources/openintro_textbook_v4 2.pdf
+resources/openintro_textbook_v4.pdf
+resources/SOAN0385_census/.Rhistory 2
+resources/SOAN0385_census/images/socialexplorer_license 2.png
+resources/SOAN0385_census/images/socialexplorer_license.png
+resources/SOAN0385_census/R11617995 2.txt
+resources/SOAN0385_census/R11617995.txt
+resources/SOAN0385_census/R11617995_SL050 2.csv
+resources/SOAN0385_census/R11617995_SL050.csv
+resources/SOAN0385_census/SOAN0385_census 2.Rmd
+resources/SOAN0385_census/SOAN0385_census 2.Rproj
+resources/SOAN0385_census/SOAN0385_census.Rmd
+resources/SOAN0385_census/SOAN0385_census.Rproj
+syllabus/385_syllabus_f19 2.md
+syllabus/385_syllabus_f19 2.pdf
+syllabus/385_syllabus_f19.md
+syllabus/385_syllabus_f19.pdf
+syllabus/385_syllabus_f21 2.html
+syllabus/385_syllabus_f21 2.md
+syllabus/385_syllabus_f21 2.pdf
+syllabus/385_syllabus_f21.html
+syllabus/385_syllabus_f21.md
+syllabus/385_syllabus_f21.pdf
+syllabus/385_syllabus_outline_f19 2.html
+syllabus/385_syllabus_outline_f19 2.md
+syllabus/385_syllabus_outline_f19.html
+syllabus/385_syllabus_outline_f19.md
+syllabus/385_syllabus_s19 2.md
+syllabus/385_syllabus_s19 2.pdf
+syllabus/385_syllabus_s19.md
+syllabus/385_syllabus_s19.pdf

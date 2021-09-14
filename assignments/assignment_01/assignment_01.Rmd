@@ -1,0 +1,74 @@
+---
+geometry: margin=1.0in
+fontsize: 12pt
+output: 
+  pdf_document:
+    highlight: espresso
+header-includes:
+      \usepackage{nopageno}
+---
+
+## SOCI 385 (Social Statistics) - Fall 2021
+## Assignment 1: Software Setup (Mac Version)
+
+**1) Download and Install `R`**
+
+`R` is available as a free download at [`this site`](https://cran.r-project.org/bin/macosx/). If you have an Intel-based Mac, you should download the `R-4.1.1.pkg` version. If your Mac has a silicon M1 chip (possible if you purchased your computer within the last year), download the `R-4.1.1-arm64.pkg` version.
+
+After choosing the version of `R` you want, click to install and follow the on-screen instructions. To test if the installation was successful, open `R`, type `summary(cars)` in the console (where the blinking cursor is) and press enter. You should see the summary of the `speed` and `dist` variables from the built-in `cars` dataset.
+
+
+**2) Download and Install `R Studio`**
+
+`R Studio` is available as a free download at [`this site`](https://www.rstudio.com/products/rstudio/download/). Scroll down to find the installer for the free RStudio Desktop version. Click the download button. When the download is complete, double click on the installer. You may have to drag the `R Studio` icon to the `Applications` folder to start the installation process. Then follow any on-screen instructions.
+
+To test if the installation was successful, open `R Studio` - not `R` - and type `summary(cars)` on the command line in the `Console` quadrant (the bottom left panel). When you press enter you should see the same summary of the `speed` and `dist` variables from the built-in `cars` dataset.
+
+**3) Install `tinytex`**
+
+`R` uses LaTeX to produce pdf documents from `R Markdown` files. To install the parts of LaTeX that we will need, type the following into the console in `R Studio` and then press enter:
+
+```{r eval = FALSE}
+install.packages("tinytex")
+```
+
+The package will download to your library and may also install additional necessary packages. The console arrow will reappear when the installations are complete.
+
+**4) Test `R Markdown`**
+
+You can test if `tinytex` was installed correctly by restarting `R Studio`. After reopening, click the `File` menu bar, scroll down to `New File`, and select `R Markdown`. If a message appears suggesting you install additional packages, do so. Enter your name in the `Author` field,  enter "Assignment One" in the `Title` field, select "PDF" as the `Default Output Format`, and then click `OK` . A default template should open in the top left panel of `R Studio`.
+
+Now let's see if everything is working properly. Save this file in a folder where you want to save your work for this class. Then click the `Knit` button on the toolbar just above where the title of your document has been inserted. If everything installed correctly and is working well, you should have just created a PDF document in your working directory. Upload your saved PDF to Canvas as your submission for this assignment.
+
+\pagebreak
+
+## SOCI 385 (Social Statistics) - Fall 2021
+## Assignment 1: Software Setup (PC Version)
+
+**1) Download and Install `R`**
+
+`R` is available as a free download at [`this site`](https://cran.rstudio.com). If your system software is up to date you should download version 4.1.1 for Windows. After choosing the version of `R` you want, click to install and follow the on-screen instructions. You may have to double click on the downloaded package to start the process; that package should be in the folder where you saved the file.
+
+To test if the installation was successful, open `R` and type `summary(cars)` on the command line and press enter. You should see the summary of the `speed` and `dist` variables from the built-in `cars` dataset.
+
+**2) Download and Install `R Studio`**
+
+`R Studio` is available as a free download at [`this site`](https://www.rstudio.com/products/rstudio/download/). Scroll down to find the installer for the free RStudio Desktop version. Click the download button. The package will start downloading. When it finishes doing so, double click on the downloaded file and follow the installation instructions.
+
+To test if the installation was successful, open `R Studio` - not `R` - and type `summary(cars)` on the command line in the `Console` quadrant (the bottom left panel). When you press enter you should see the same summary of the `speed` and `dist` variables from the built-in `cars` dataset.
+
+**3) Install `tinytex`**
+
+`R` uses LaTeX to produce pdf documents from `R Markdown` files. To install the parts of LaTeX that we need, type the following into the console in `R Studio` and press enter:
+
+```{r eval = FALSE}
+install.packages("tinytex")
+```
+
+The package will download to your library and may also install additional necessary packages. The console arrow will reappear when the installations are complete.
+
+**4) Test `R Markdown`**
+
+You can test if `tinytex` was installed correctly by restarting `R Studio`. After reopening, click the `File` menu bar, scroll down to `New File`, and select `R Markdown`. If a message appears suggesting you install additional packages, do so. Enter your name in the `Author` field,  enter "Assignment One" in the `Title` field, select "PDF" as the `Default Output Format`, and then click `OK` . A default template should open in the top left panel of `R Studio`.
+
+Now let's see if everything is working properly. Save this file in a folder where you want to save your work for this class. Then click the `Knit` button on the toolbar just above where the title of your document has been inserted. If everything installed correctly and is working well, you should have just created a PDF document in your working directory. Upload your saved PDF to Canvas as your submission for this assignment.
