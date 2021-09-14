@@ -104,6 +104,8 @@ And three (or more) dashes on a single line will create a horizontal rule:
 
 ## Getting Started With R
 
+**Announcement about DataCamp**
+
 Today we will learn one way to import data into R and how to get simple summaries of different types of variables.
 
 We will use the `hurricanes` dataset to explore types of variables. This dataset is provided online by Jung et al as a supplement to their 2014 paper. To find this archival dataset and the datasets for their experiments, click [here.](http://www.pnas.org/content/suppl/2014/05/30/1402786111.DCSupplemental/pnas.1402786111.sd01.xlsx)
