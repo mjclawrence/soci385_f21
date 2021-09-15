@@ -23,6 +23,8 @@ Everything between those fences will be run as code (unless it is preceded by a 
 
 Let's start by using R as a basic calculator. Since even the following calculation is considered code we need to place it within a code block. After the r, in the line where you open your fence, you can provide a short description of what the code in that chunk does. Those short descriptions are collected as bookmarks in the drop down menu on the bottom of this pane and can help you find pieces of your file.
 
+Note that multiple chunks cannot have the same description. If they do, the file will not knit.
+
 ```{r calculator 1}
 300 + 85
 ```
@@ -91,7 +93,8 @@ And three (or more) dashes on a single line will create a horizontal rule:
 
 ## Getting Started With R
 
-**Announcement about DataCamp**
+**Announcement about Data Camp**
+All students in this class have a free six-month subscription to [Data Camp](https://www.datacamp.com) through which you can access any of their courses and tutorials. To register as part of our class, use your Middlebury email to sign up [here](https://www.datacamp.com/groups/shared_links/573dc5a953886ea5839da20e425e1d8726be36373492b26abeddcc2049bb7080). Sign up information will also be shared on Canvas.
 
 Today we will learn one way to import data into R and how to get simple summaries of different types of variables.
 
@@ -102,7 +105,7 @@ First, we need to install a package. Packages are additional functions that supp
 Here's the code to install the package. You only have to install the package once on any computer you use. Once your computer has the package installed, you can load the package with the `library()` function.
 
 ```{r load packages, warning=FALSE, error=FALSE, include=FALSE}
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -146,7 +149,7 @@ Now let's look at another categorical factor variable - `male_female` - which id
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-R calls the `male_female` variable a factor variable because its values are text categories rather than numbers. The `gender_mf` variable is a numerical variable that has the same exact information as the `male_female` variable but uses a 0 to indicate a hurricane with a male name and a 1 to indicate a hurricane with a female name. A numerical variable that takes the values 0 and 1 is called a *binary variable*.
+R calls the `male_female` variable a factor variable because its values are text categories rather than numbers. The `gender_mf` variable is a numerical variable that has the same exact information as the `male_female` variable but uses a 0 to indicate a hurricane with a male name and a 1 to indicate a hurricane with a female name. A variable that takes the values 0 and 1 is called a *binary variable*.
 
 We can use the `table()` function with binary and interval variables as well. But it can also be helpful to use the `summary()` function when we have numerical data. For example, execute the following code chunk:
 
@@ -160,7 +163,7 @@ How could you use R as a calculator to see that 67.39% of the hurricanes in this
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-The summary() command is more helpful when numerical variables have many possible values because we get a snapshot of the distribution of values. Let's look at the `deaths` variable, which is the number of deaths per hurricane. This is an example of a discrete variable. It is not a continuous variable because the values are whole numbers; for example, there are either 2 or 3 deaths, not 2.4 or 2.8.
+The summary() command is more helpful when numerical variables have many possible values because we get a snapshot of the distribution of values. Let's look at the `deaths` variable, which is the number of deaths per hurricane. This is an example of a *discrete variable* since its values jump between whole numbers. It is not a *continuous variable* because the values are whole numbers; for example, there are either 2 or 3 deaths, not 2.4 or 2.8.
 
 Try summarizing the `deaths` variable to find the mean (or average) number of hurricane-related deaths in this sample:
 
