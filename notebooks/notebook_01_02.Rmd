@@ -1,11 +1,3 @@
----
-title: "SOCI 385, Week One, Class Two"
-author: "Matt Lawrence"
-date: "9/15/2021"
-output:
-  pdf_document: default
----
-
 ## Getting Started
 
 To begin, copy all the text on this screen. Then open RStudio, and in the "File" menu select "New File" then "R Markdown". Add a title like "SOCI 385, Week One, Class Two", include your name in the "Author" box, select "PDF" as the Default Output Format, and click Ok. A default markdown file will open. Delete all the text in the default file below the header (everything after line 7) and paste in the text you copied to your clipboard. Make sure that "R Markdown" is selected in the file type drop down menu in the bottom right corner of this pane. Save this file to your desktop.
@@ -29,9 +21,6 @@ How does R know what is code and what is regular text? In an R Notebook, code go
 
 Everything between those fences will be run as code (unless it is preceded by a hashtag).
 
-## Delete
-Want a shortcut? On a mac, Option-Command-I will open a blank code block.
-
 Let's start by using R as a basic calculator. Since even the following calculation is considered code we need to place it within a code block. After the r, in the line where you open your fence, you can provide a short description of what the code in that chunk does. Those short descriptions are collected as bookmarks in the drop down menu on the bottom of this pane and can help you find pieces of your file.
 
 ```{r calculator 1}
@@ -46,9 +35,6 @@ What is 770 divided by 2?
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-```{r calculator 2}
-770 / 2
-```
 
 Our course number could be helpful to save so we do not have to calculate it each time we want to reference it. We save a value by creating an object. The syntax for doing so is to name our object first, then use the symbol "<-" to say what value our object takes. Let's call our new object `coursenumber`:
 
@@ -128,23 +114,6 @@ Next we'll get the data.
 hurricanes <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/master/data/hurricanes.csv", stringsAsFactors = TRUE)
 ```
 
-## Plot
-
-```{r plot example}
-library(ggthemes)
-
-hurricanes %>% group_by(male_female) %>%
-     summarise(deaths_mean = round(mean(deaths),2))
-plot <- ggplot(plot_data, aes(x = male_female, y = deaths_mean, fill = male_female))
-plot + geom_col() + geom_text(aes(label = deaths_mean), size = 6, vjust = 0) + 
-     labs(x = "", y = "Mean Number of Deaths",
-          title = "Mean Number of Deaths by Gender of Hurricane Name") +
-  theme_fivethirtyeight() + scale_fill_fivethirtyeight(name = "") + ylim(c(0,25)) +
-       theme(axis.title = element_text(size = 18),
-           axis.text = element_text(size = 18),
-           title = element_text(size = 12)) + guides(fill = "none")
-```
-
 If the code above executed correctly, you should now see the data frame loaded and saved with the object name you created in the `environment` panel in the top right quadrant of R Studio. There should be 92 observations of 7 variables in the data frame named hurricanes.
 
 Click the white arrow to the left of the object name to see all the variables (year, name, etc.). Click the spreadsheet icon on the far right side of the data name row to open the full data frame. Note that the *variables* are in the columns and the *values* are in the rows, with each row representing a separate *observation* or *case*.
@@ -177,10 +146,6 @@ Now let's look at another categorical factor variable - `male_female` - which id
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-```{r}
-table(hurricanes$male_female)
-```
-
 R calls the `male_female` variable a factor variable because its values are text categories rather than numbers. The `gender_mf` variable is a numerical variable that has the same exact information as the `male_female` variable but uses a 0 to indicate a hurricane with a male name and a 1 to indicate a hurricane with a female name. A numerical variable that takes the values 0 and 1 is called a *binary variable*.
 
 We can use the `table()` function with binary and interval variables as well. But it can also be helpful to use the `summary()` function when we have numerical data. For example, execute the following code chunk:
@@ -195,20 +160,12 @@ How could you use R as a calculator to see that 67.39% of the hurricanes in this
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-```{r}
-62/92
-```
-
-
 The summary() command is more helpful when numerical variables have many possible values because we get a snapshot of the distribution of values. Let's look at the `deaths` variable, which is the number of deaths per hurricane. This is an example of a discrete variable. It is not a continuous variable because the values are whole numbers; for example, there are either 2 or 3 deaths, not 2.4 or 2.8.
 
 Try summarizing the `deaths` variable to find the mean (or average) number of hurricane-related deaths in this sample:
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
-```{r}
-summary(hurricanes$deaths)
-```
 
 How could we find the hurricane with 256 deaths? Sometimes we only want to use a function for some observations rather than all observations. `R` calls this *indexing*. We use brackets to indicate the variable names and values we want to index.
 
@@ -237,22 +194,3 @@ summary(hurricanes$deaths[hurricanes$male_female=="male"])
 Repeat the summary of the `deaths` variable for hurricanes with female names:
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
-
-```{r}
-summary(hurricanes$deaths[hurricanes$male_female=="female"])
-```
-
-
-```{r plot example 2}
-#library(ggthemes)
-plot_data <- hurricanes %>% group_by(male_female) %>%
-     summarise(deaths_mean = round(mean(deaths),2))
-plot <- ggplot(plot_data, aes(x = male_female, y = deaths_mean, fill = male_female))
-plot + geom_col() + geom_text(aes(label = deaths_mean), size = 6, vjust = 0) + 
-     labs(x = "", y = "Mean Number of Deaths",
-          title = "Mean Number of Deaths by Gender of Hurricane Name") +
-  theme_fivethirtyeight() + scale_fill_fivethirtyeight(name = "") + ylim(c(0,25)) +
-       theme(axis.title = element_text(size = 18),
-           axis.text = element_text(size = 18),
-           title = element_text(size = 12)) + guides(fill = "none")
-```
