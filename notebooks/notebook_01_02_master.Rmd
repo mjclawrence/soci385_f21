@@ -30,7 +30,7 @@ How does R know what is code and what is regular text? In an R Notebook, code go
 Everything between those fences will be run as code (unless it is preceded by a hashtag).
 
 ## Delete
-Want a shortcut? On a mac, Option-Command-I will open a blank code block.
+Want a shortcut? On a mac, Command-Option-I will open a blank code block. in Wondows, it is Control-Alt-I.
 
 Let's start by using R as a basic calculator. Since even the following calculation is considered code we need to place it within a code block. After the r, in the line where you open your fence, you can provide a short description of what the code in that chunk does. Those short descriptions are collected as bookmarks in the drop down menu on the bottom of this pane and can help you find pieces of your file.
 
