@@ -33,7 +33,6 @@ library(xaringanthemer)
 
 ### What data and methods do they need to test those hypotheses?
 
-
 ---
 
 # Observations and Interesting Questions
@@ -44,7 +43,7 @@ library(xaringanthemer)
 
 --
 
-- Already have their dependent or outcome variable
+- Already have their dependent or response variable
 
 --
 
@@ -72,7 +71,7 @@ library(xaringanthemer)
 
 --
 
-- Sounds like an independent or predictor variable
+- Sounds like an independent or explanatory variable
 
 --
 
@@ -128,11 +127,11 @@ library(xaringanthemer)
 
 --
 
-- Hurricane names, number of deaths
+- Hurricane names (categorical variable), number of deaths (numerical variable)
 
 --
 
-- Scores for each name on masculine-feminine scale
+- Scores for each name on masculine-feminine scale (numerical variable)
 
 --
 
@@ -140,7 +139,7 @@ library(xaringanthemer)
 
 --
 
-- Starts with archival study
+- Starts with archival study using observed data
 
 --
 
