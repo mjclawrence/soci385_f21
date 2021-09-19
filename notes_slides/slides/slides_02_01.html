@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-09-20" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Introducing Descriptive Statistics
+### September 20, 2021
+
+---
+
+
+
+
+# Descriptive Statistics - Motivation
+
+&gt; ## "...[O]bservational research will continue to be the workhorse of social science, so we might as well get it right." (p. 228)
+
+### Robert Sampson (2008): "Moving to Inequality"
+
+---
+
+# Descriptive Statistics - Motivation
+
+![](../385_figures/besbris_khan.png)
+
+---
+
+# Descriptive Statistics - Motivation
+
+&gt; ### "We need to understand the world better. It is not foolish to imagine we need more concepts to help classify our understanding. Yet somewhat counterintuitively, we need the exact opposite...
+
+---
+
+# Descriptive Statistics - Motivation
+
+&gt; ### "...What we need are findings. We need editors who are willing to publish descriptively rich, findings-driven papers; reviewers who are happy to support findings that are rigorously generated; and a discipline that realizes the development of theory happens not when concepts are highly cited but instead when they are clearly specified. Less theory. More description."
+- Besbris and Khan (2017: 152)
+
+---
+
+# Descriptive Statistics - Motivation
+
+### Sen (1980): "Description as Choice":
+
+&gt; ### "Description isn't just observing and reporting; it involves the exercise - possibly difficult - of selection." (p. 353)
+
+--
+
+&gt; ### "[Description] can be usefully seen as a choice of a subset of a possible statements." (p. 367)
+
+---
+
+# Choices by Chetty et al (2017)?
+
+--
+
+### Defining *access* by enrolled students rather than applicants or admits
+
+### Grouping students by birth cohort rather than year of entry
+
+### Only describing distributions for 1991 cohort
+
+### Comparing quintiles and percentiles, combining quintiles
+
+### Describing family income rather than wealth
+
+---
+
+# Types of Descriptive Statistics
+
+--
+
+### Frequencies = counts of values
+
+--
+
+### Percent = Count of values for every 100 cases
+- Bounded by 0 and 100, like 78%
+
+--
+
+### Proportion = Percent / 100
+- Bounded by 0 and 1, like .78
+
+--
+
+### Ratio = frequency of 1 value per count of another value
+- For ratio of SOCI majors to non-SOCI majors in this class, divide count of SOCI majors by count of non-SOCI majors
+
+---
+
+# Types of Descriptive Statistics
+
+### Range = minimum and maximum values
+- Often listed within brackets: [0, 100]
+
+--
+
+### Mode: The value with the highest frequency
+
+---
+
+# Describing The Center
+
+--
+
+### Mean: Average or "Expected Value"
+
+--
+
+`\(\Large{\bar{x} = \frac{\sum x_i}{n}}\)` 
+
+--
+
+- Best guess if you don't know anything else...
+
+--
+
+### Median: 50% of values fall above, 50% of values fall below
+
+--
+
+### Can take mean, median, and mode of quantitative variables
+
+--
+
+### Can describe the frequency, percent, proportion, and mode in a given category. But the mean and median of a categorical variable do not make sense (except for binary or dummy variables).
+
+---
+
+# Describing The Spread
+
+--
+
+### Helpful to know how far from the center the observations are distributed
+
+--
+
+### Start by thinking of the center not as a point but as a range
+- The *interquartile range* (IQR) is the middle 50%
+- Bounded by the 25th percentile and 75th percentile
+- But other percentiles might also be helpful (quintiles, top 1%, etc)
+
+--
+
+### *More on variance, standard deviations, and skew next week*
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
