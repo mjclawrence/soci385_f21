@@ -1,11 +1,3 @@
----
-title: "SOCI 385, Week Two"
-author: "Matt Lawrence"
-date: "September 20, 2021"
-output:
-  pdf_document: default
----
-
 ## Getting Started
 
 To begin, copy all the text on this screen. Then open RStudio, and in the "File" menu select "New File" then "R Markdown". Add a title like "SOCI 385, Week Two, Class One", include your name in the "Author" box, select "PDF" as the Default Output Format, and click Ok. A default markdown file will open. Delete all the text in the default file below the header (everything after line 7) and paste in the text you copied to your clipboard. Make sure that "R Markdown" is selected in the file type drop down menu in the bottom right corner of this pane. Save this file.
@@ -18,9 +10,11 @@ colleges <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 
 How many observations and variables are there in this data frame?
 
+## Review of variable types (categorical vs numerical)
+
 What kind of variable is the `region` variable? (`region` is census region)
 
-What kind of variable is `iclevel` variable? (`iclevel` is the institutional control type)
+What kind of variable is the `iclevel` variable? (`iclevel` is the institutional control type)
 
 What kind of variable is the `count` variable? (`count` is the number of observations)
 
@@ -67,9 +61,7 @@ And for numeric variables:
 How would you find the number of colleges in each institutional control level (use the `iclevel` variable) in the Northeast region?
 
 ### Replace this line with your code.
-```{r}
-table(colleges$iclevel[colleges$region=="Northeast"])
-```
+
 
 The table reports frequencies, or counts of observations. We can find the *proportion* in each institutional control level by wrapping the whole line in the `prop.table()` command:
 
@@ -81,10 +73,6 @@ Try making a table showing the proportion of colleges in a specific state (use t
 
 ### Replace this line with your code.
 
-```{r proportion table 2}
-prop.table(table(colleges$tier
-                 [colleges$state=="MA"]))
-```
 
 ## Using Packages
 
@@ -101,18 +89,14 @@ In the `Packages` tab, you should now see a check next to `tidyverse`.
 
 
 ## Creating Variables
-Our goal this week is to recreate this NYT table showing that Middlebury ranks 9th in the ratio of students from the top 1 percent of the income distribution to students from the bottom 60 percent:
-
-![College Mobility Table](../notes_slides/385_figures/chetty_colleges_table.png)
+Our goal this week is to recreate the NYT table showing that Middlebury ranks 9th in the ratio of students from the top 1 percent of the income distribution to students from the bottom 60 percent.
 
 Our dataset already has a variable called `par_top1pc` with each college's proportion of students from the top 1 percent. 
 
 What is this value for Middlebury?
 
 ### Replace this line with your code.
-```{r}
-colleges$par_top1pc[colleges$name=="Middlebury College"]
-```
+
 
 Let's use the `summary()` function to find the minimum value, the maximum value, the interquartile range, the median, and the mean:
 
@@ -131,25 +115,10 @@ quantile(colleges$par_top1pc, c(.90, .95))
 Middlebury's value is higher than even the 95th percentile! Try the 99th and 99.9th percentiles.
 
 ### Replace this line with your code.
-```{r}
-quantile(colleges$par_top1pc, c(.99, .999))
-```
+
 
 So Middlebury ranks *within* the top 1% of all colleges for the proportion of students *from* the top 1% of the family income distribution. 
 
-### DELETE FROM POSTED NOTEBOOK 
-
-Where exactly does Middlebury's proportion of students from the top 1% fall in the distribution?
-
-```{r empirical cumulative distribution function}
-top1pc_ecdf <- ecdf(colleges$par_top1pc)
-
-top1pc_ecdf(colleges$par_top1pc[colleges$name=="Middlebury College"])
-```
-
-```{r}
-plot(top1pc_ecdf)
-```
 
 Let's find some of the other colleges with similar proportions.
 
@@ -203,23 +172,13 @@ This is a new data frame, so we change what goes before the dollar sign in our c
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r using new data frame}
-colleges2$par_q123[colleges2$name=="Middlebury College"]
-```
-
 What can you say about the center and spread of this new variable?
 
-### Replace this line with your code.
-```{r}
-summary(colleges2$par_q123)
-```
+### REPLACE THIS LINE WITH YOUR CODE
 
 Now we have the two variables (`par_top1pc` and `par_q123`) we need to recreate the NYT table. To compare them, we need another variable that measures the ratio of the proportion of students from the top 1 percent to the proportion of students from the bottom 60 percent. How do you think we do this? Call your new variable `ratio_top1_bottom60` and add it to a new dataframe called `colleges3`.
 
-### Replace this line with your code.
-```{r}
-colleges3 <- mutate(colleges2, ratio_top1_bottom60 = par_top1pc / par_q123)
-```
+### REPLACE THIS LINE WITH YOUR CODE
 
 What is that ratio at Middlebury? How can you interpret that number in words?
 
@@ -283,33 +242,9 @@ names(colleges)
 
 Pull Middlebury's value of another one of the variables in the dataset:
 
-## Delete
-
-```{r}
-colleges$kq5_cond_parq1[colleges$name=="Middlebury College"]
-```
-
 How does Middlebury's value compare to overall distribution: 
 
-## Delete
-
-```{r}
-summary(colleges$kq5_cond_parq1)
-```
-
 Which college has the maximum value for that variable?
-
-## Delete
-
-```{r}
-colleges$name[colleges$kq5_cond_parq1>=.952]
-```
-
-or...
-
-```{r}
-colleges$name[colleges$kq5_cond_parq1==max(colleges$kq5_cond_parq1)]
-```
 
 
 ## Are there other ratios you would want to know? For example, might any of these be relevant?:
@@ -320,85 +255,3 @@ colleges$name[colleges$kq5_cond_parq1==max(colleges$kq5_cond_parq1)]
 - Top 20 percent / Bottom 20 percent
 
 Where do you think Middlebury would rank for each of these comparisons?
-
-Let's try the ratio of students from the top 1 percent to the middle 60 percent:
-
-# Delete
-
-```{r}
-colleges5 <- colleges |>
-  mutate(par_q234 = par_q2 + par_q3 + par_q4) |>
-  mutate(ratio_top1_middle60 = par_top1pc / par_q234) |>
-  arrange(desc(ratio_top1_middle60)) |>
-  mutate(rank = row_number()) |>
-  select(rank, name, ratio_top1_middle60)
-```
-
-We could use filter as another way to only see Middlebury's values:
-
-```{r}
-middlebury <- filter(colleges5,
-                     name=="Middlebury College")
-
-middlebury
-```
-
-
-Here are all the other ratios:
-
-```{r other ratios}
-colleges5 <- colleges %>%
-  mutate(ratio_top1_bottom20 = par_top1pc / par_q1,
-         ratio_top1_bottom40 = par_top1pc / (par_q1 + par_q2),
-         ratio_top1_middle60 = par_top1pc / (par_q2 + par_q3 + par_q4),
-         ratio_top20_bottom20 = par_q5 / par_q1) %>%
-     select(name, ratio_top1_bottom20, ratio_top1_bottom40, ratio_top1_middle60,
-            ratio_top20_bottom20)
-```
-
-```{r}
-colleges6 <- arrange(colleges5, desc(ratio_top1_bottom20))
-```
-
-Now let's try some of the tables:
-
-## For top 1 / middle 60 ratio:
-```{r top 1 to middle 60 ratio}
-colleges_top1_middle60 <- colleges5 %>%
-    select(name, ratio_top1_middle60) %>%
-    arrange(desc(ratio_top1_middle60)) %>%
-    top_n(10) %>%
-    mutate(rank_ratio_top1_middle60 = row_number())
-colleges_top1_middle60
-```
-
-```{r top 1 to moddle 60 ratio for middlebury}
-colleges_top1_middle60$rank_ratio_top1_middle60[colleges_top1_middle60$name=="Middlebury College"]
-```
-
-
-## For top 20 / bottom 20 ratio:
-
-```{r top 20 to bottom 20 ratio}
-colleges_top20_bottom20 <- colleges5 %>%
-    select(name, ratio_top20_bottom20) %>%
-    arrange(desc(ratio_top20_bottom20))
-```
-
-Show the table. You can use the "Next" button on the bottom of the table to find Middlebury:
-```{r top 20 to bottom 20 ratio table, eval = FALSE}
-colleges_top20_bottom20 # wouldn't want to knit this so add eval = FALSE...
-```
-
-This is a time when saving the actual rank would be helpful. We can create that variable with the row_number() function:
-
-```{r top 20 to bottom 20 ranks}
-colleges_top20_bottom20 <- mutate(colleges_top20_bottom20, rank = row_number())
-```
-
-And then find Middlebury's rank:
-```{r top 20 to bottom 20 rank for middlebury}
-colleges_top20_bottom20$rank[colleges_top20_bottom20$name=="Middlebury College"]
-```
-
-Interpretation: Middlebury has the 48th highest ratio of students from the top quintile versus students from the bottom quintile
