@@ -48,7 +48,8 @@ Last week's notebook included a quick look at how to index. Indexing allows you 
 Suppose we want to find the `region` that Middlebury College is in. More formally, we want to pull the value of the `region` variable for the observation whose value for the `name` variable is `Middlebury College`. Since we are only referencing one value of the `name` variable, we identify it with two equal signs. Note that we also have to put "Middlebury College" in quotation marks since it is a character value rather than a numerical value:
 
 ```{r indexing}
-colleges$region[colleges$name=="Middlebury College"]
+colleges$region[colleges$name=="Middlebury College" |
+                  colleges$name=="Yale University"]
 ```
 
 Other indexing tools that are helpful:
@@ -74,12 +75,19 @@ table(colleges$iclevel[colleges$region=="Northeast"])
 The table reports frequencies, or counts of observations. We can find the *proportion* in each institutional control level by wrapping the whole line in the `prop.table()` command:
 
 ```{r proportion table}
-prop.table(table(colleges$iclevel[colleges$region=="Northeast"]))
+addmargins(prop.table(table(colleges$iclevel[colleges$region=="Northeast"])))
 ```
 
 Try making a table showing the proportion of colleges in a specific state (use the two letter postal abbreviation) that is in each category of selectivity (using the `tier` variable). What is the modal selectivity category in that state?
 
 ### Replace this line with your code.
+
+```{r}
+prop.table(table(colleges$tier[
+  colleges$state=="MA"
+]))
+```
+
 
 ```{r proportion table 2}
 prop.table(table(colleges$tier
@@ -108,6 +116,15 @@ Our goal this week is to recreate this NYT table showing that Middlebury ranks 9
 Our dataset already has a variable called `par_top1pc` with each college's proportion of students from the top 1 percent. 
 
 What is this value for Middlebury?
+
+```{r}
+colleges$par_top1pc[colleges$name=="Middlebury College"]
+```
+
+
+
+
+
 
 ### Replace this line with your code.
 ```{r}
@@ -150,6 +167,8 @@ top1pc_ecdf(colleges$par_top1pc[colleges$name=="Middlebury College"])
 ```{r}
 plot(top1pc_ecdf)
 ```
+
+# START HERE WEDNESDAY
 
 Let's find some of the other colleges with similar proportions.
 

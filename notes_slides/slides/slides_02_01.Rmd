@@ -56,7 +56,7 @@ library(xaringanthemer)
 
 --
 
-> ### "[Description] can be usefully seen as a choice of a subset of a possible statements." (p. 367)
+> ### "[Description] can be usefully seen as a choice of a subset of possible statements." (p. 367)
 
 ---
 
