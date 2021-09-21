@@ -1,0 +1,80 @@
+---
+title: "Assignment Two"
+author: "Matt Lawrence"
+date: "September 18, 2019"
+output:
+  pdf_document: default
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+assignment2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/assignment_02.csv")
+library(tidyverse)
+```
+
+
+## 1. What are the mean and median of agekdbrn?
+```{r}
+summary(assignment2$agekdbrn)
+```
+
+The mean is: 24.11
+The median is: 23
+
+## 2. Save the value of the 25th percentile of agekdbrn as an object, save the value of the 75th percentile of agekdbrn as an object, and find the difference between these two values using the object names and R's built-in calculator function. In words, describe what this range tells us. ***[NOTE: Object names have to start with letters, not numbers!]***
+
+```{r}
+summary(assignment2$agekdbrn)
+```
+
+```{r}
+pctle75 <- 28
+pctle25 <- 20
+pctle75 - pctle25
+```
+
+The difference between the 75th and the 25th percentile is 8. This is known as the `interquartile range` and tells us that the middle 50 percent of the values fall within a range of 8 years of age at first birth.
+
+
+## 3. What is the mode of agekdbrn for respondents who completed 12 or fewer years of education? 
+```{r}
+sort(table(assignment2$agekdbrn[assignment2$educ<=12]), 
+     decreasing = TRUE)
+```
+
+The mode is: 21
+
+
+## 4. What proportion of respondents completed exactly 16 years of education?
+```{r}
+prop.table(table(assignment2$educ))
+```
+
+Approximately .16 (or 16%) of respondents completed exactly 16 years of education.
+
+### Want to round this?
+
+```{r}
+round(prop.table(table(assignment2$educ)),3)
+```
+
+
+## 5. Use the dplyr package to create a new data frame with only the agekdbrn and educ variables, and that is limited to respondents who have 16 or more years of education.
+
+```{r}
+assignment2_2 <-  assignment2 %>%
+                  select(agekdbrn, educ) %>% # select chooses variables
+                  filter(educ>=16) # filter chooses observations
+```
+
+There are 3605 observations in this data frame
+
+## 6. What are the mean and median of agekdbrn for respondents in this new data frame?
+
+```{r}
+summary(assignment2_2$agekdbrn)
+```
+
+In the subset of college degree holders, the mean is 27.39 and the median is 27.
+
+## 7. Approximately how long did it take you to complete this assignment?
+

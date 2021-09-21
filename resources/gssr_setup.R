@@ -18,7 +18,7 @@ gss_doc %>% filter(id == "agekdbrn") %>%
   select(description)
 
 gss_subset <- gss_all %>%
-  filter(year>=2008 & !is.na(agekdbrn) & !is.na(educ)) %>%
+  filter(year>=2008 & !is.na(agekdbrn) & !is.na(educ) & educ>=8 & agekdbrn>9) %>%
   select(id, year, educ, agekdbrn)
 
 summary(gss_subset)
