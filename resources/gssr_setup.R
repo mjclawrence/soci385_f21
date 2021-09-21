@@ -9,6 +9,8 @@ gss_subset <- gss_all %>%
   filter(year>=2008 & !is.na(agekdbrn)) %>%
   select(id, year, educ, agekdbrn)
 
+write.csv(gss_subset, "data/assignment_02.csv", row.names = FALSE)
+
 table(gss_subset$agekdbrn, exclude = NULL)
 table(gss_subset$year)
 
