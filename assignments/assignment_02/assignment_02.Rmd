@@ -1,13 +1,13 @@
 ---
 title: "Assignment Two"
 author: "Matt Lawrence"
-date: "September 18, 2019"
+date: "September 27, 2021"
 output:
   pdf_document: default
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-assignment2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/assignment_02.csv")
+assignment2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/master/data/assignment_02.csv")
 library(tidyverse)
 ```
 
@@ -17,7 +17,7 @@ library(tidyverse)
 summary(assignment2$agekdbrn)
 ```
 
-The mean is: 24.11
+The mean is: 24.23
 The median is: 23
 
 ## 2. Save the value of the 25th percentile of agekdbrn as an object, save the value of the 75th percentile of agekdbrn as an object, and find the difference between these two values using the object names and R's built-in calculator function. In words, describe what this range tells us. ***[NOTE: Object names have to start with letters, not numbers!]***
@@ -66,7 +66,7 @@ assignment2_2 <-  assignment2 %>%
                   filter(educ>=16) # filter chooses observations
 ```
 
-There are 3605 observations in this data frame
+There are 2803 observations in this data frame
 
 ## 6. What are the mean and median of agekdbrn for respondents in this new data frame?
 
@@ -74,7 +74,8 @@ There are 3605 observations in this data frame
 summary(assignment2_2$agekdbrn)
 ```
 
-In the subset of college degree holders, the mean is 27.39 and the median is 27.
+In the subset of college degree holders, the mean is 27.75 and the median is 27.
+
 
 ## 7. Approximately how long did it take you to complete this assignment?
 

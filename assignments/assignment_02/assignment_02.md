@@ -14,7 +14,7 @@ output: pdf_document
 
 ***Please show all your code and write your responses in complete sentences as appropriate. Submit your knitted pdf and the R Markdown (.Rmd) file for your notebook. Remember to include your name in the header.***
 
-This week you will continue practicing with descriptive statistics. This assignment requires the `assignment_02.csv` file which includes data from the 2008-2018 waves of the General Social Survey. Your dataset should have 9,914 observations of 4 variables.
+This week you will continue practicing with descriptive statistics. This assignment requires the `assignment_02.csv` file which includes data from the 2008-2018 waves of the General Social Survey. Your dataset should have 9,569 observations of 4 variables.
 
 The variables are:
 
