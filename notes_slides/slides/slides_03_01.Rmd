@@ -1,20 +1,25 @@
 ---
 title: "Social Statistics"
 subtitle: "Introducing Spread and Graphics"
-date: "September 23, 2019"
+date: "September 27, 2021"
 output:
-     xaringan::moon_reader:
-          lib_dir: libs
-          css: [default, metropolis, metropolis-fonts, monofont.css]
-          center: true
-          nature:
-               highlightLines: true
-               highlightStyle: zenburn
-               highlightSpans: true
-               remark-slide-number: false
-               titleSlideClass: ["middle"]
-               beforeInit: "macros.js"
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
+    nature:
+        highlightLines: true
+        highlightStyle: zenburn
+        highlightSpans: true
+        titleSlideClass: ["middle"]
+        beforeInit: "macros.js"
 ---
+
+```{r setup, include=FALSE}
+# Change css [here](/Users/lawrence/documents/github/soci385_f21/notes_slides/slides/metropolis.css)
+
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+```
 
 ```{r, include = FALSE}
 assignment2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/master/data/assignment_02.csv")
@@ -289,11 +294,11 @@ $\Large{s = \sqrt{\frac{\sum (y_i - \bar{y})^2}{n}}}$
 ### We'll use the `gss_week3.csv` file on Canvas. Download this file, save it, and load it in `notebook_03_01.Rmd`.
 
 ```{r, eval = FALSE}
-gss_week3 <- read.csv('data/gss_week3.csv')
+gss_week3 <- read.csv("gss_week3.csv")
 ```
 
 ```{r, echo = FALSE}
-gss_week3 <- read.csv("data/gss_week3.csv")
+gss_week3 <- read.csv("../../data/gss_week3.csv")
 ```
 
 
@@ -449,7 +454,7 @@ knitr::include_graphics("385_figures/rightskew.png")
 # Income Is Often Right Skewed
 
 ```{r, echo = FALSE}
-colleges <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/college_mobility.csv")
+colleges <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/master/data/college_mobility.csv")
 ```
 
 ```{r, echo = FALSE, fig.height=8, fig.width = 12}

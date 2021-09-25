@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-09-27" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Introducing Spread and Graphics
+### September 27, 2021
+
+---
+
+
+
+
+
+
+# Assignment 2 General Thoughts
+
+--
+
+### Include your Rmd file if you email me with questions
+
+--
+
+
+### Remember to add your name and date to the header
+
+--
+
+### Knit or Preview as you go so it's easier to identify where problems are
+
+--
+
+### Load packages when you load your data. And when loading tidyverse, do not include echoes, warnings, and messages
+
+![](385_figures/library_tidyverse.png)
+
+--
+
+### Review in-class notebooks before starting
+
+---
+
+# Assignment 2 Recap
+
+### 1. What are the mean and median of `agekdbrn`?
+
+--
+
+
+```r
+summary(assignment2$agekdbrn)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   12.00   20.00   23.00   24.23   28.00   57.00
+```
+
+--
+
+### This also works...
+
+
+```r
+mean(assignment2$agekdbrn)
+```
+
+```
+## [1] 24.22761
+```
+
+```r
+median(assignment2$agekdbrn)
+```
+
+```
+## [1] 23
+```
+
+---
+
+# Assignment 2 Recap
+
+### 2. Find the difference between 25th percentile and 75th percentile:
+
+--
+
+
+```r
+pctle75 &lt;- 28    # Don't use quotation marks!
+pctle25 &lt;- 20    # Or parentheses! Or curly brackets!
+pctle75 - pctle25
+```
+
+```
+## [1] 8
+```
+
+---
+
+# Quick Detour
+
+### IQR matters for definition of outliers
+
+--
+
+### High outliers are values that are at least 1.5 times the IQR above the 75th percentile
+
+--
+
+
+```r
+pctle75 + 1.5*(pctle75 - pctle25) # cutoff for high outliers
+```
+
+```
+## [1] 40
+```
+
+--
+
+### Low outliers are values that are at least 1.5 times the IQR below the 25th percentile
+
+--
+
+
+```r
+pctle25 - 1.5*(pctle75 - pctle25) # cutoff for low outliers
+```
+
+```
+## [1] 8
+```
+
+---
+
+# Assignment 2 Recap
+
+### 3. What is the mode of `agekdbrn` for respondents who completed 12 or fewer years of education?
+
+--
+
+
+```r
+table(assignment2$agekdbrn
+      [assignment2$educ&lt;=12])
+```
+
+--
+
+
+```
+## 
+##  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31 
+##   3  12  24  66 186 274 437 468 444 475 280 281 228 235 147 120 116  68 118  47 
+##  32  33  34  35  36  37  38  39  40  41  42  43  45  46  47  50  52 
+##  61  39  29  34  17  15  14   9   9   5   5   2   3   2   5   2   2
+```
+
+---
+
+# Assignment 2 Recap
+
+### Want to sort?
+
+--
+
+
+```r
+sort(table(assignment2$agekdbrn
+      [assignment2$educ&lt;=12]), decreasing = TRUE)
+```
+
+```
+## 
+##  21  19  20  18  23  22  17  25  24  16  26  27  30  28  29  15  32  31  33  35 
+## 475 468 444 437 281 280 274 235 228 186 147 120 118 116  68  66  61  47  39  34 
+##  34  14  36  37  38  13  39  40  41  42  47  12  45  43  46  50  52 
+##  29  24  17  15  14  12   9   9   5   5   5   3   3   2   2   2   2
+```
+
+
+---
+
+# Assignment 2 Recap
+
+### 4. What proportion of respondents completed exactly 16 years of education?
+
+--
+
+
+```r
+prop.table(table(assignment2$educ))
+```
+
+```
+## 
+##          8          9         10         11         12         13         14 
+## 0.02278190 0.02884314 0.03877103 0.05434215 0.30274846 0.08224475 0.12948061 
+##         15         16         17         18         19         20 
+## 0.04786289 0.15936880 0.03114223 0.05099801 0.01891525 0.03250078
+```
+
+--
+
+### *Want to round?*
+
+--
+
+
+```r
+round(prop.table(table(assignment2$educ)),3) # 3 for 3 decimal places
+```
+
+```
+## 
+##     8     9    10    11    12    13    14    15    16    17    18    19    20 
+## 0.023 0.029 0.039 0.054 0.303 0.082 0.129 0.048 0.159 0.031 0.051 0.019 0.033
+```
+
+---
+
+# Assignment 2 Recap
+
+### 5. Use `dplyr` to create a new data frame with only the `agekdbrn` and `educ` variables, and that is limited to respondents who have 16 or more years of education.
+
+--
+
+
+
+
+```r
+library(tidyverse)  # dplyr loads with tidyverse!
+```
+
+--
+
+### *A Couple Options...*
+
+--
+
+
+```r
+assignment2_q5a &lt;- select(assignment2, agekdbrn, educ) # DF name but no $
+assignment2_q5a &lt;- filter(assignment2_q5a, educ&gt;=16)
+```
+
+--
+
+
+```r
+assignment2_q5b &lt;- assignment2 |&gt; # With pipe, need DF name in first line
+     select(agekdbrn, educ) |&gt; # But omit DF name from subsequent lines
+     filter(educ&gt;=16)
+```
+
+---
+
+# Assignment 2 Recap
+
+### 6. What are the mean and median of `agekdbrn` for respondents in this new data frame?
+
+
+```r
+assignment2_q5b &lt;- assignment2 |&gt;
+     select(agekdbrn, educ) |&gt;
+     filter(educ&gt;=16) # No quotation marks
+
+summary(assignment2_q5b$agekdbrn)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   14.00   24.00   27.00   27.75   31.00   57.00
+```
+
+---
+
+# Assignment 2 Recap
+
+### 7. How long did the assignment take?
+
+--
+
+
+
+
+```r
+summary(time)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.670   1.500   2.000   2.038   2.750   3.000
+```
+
+---
+
+# Center, Spread, Shape
+
+--
+
+### Range gives us the *minimum* and the *maximum* values
+
+--
+
+### Mean and median give us the *center* of the distribution
+
+--
+
+### Mode gives us the *most frequent* value
+
+--
+
+### Also want information about the *spread* of distributions
+
+--
+
+- Variance
+
+--
+
+- Standard Deviation
+
+--
+
+- Skewness
+
+---
+
+# Spread
+
+### Variance = how we measure *spread* but it has no common scale
+
+--
+
+### Standard Deviation = measure of how far observations tend to be from the mean
+
+--
+
+### Standard Deviation is the square root of the variance
+
+--
+
+`\(\Large{s = \sqrt{\frac{\sum (y_i - \bar{y})^2}{n}}}\)`
+
+--
+
+### How do we find the variance and standard deviation in R?
+
+---
+
+# Loading Files
+
+### We'll use the `gss_week3.csv` file on Canvas. Download this file, save it, and load it in `notebook_03_01.Rmd`.
+
+
+```r
+gss_week3 &lt;- read.csv("gss_week3.csv")
+```
+
+
+
+
+---
+
+# Describing Spread
+
+### Start with a summary of the `agekdbrn` variable
+
+--
+
+
+```r
+summary(gss_week3$agekdbrn)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   12.00   20.00   23.00   24.22   28.00   57.00
+```
+
+--
+
+### For variance, use `var()`:
+
+
+```r
+var(gss_week3$agekdbrn)
+```
+
+```
+## [1] 34.03922
+```
+
+--
+
+### For standard deviation, use `sd()`:
+
+
+```r
+sd(gss_week3$agekdbrn)
+```
+
+```
+## [1] 5.834314
+```
+
+---
+
+# Describing Spread
+
+### We can show that the standard deviation is the square root of the variance:
+
+--
+
+
+```r
+var(gss_week3$agekdbrn) # Variance
+```
+
+```
+## [1] 34.03922
+```
+
+
+```r
+sqrt(var(gss_week3$agekdbrn)) # Square Root of Variance
+```
+
+```
+## [1] 5.834314
+```
+
+
+```r
+sd(gss_week3$agekdbrn) # Standard Deviation
+```
+
+```
+## [1] 5.834314
+```
+
+
+```r
+sd(gss_week3$agekdbrn) ^ 2 # Standard Deviation Squared
+```
+
+```
+## [1] 34.03922
+```
+
+
+---
+
+# Describing Spread
+
+### Would you expect more or less variation in the distribution of completed years of education (the `educ` variable)?
+
+--
+
+
+```r
+var(gss_week3$educ)
+```
+
+```
+## [1] 7.25643
+```
+
+```r
+sd(gss_week3$educ)
+```
+
+```
+## [1] 2.693776
+```
+
+
+---
+
+# Describing The Shape of the Spread
+
+### For now, keep in mind that the shape we like the most is a *normal distribution* (or bell curve)
+
+---
+
+# The Normal Distribution
+
+&lt;img src="385_figures/normal.png" width="1323" /&gt;
+
+---
+
+# The Normal Distribution
+
+&lt;img src="385_figures/normal1.png" width="85%" height="85%" /&gt;
+
+---
+
+# The Normal Distribution
+
+&lt;img src="385_figures/normal2.png" width="85%" height="85%" /&gt;
+
+---
+
+# The Normal Distribution
+
+&lt;img src="385_figures/normal3.png" width="85%" height="85%" /&gt;
+
+---
+
+# Describing The Shape of the Spread
+
+### But values are often not normally distributed
+
+--
+
+### The measure of `skewness` tells us where the "long tail" extends
+
+--
+
+- Right skewed distributions extend to higher distributions
+
+--
+
+- Left skewed distributions extend to lower distributions
+
+---
+
+# Describing Shape - Normal Distribution
+
+&lt;img src="385_figures/noskew.png" width="85%" height="85%" /&gt;
+
+---
+
+# Describing Shape - Left Skew
+
+&lt;img src="385_figures/leftskew.png" width="85%" height="85%" /&gt;
+
+---
+
+# Describing Shape - Right Skew
+
+&lt;img src="385_figures/rightskew.png" width="85%" height="85%" /&gt;
+
+---
+
+# Income Is Often Right Skewed
+
+
+
+![](slides_03_01_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Median Not Centered
+
+![](slides_03_01_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+---
+
+# Mean Pulls To Tail
+
+![](slides_03_01_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+
+---
+
+# And Pulls To Highest Values
+
+![](slides_03_01_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
+
+---
+
+# Transforming Skewed Distributions
+
+![](slides_03_01_files/figure-html/unnamed-chunk-41-1.png)&lt;!-- --&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
