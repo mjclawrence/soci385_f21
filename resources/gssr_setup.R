@@ -19,11 +19,17 @@ gss_doc %>% filter(id == "agekdbrn") %>%
 
 gss_subset <- gss_all %>%
   filter(year>=2008 & !is.na(agekdbrn) & !is.na(educ) & educ>=8 & agekdbrn>9) %>%
-  select(id, year, educ, agekdbrn)
+  select(id, year, educ, agekdbrn, race, hispanic) |>
+  mutate(racehisp = ifelse(hispanic>1, 4, race),
+         racehisp = factor(racehisp,
+                           labels = c("White", "Black",
+                                      "Other", "Hispanic"))) |>
+         select(-c(race, hispanic)) |>
+  filter(!is.na(racehisp))
 
 summary(gss_subset)
 
-write.csv(gss_subset, "data/assignment_02.csv", row.names = FALSE)
+write.csv(gss_subset, "data/gss_week3.csv", row.names = FALSE)
 
 table(gss_subset$agekdbrn, exclude = NULL)
 table(gss_subset$year)

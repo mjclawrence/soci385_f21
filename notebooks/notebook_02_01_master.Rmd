@@ -187,7 +187,7 @@ colleges_top1pc_hi <- select(colleges_top1pc_hi, name, par_top1pc)
 Finally we will order the 15 observations from the highest to lowest value of the `par_top1pc` variable. When working with an object (like a table), we used `sort` for this. When working with a data frame, `tidyverse` uses `arrange` for this. The default is to arrange from lowest to highest, so we wrap the variable name in `desc()` to assert we want a descending order:
 
 ```{r sort table}
-colleges_top1pc_hi <- arrange(colleges_top1pc_hi, desc(par_top1pc))
+colleges_top1pc_hi <- arrange(colleges_top1pc_hi, desc(par_top1pc))  
 ```
 
 Now let's take a look at the data frame:
@@ -219,6 +219,7 @@ colleges2 <- mutate(colleges, par_q123 = par_q1 + par_q2 + par_q3)
 ```
 
 This is a new data frame, so we change what goes before the dollar sign in our code whenever we want to reference it. Let's find the proportion of Middlebury students coming from the bottom 60% of the income distribution.
+
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
@@ -255,7 +256,7 @@ To make sure the pipe is available, open the Tools menu and Global Options. In t
 The other helpful `tidyverse` trick is that if we are combining several functions with pipes, we only have to tell R which dataframe we are using once (at the very beginning). So our full code chunk will look like this:
 
 ```{r data frame for final table}
-colleges4 <- colleges3 |>       #the data frames we are creating and using
+colleges4 <- colleges3 |>    #the data frames we are creating and using
     select(name, par_top1pc, 
            par_q123, ratio_top1_bottom60) |>       #the variables we want to keep
     arrange(desc(ratio_top1_bottom60)) |>     #the order we want the observations
@@ -305,8 +306,15 @@ Pull Middlebury's value of another one of the variables in the dataset:
 ## Delete
 
 ```{r}
-colleges$kq5_cond_parq1[colleges$name=="Middlebury College"]
+colleges$mr_kq5_pq1[colleges$name=="Middlebury College"]
 ```
+
+```{r}
+colleges$kq5_cond_parq1[colleges$name=="Middlebury College"]
+colleges$par_q1[colleges$name=="Middlebury College"]
+.2808793 * .02670696
+```
+
 
 How does Middlebury's value compare to overall distribution: 
 
@@ -343,6 +351,15 @@ Where do you think Middlebury would rank for each of these comparisons?
 Let's try the ratio of students from the top 1 percent to the middle 60 percent:
 
 # Delete
+
+
+```{r}
+colleges5 <- colleges |>
+  mutate(top_bottom_ratio = par_top1pc / par_q1)
+
+colleges5$top_bottom_ratio[colleges5$name=="Middlebury College"]
+```
+
 
 ```{r}
 colleges5 <- colleges |>
