@@ -1,18 +1,10 @@
----
-title: "Visualizing Descriptives"
-author: "Matt Lawrence"
-date: "September 27, 2021"
-output:
-  pdf_document: default
----
-
 # Setting Up
 This week we will continue using the 2008-2018 waves of the General Social Survey. We are still focused on the `agekdbrn` variable but will start looking at how its distribution varies by education and race/ethnicity. Start by loading tidyverse and the data. 
 
 ```{r load packages and data, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 
-gss_week3 <- read.csv("../data/gss_week3.csv") # A path in your project folder
+gss_week3 <- read.csv("gss_week3.csv") # A path in your project folder
 ```
 
 
@@ -28,10 +20,7 @@ sd(gss_week3$agekdbrn)
 Would you expect more or less variation in the education distribution?
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r variance and sd of educ}
-var(gss_week3$educ)
-sd(gss_week3$educ)
-```
+
 
 # Introducing ggplot2
 
@@ -73,12 +62,6 @@ Two other visualizations that are good for looking at distributions are bar plot
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r agekdbrn histogram}
-agekdbrn_plot + geom_histogram() +
-       labs (x = "Age at First Birth", y = "Count",
-        title = "Distribution of Age at First Birth",
-        subtitle = "General Social Survey, 2008-2018")
-```
 
 The warning message about binwidth with the histogram is asking you to choose how many buckets you want the data grouped by. See what happens as you increase and decrease the number of bins:
 
@@ -102,16 +85,6 @@ agekdbrn_plot + geom_bar() +
 Now try a bar plot showing the distribution of the `educ` variable.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r education bar plot}
-educ_barplot <- ggplot(gss_week3, aes(x = educ))
-educ_barplot + geom_bar() + 
-     labs(x = "Years of Education",
-          y = "Count",
-          title = "Distribution of Years of Education",
-          subtitle = "GSS, 2008-2018")
-```
-
 
 
 # Creating Categories
@@ -139,9 +112,6 @@ The mean of a binary variable is the proportion with a 1. Use this new variable 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r mean of a binary variable is the proportion with a 1}
-summary(gss_week3$college_degree)
-```
 
 Binary variables with 0s and 1s are very helpful. For plotting, though, factor variables are better. We can use mutate() again to assert that we want `college_degree` to be a factor variable, and we will add the `labels = c()` option to label 0 "No" and 1 "Yes".
 
@@ -195,34 +165,4 @@ agekdbrn_college_plot + geom_density(alpha = 0.1) +
           subtitle = "General Social Survey, 2008-2018") +
      scale_color_discrete(name = "College Degree") +
      scale_fill_discrete(guide = "none")
-```
-
-
-Preview of next class with education categories...
-
-```{r creating other categories}
-gss_week3 <- gss_week3 %>%
-     mutate(edcat = ifelse(educ < 12, "Less Than HS",
-                           ifelse(educ == 12, "HS Diploma",
-                                  ifelse(educ %in% 13:15, "Some College",
-                                         ifelse(educ == 16, "College Degree",
-                                                "Grad Prof Degree")))))
-
-gss_week3 <- gss_week3 %>%
-     mutate(edcat = factor(edcat,
-          levels = c("Less Than HS",
-                     "HS Diploma",
-                     "Some College",
-                     "College Degree",
-                     "Grad Prof Degree")))
-
-agekdbrn_edcat_plot <- ggplot(gss_week3, aes(x = agekdbrn, color = edcat))
-agekdbrn_edcat_plot + geom_density() + 
-  labs(x = "Age at First Birth", 
-       y = "Density", 
-       title = "Distribution of Age at First Birth by Highest Degree", 
-       subtitle = "GSS, 2008-2018") + 
-     scale_color_discrete(name = "Education\nCategory") + 
-     theme(axis.title=element_text(size=14),
-           axis.text=element_text(size=12))
 ```
