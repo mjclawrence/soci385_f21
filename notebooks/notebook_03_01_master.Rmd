@@ -7,7 +7,7 @@ output:
 ---
 
 # Setting Up
-This week we will continue using the 2008-2018 waves of the General Social Survey. We are still focused on the `agekdbrn` variable but will start looking at how its distribution varies by education and race/ethnicity. Start by loading tidyverse and the data. 
+This week we will continue using the 2008-2018 waves of the General Social Survey. We are still focused on the `agekdbrn` variable and will start looking at how its distribution varies by education and race/ethnicity. Start by loading tidyverse and the data. 
 
 ```{r load packages and data, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -67,7 +67,6 @@ agekdbrn_plot + geom_density() +
         title = "Distribution of Age at First Birth",
         subtitle = "General Social Survey, 2008-2018")
 ```
-
 
 Two other visualizations that are good for looking at distributions are bar plots and histograms. These use `geom_bar` and `geom_histogram` respectively. Try them out by editing the last code chunk we ran to replace `geom_density` with `geom_bar` or `geom_histogram`. Try a histogram first.
 
@@ -133,7 +132,7 @@ Note: Shortcut for pipe = Shift-Cmd-M (Mac) or Shift-Ctrl-M (Windows)
 
 Read the mutate line as:
 
-"Create a new variable called `college_degree`. If the value of the education variable is greater than or equal to 16, the new variable's value should be 1. If the value of the education variable is anything else, the new variable's value should be 0."
+"In the `gss_week3` dataframe, create a new variable called `college_degree`. If the value of the education variable is greater than or equal to 16, the new variable's value should be 1. If the value of the education variable is anything else, the new variable's value should be 0."
 
 The mean of a binary variable is the proportion with a 1. Use this new variable to find the proportion of respondents with a college degree.
 
@@ -161,8 +160,8 @@ Now let's make a density plot with two curves: one for respondents without colle
 
 ```{r}
 agekdbrn_college_plot <- ggplot(gss_week3, 
-                                aes(x = agekdbrn, 
-                                    color = college_degree))
+                                aes(x = agekdbrn,
+                                color = college_degree))
 
 agekdbrn_college_plot + geom_density()
 ```

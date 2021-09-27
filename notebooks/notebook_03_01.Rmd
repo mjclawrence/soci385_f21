@@ -1,5 +1,5 @@
 # Setting Up
-This week we will continue using the 2008-2018 waves of the General Social Survey. We are still focused on the `agekdbrn` variable but will start looking at how its distribution varies by education and race/ethnicity. Start by loading tidyverse and the data. 
+This week we will continue using the 2008-2018 waves of the General Social Survey. We are still focused on the `agekdbrn` variable and will start looking at how its distribution varies by education and race/ethnicity. Start by loading tidyverse and the data. 
 
 ```{r load packages and data, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -106,7 +106,7 @@ Note: Shortcut for pipe = Shift-Cmd-M (Mac) or Shift-Ctrl-M (Windows)
 
 Read the mutate line as:
 
-"Create a new variable called `college_degree`. If the value of the education variable is greater than or equal to 16, the new variable's value should be 1. If the value of the education variable is anything else, the new variable's value should be 0."
+"In the `gss_week3` dataframe, create a new variable called `college_degree`. If the value of the education variable is greater than or equal to 16, the new variable's value should be 1. If the value of the education variable is anything else, the new variable's value should be 0."
 
 The mean of a binary variable is the proportion with a 1. Use this new variable to find the proportion of respondents with a college degree.
 
