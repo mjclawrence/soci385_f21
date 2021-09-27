@@ -65,7 +65,8 @@ There are many ways to improve this plot. We'll start simply by changing the axi
 agekdbrn_plot + geom_density() + 
   labs(x = "Age at First Birth", y = "Density",
         title = "Distribution of Age at First Birth",
-        subtitle = "General Social Survey, 2008-2018")
+        subtitle = "General Social Survey, 2008-2018",
+       caption = "SOCI 385 Fall 2021")
 ```
 
 Two other visualizations that are good for looking at distributions are bar plots and histograms. These use `geom_bar` and `geom_histogram` respectively. Try them out by editing the last code chunk we ran to replace `geom_density` with `geom_bar` or `geom_histogram`. Try a histogram first.
@@ -111,6 +112,10 @@ educ_barplot + geom_bar() +
           subtitle = "GSS, 2008-2018")
 ```
 
+```{r}
+plot1 <- ggplot(gss_week3, aes(x = educ)) + geom_bar()
+plot1
+```
 
 
 # Creating Categories
@@ -145,7 +150,7 @@ summary(gss_week3$college_degree)
 Binary variables with 0s and 1s are very helpful. For plotting, though, factor variables are better. We can use mutate() again to assert that we want `college_degree` to be a factor variable, and we will add the `labels = c()` option to label 0 "No" and 1 "Yes".
 
 ```{r mutate to factor variable}
-gss_week3 <- gss_week3 %>%
+gss_week3 <- gss_week3 |>
      mutate(college_degree = factor(college_degree,
                                     labels = c("No", "Yes")))
 ```
