@@ -45,3 +45,34 @@ df2 <- gss_subset %>%
   filter(educ>=16)
 
 summary(df2$agekdbrn)
+
+
+## Assignment 3
+
+gss_get_marginals(varnames = "workhr", data = gss_doc)
+
+gss_subset <- gss_all |> 
+  filter(year>=2008) |> 
+  select(id, hrs1, class, race, hispanic, region) |> 
+  mutate(racehisp = ifelse(hispanic>1, 4, race),
+         racehisp = factor(racehisp,
+                           labels = c("White", "Black",
+                                      "Other", "Hispanic")),
+         class = ifelse(class==0 | class>4, NA, class),
+         class = factor(class,
+                        labels = c("Lower", "Working", "Middle", "Upper")),
+         region = ifelse(region %in% 3:4, 3,
+                         ifelse(region %in% 5:7, 5,
+                                ifelse(region >= 8, 8, region))),
+         region = factor(region,
+                         labels = c("New England",
+                                    "Middle Atlantic",
+                                    "Midwest",
+                                    "South", 
+                                    "West"))) |>
+  select(-c(race, hispanic)) |>
+  drop_na()
+
+summary(gss_subset)
+
+write.csv(gss_subset, "data/assignment_03.csv", row.names = FALSE)

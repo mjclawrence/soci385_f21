@@ -1,16 +1,9 @@
----
-title: "Comparing Distributions"
-author: "Matt Lawrence"
-date: "September 29, 2021"
-output: pdf_document
----
-
 # Getting Started
 
 We are still using the `gss_week3` dataset, and we will be using `ggplot2` and `dplyr` from `tidyverse`. Load the data and `tidyverse`, and remember to include the options to suppress the output, warning, and message from this chunk.
 
 ```{r load data and packages, echo = FALSE, warning = FALSE, message = FALSE}
-gss_week3 <- read.csv("../data/gss_week3.csv")
+gss_week3 <- read.csv("gss_week3.csv")
 library(tidyverse)
 ```
 
@@ -18,15 +11,6 @@ On Monday, we ended class by creating density plots, bar plots, and histograms t
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r education bar plot}
-educ_barplot <- ggplot(gss_week3, aes(x = racehisp))
-
-educ_barplot + geom_bar() + 
-     labs(x = "Race or Ethnicity",
-          y = "Count",
-          title = "Distribution of Respondents' Race or Ethnicity",
-          subtitle = "GSS, 2008-2018")
-```
 
 
 # Creating Categories
@@ -92,9 +76,6 @@ What proportion of respondents is in each education category?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-round(prop.table(table(gss_week3$edcat)),2)
-```
 
 The next step is to tell R we will be using this new variable as a factor variable. We do this using `mutate()` as well. We also need to assert the order of the categories (from lowest to highest), since by default the categories are listed alphabetically. To assert the order, we will add the `levels = c()` option. We don't need to use the `labels = c()` option this time because our values already have character names.
 
@@ -148,22 +129,6 @@ agekdbrn_edcat_plot + geom_density() +
 facet_grid(edcat~.) + guides(color="none")
 ```
 
-# Delete from class notebook
-
-To change size of text in label "strips":
-
-```{r}
-agekdbrn_edcat_plot <- ggplot(gss_week3, aes(x = agekdbrn, color = edcat))
-
-agekdbrn_edcat_plot + geom_density() + 
-  labs(x = "Age at First Birth", y = "Density", 
-       title = "Distribution of Age at First Birth by Highest Degree", 
-       subtitle = "GSS, 2008-2018") +
-facet_grid(edcat~.) + guides(color="none") +
-theme(strip.text.y = element_text(size = 5))
-```
-
-
 You can facet into columns by replacing `edcat~.` with `.~edcat`. Which would make more sense in this case?
 
 ```{r agekdbrn edcat plot with column facet}
@@ -185,10 +150,7 @@ Good rule of thumb: faceting by rows is better when comparing the x axis and fac
 Let's take a break from graphics for a moment and think about tables and basic summaries again. If you wanted to find the proportion of respondents in each education category for a specific race/ethnicity category (use the `racehisp` variable), what might you do?
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r proportion table with indexing}
-round(prop.table(table(gss_week3$edcat
-                 [gss_week3$racehisp=="Black"])),3)
-```
+
 
 Another option would be a cross-tabulation. We set up a cross-tabulation using the same syntax as the `table()` function, but now we'll have two variables separated by a comma. The values of our first variable will become the rows in the table, and the values of the second variable will become the columns. This ordering matters! Think of the row variable as your independent variable (the X) and the column as your dependent variable (the Y). If that's the setup, why would we want the values of `racehisp` to become the rows in this table and the values of `edcat` to become the columns?
 
@@ -199,9 +161,7 @@ table(gss_week3$racehisp, gss_week3$edcat)
 How do you think you make a cross-tabulation with proportions?
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r proportion table racehisp edcat}
-round(prop.table(table(gss_week3$racehisp, gss_week3$edcat)),3)
-```
+
 
 By default, these proportions are for the entire table. So the top left cell tells us that 3% of all the cases in this data frame are Black respondents who did not complete high school.
 
@@ -214,9 +174,7 @@ round(prop.table(table(gss_week3$racehisp, gss_week3$edcat),1),3)
 Each *row* in the above table sums to 1. To get column proportions, replace the 1 with a 2. In the table below, each *column* should sum to 1. In general, we'll use row proportions more than column proportions.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r prop table column proportions}
-round(prop.table(table(gss_week3$racehisp, gss_week3$edcat),2),3)
-```
+
 
 There are a couple other `dplyr` functions that help with finding values of one variable for all values of another variable. For example, we might want to find the mean age at first birth for each race/ethnicity category. To do so, we first group all the observations by the categorical variable. Then we create a variable that summarizes one variable for all the categories of our other variable. And we can connect these functions with pipes. We'll save the output in a new dataframe named `agekdbrn_summary`.
 
@@ -231,12 +189,6 @@ agekdbrn_summary
 This `summarize()` function works with a lot of the basic commands we have discussed (min, max, sd, var, etc.). Try finding the median age at first birth for each education category. You can still use the `agekdbrn_summary` object:
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r}
-agekdbrn_summary <- gss_week3 |> 
-  group_by(edcat)  |> 
-  summarize(median_agekdbrn = median(agekdbrn))
-```
-
 
 Let's end with a plot visualizing the distribution of median age at first birth by education level.
 
@@ -256,5 +208,3 @@ agekdbrn_col + geom_col() +
   geom_text(aes(label = median_agekdbrn, # Adds labels
                 vjust = -.5)) # Moves the labels above the columns
 ```
-
-
