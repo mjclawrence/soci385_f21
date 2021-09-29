@@ -117,7 +117,7 @@ agekdbrn_edcat_plot + geom_density() +
 
 ## Facets (If There Is Time)
 
-The overlapping plots are quite effective in this case. That's not always true. Another option would be to have a separate plot for each category. You can do that with faceting. In this example, we want to facet into *rows* with `edcat~.`. Note that with faceting you don't need a legend anymore. You can delete it using `guides(color=FALSE)`. 
+The overlapping plots are quite effective in this case. That's not always true. Another option would be to have a separate plot for each category. You can do that with faceting. In this example, we want to facet into *rows* with `edcat~.`. Note that with faceting you don't need a legend anymore. You can delete it using `guides(color="none")`. 
 
 ```{r agekdbrn edcat plot with row facet}
 agekdbrn_edcat_plot <- ggplot(gss_week3, aes(x = agekdbrn, color = edcat))
