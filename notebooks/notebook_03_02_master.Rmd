@@ -16,6 +16,15 @@ library(tidyverse)
 
 On Monday, we ended class by creating density plots, bar plots, and histograms to visualize the distribution of age at first birth and years of education. To warm up, make a bar plot of the racial and ethnic composition of our sample (use the `racehisp` variable).
 
+```{r}
+racehisp_plot <- ggplot(gss_week3,
+                        aes(x = racehisp))
+
+racehisp_plot + geom_bar() + labs(title = "Distribution of Race or Ethnicity")
+```
+
+
+
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r education bar plot}
@@ -93,7 +102,7 @@ What proportion of respondents is in each education category?
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r}
-round(prop.table(table(gss_week3$edcat)),2)
+sort(round(prop.table(table(gss_week3$edcat)),3),decreasing = TRUE)
 ```
 
 The next step is to tell R we will be using this new variable as a factor variable. We do this using `mutate()` as well. We also need to assert the order of the categories (from lowest to highest), since by default the categories are listed alphabetically. To assert the order, we will add the `levels = c()` option. We don't need to use the `labels = c()` option this time because our values already have character names.
@@ -215,7 +224,7 @@ Each *row* in the above table sums to 1. To get column proportions, replace the 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 ```{r prop table column proportions}
-round(prop.table(table(gss_week3$racehisp, gss_week3$edcat),2),3)
+addmargins(round(prop.table(table(gss_week3$racehisp, gss_week3$edcat),2),3))
 ```
 
 There are a couple other `dplyr` functions that help with finding values of one variable for all values of another variable. For example, we might want to find the mean age at first birth for each race/ethnicity category. To do so, we first group all the observations by the categorical variable. Then we create a variable that summarizes one variable for all the categories of our other variable. And we can connect these functions with pipes. We'll save the output in a new dataframe named `agekdbrn_summary`.
@@ -223,7 +232,7 @@ There are a couple other `dplyr` functions that help with finding values of one 
 ```{r group by and summarize means}
 agekdbrn_summary <- gss_week3 |> 
      group_by(racehisp) |>  # We want info about each level of this variable
-     summarize(mean_agekdbrn = mean(agekdbrn)) # The info we want
+     summarize(mean_agekdbrn = round(mean(agekdbrn),2)) # The info we want
 
 agekdbrn_summary
 ```
@@ -235,6 +244,8 @@ This `summarize()` function works with a lot of the basic commands we have discu
 agekdbrn_summary <- gss_week3 |> 
   group_by(edcat)  |> 
   summarize(median_agekdbrn = median(agekdbrn))
+
+agekdbrn_summary
 ```
 
 
@@ -253,8 +264,8 @@ agekdbrn_col + geom_col() +
          title = "Median Age at First Birth by Education",
          subtitle = "GSS, 2008-2018",
          fill = "Highest Degree") +
-  geom_text(aes(label = median_agekdbrn, # Adds labels
-                vjust = -.5)) # Moves the labels above the columns
+  geom_text(aes(label = median_agekdbrn),
+            vjust = -.5) # Moves the labels above the columns
 ```
 
 
