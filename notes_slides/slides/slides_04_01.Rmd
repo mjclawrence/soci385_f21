@@ -24,7 +24,7 @@ library(flair)
 
 
 ```{r, include = FALSE}
-assignment_3 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/master/data/assignment_03.csv")
+assignment_3 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/assignment_03.csv")
 library(tidyverse)
 library(kableExtra)
 ```
@@ -199,8 +199,8 @@ kbl(round(prop.table(
 ```{r, eval = FALSE}
 
 sd_hours_race <- assignment_3 |> 
-  group_by(racehisp) |> 
-  summarize(sd_hours = round(sd(hrs1),3))
+  group_by(racehisp) |> # Want info for each level of this variable
+  summarize(sd_hours = round(sd(hrs1),3)) # Info we want
 
 colnames(sd_hours_race) <- # For changing the table's "column names"
   c("Race/Hisp", "Std Dev Hours") 

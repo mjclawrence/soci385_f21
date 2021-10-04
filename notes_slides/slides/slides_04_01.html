@@ -215,8 +215,8 @@ kbl(round(prop.table(
 
 ```r
 sd_hours_race &lt;- assignment_3 |&gt; 
-  group_by(racehisp) |&gt; 
-  summarize(sd_hours = round(sd(hrs1),3))
+  group_by(racehisp) |&gt; # Want info for each level of this variable
+  summarize(sd_hours = round(sd(hrs1),3)) # Info we want
 
 colnames(sd_hours_race) &lt;- # For changing the table's "column names"
   c("Race/Hisp", "Std Dev Hours") 
