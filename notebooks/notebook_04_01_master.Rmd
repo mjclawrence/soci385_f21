@@ -89,6 +89,7 @@ income_laborforce_scatter <- ggplot(cz, aes(
 income_laborforce_scatter + geom_point() +
   scale_y_continuous(labels = scales::label_dollar()) # To set y axis values to dollars
 ```
+
 Need to define other currencies before using them
 
 ```{r}
