@@ -8,6 +8,7 @@ output: pdf_document
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 library(tidyverse)
+library(kableExtra)
 
 assignment_3 <- read.csv("../../data/assignment_03.csv")
 ```
@@ -63,15 +64,6 @@ round(prop.table(
 # Region should be rows, hours should be columns
 ```
 
-
-```{r}
-library(pander)
-pander(round(prop.table(
-     table(assignment_3$region, 
-                       assignment_3$hours_cat),1),3))
-```
-
-
 5. Use the `group_by()` and `summarize()` functions in dplyr to find the standard deviation of hours worked by race/ethnicity. In a sentence, describe any similarities or differences you notice. You do not have to create a figure for this question.
 
 ```{r}
@@ -99,9 +91,9 @@ hours_race_plot + geom_col() +
 
 \pagebreak
 
-# Knitting A Table Without Pander
+# Knitting A Table Without Kable
 
-```{r}
+```{r, echo = FALSE}
 round(prop.table(
           table(assignment_3$region, assignment_3$hours_cat),1),3)
 ```
@@ -109,12 +101,12 @@ round(prop.table(
 
 \vspace{2.0em}
 
-# Knitting A Table With Pander
+# Knitting A Table With Kable
 
-```{r}
-library(pander)
-
-pander(round(prop.table(
+```{r, echo = FALSE}
+kbl(round(prop.table(
      table(assignment_3$region, 
-                       assignment_3$hours_cat),1),3))
+                       assignment_3$hours_cat),1),3),
+    align=rep('c', 4),
+    booktabs = T)
 ```

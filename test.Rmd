@@ -1,0 +1,77 @@
+---
+title: "Coloring stuff!"
+author: "Andrew Heiss"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    seal: false  # No title slide
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)
+library(flair)
+library(ggdag)
+```
+
+# DAGs and models
+
+```{r mpg-dag, echo=FALSE, fig.width=5, fig.height=3.5, out.width="40%"}
+mpg_dag <- dagify(hwy ~ drv + disp + cyl,
+                  disp ~ drv + cyl,
+                  labels = c("hwy" = "Highway MPG",
+                             "drv" = "Drive",
+                             "disp" = "Displacement",
+                             "cyl" = "Cylinders"),
+                  coords = list(x = c(hwy = 3, drv = 2, disp = 2, cyl = 1),
+                                y = c(hwy = 2, drv = 1, disp = 3, cyl = 2))) %>% 
+  tidy_dagitty()
+  
+ggplot(mpg_dag, aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_edges() +
+  geom_dag_point(aes(color = label)) +
+  geom_dag_label_repel(aes(label = label, fill = label), seed = 1234,
+                       direction = "y", fontface = "bold", color = "white") +
+  scale_fill_manual(values = c("#39CCCC", "#2ECC40", "#0074D9", "#FF851B")) +
+  scale_color_manual(values = c("#39CCCC", "#2ECC40", "#0074D9", "#FF851B")) +
+  guides(color = FALSE, fill = FALSE) +
+  theme_dag()
+```
+
+
+
+.pull-left[
+```{r example-model, include=FALSE, eval=FALSE}
+model <- lm(hwy ~ drv + displ + cyl, 
+            data = mpg)
+```
+
+```{r colored-model, echo=FALSE}
+decorate("example-model") %>% 
+  flair("hwy", color = "#FF851B") %>% 
+  flair("drv", color = "#0074D9") %>% 
+  flair("displ", color = "#2ECC40") %>% 
+  flair("cyl", color = "#39CCCC") %>%
+  knit_print.with_flair()
+```
+]
+
+.pull-right[
+$$
+\begin{aligned}
+\color{#FF851B}{\text{Highway MPG }} =\ & \beta_0 + \beta_1 \color{#0074D9}{\text{Drive}} + \\
+&\beta_2 \color{#2ECC40}{\text{Displacement}} + \\
+&\beta_3 \color{#39CCCC}{\text{Cylinders}} + \varepsilon
+\end{aligned}
+$$
+]
