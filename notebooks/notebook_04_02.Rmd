@@ -1,6 +1,6 @@
 Today we will continue using data from Chetty et al's 2014 paper "Where Is The Land Of Opportunity?". The `commuting_zones.csv` file on Canvas comes from the Opportunity Insights website which can be accessed [`here`](http://www.opportunityinsights.org).
 
-Load the data as a data frame called `cz` and load the tidyverse and pander packages.
+Load the data as a data frame called `cz` and load tidyverse.
 
 
 ```{r load data and packages, echo = FALSE, warning = FALSE, message = FALSE}
