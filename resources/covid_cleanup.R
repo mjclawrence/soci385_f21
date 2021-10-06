@@ -30,3 +30,32 @@ covid <- covid |>
          fullvaccine_rate = as.numeric(fullvaccine_rate))
 
 summary(covid)
+
+
+covid <- read_csv("data/covid.csv")
+mobility <- read_csv("data/county_mobility.csv")
+
+covid_mobility <- left_join(mobility, covid)
+
+cor(covid_mobility$vaccine_rate, covid_mobility$mobility, 
+    use = "complete")
+
+plot(covid_mobility$vaccine_rate, covid_mobility$mobility)
+
+summary(covid_mobility$vaccine_rate)
+
+
+workplace <- read_csv("https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/Google%20Mobility%20-%20County%20-%20Daily.csv")
+
+workplace_sub <- workplace |> 
+  filter(month == 9 & year == 2021 & day == 30) |> 
+  select(countyfips, gps_workplaces) |> 
+  na_if(".") |> 
+  mutate(gps_workplaces = as.numeric(gps_workplaces))
+
+summary(workplace_sub$gps_workplaces)
+
+hist(workplace_sub$gps_workplaces)
+
+write.csv(workplace_sub, "data/county_work_time.csv",
+          row.names = FALSE)
