@@ -1,10 +1,3 @@
----
-title: "More Association and Correlation"
-author: "Matt Lawrence"
-date: "10/6/2021"
-output: pdf_document
----
-
 Today we will continue using data from Chetty et al's 2014 paper "Where Is The Land Of Opportunity?". The `commuting_zones.csv` file on Canvas comes from the Opportunity Insights website which can be accessed [`here`](http://www.opportunityinsights.org).
 
 Load the data as a data frame called `cz` and load the tidyverse and pander packages.
@@ -24,19 +17,11 @@ When we finished last class, we were looking at the correlation between `commute
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r commute mobility correlation}
-cor(cz$commute15min, cz$mobility, use = "complete")
-```
 
 And how can you make a scatterplot showing the correlation between these two variables?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r mobility commute scatter, warning=FALSE}
-mobility_commute_scatter <- ggplot(cz, aes(x = commute15min, y = mobility))
-
-mobility_commute_scatter + geom_point()
-```
 
 # Introducing Lines of Best Fit
 
@@ -73,24 +58,6 @@ Take a few minutes to explore how some of the variables in the `cz` data frame a
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-### Positive = Social Capital (0.641)
-```{r positive association}
-cor(cz$social_capital_index, cz$mobility, 
-    use = "complete")
-```
-
-### Negative = Gini (-0.578)
-```{r negative association}
-ggplot(cz, aes(x = gini, y = mobility)) + geom_point() 
-```
-
-### None = Foreign Born (-0.027)
-```{r no association}
-cor(cz$frac_foreign_born, cz$mobility, 
-    use = "complete")
-```
-
-
 
 # Plots With Labeled Points
 
@@ -98,19 +65,14 @@ The plots we have been making so far show points for every commuting zone (for w
 
 On Monday, we saw how to use `plotly` to make interactive plots with custom tooltips and hover text boxes. That works great for exploring data in this window or if you use html output. Today we'll learn how to identify specific points for PDF or static output.
 
-We'll do so by taking advantage of the factthat a ggplot is just a collection of layers. The idea with this approach is that on top of our existing plot we will add another layer that only has the point we want to identify. To do so, we need to create another data frame that only has that observation. We know how to do that using the `filter()` function in dplyr.
+We'll do so by taking advantage of the fact that a ggplot is just a collection of layers. The idea with this approach is that on top of our existing plot we will add another layer that only has the point we want to identify. To do so, we need to create another data frame that only has that observation. We know how to do that using the `filter()` function in dplyr.
 
 As an example, let's highlight the point for Burlington, VT's commuting zone in blue. Before we begin, what are the values of the `commute15min` and `mobility` variables for Burlington?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-cz$commute15min[cz$cz_state=="Burlington, VT"]
-cz$mobility[cz$cz_state=="Burlington, VT"]
-```
 
-
-First, create the Burlington data frame.
+To identify Burlington on the scatterplot, we will start by creating the Burlington data frame.
 
 ```{r dtata frame with just burlington}
 burlington <- filter(cz, cz_state == "Burlington, VT")
@@ -149,7 +111,7 @@ mobility_commute_scatter + geom_point(color = "Light Gray") +
 A second (much easier) option uses the `gghighlight` package. Install and load the package.
 
 ```{r install and load gghighlight}
-#install.packages("gghighlight")
+install.packages("gghighlight") # Add hashtag in front after installing
 library(gghighlight)
 ```
 
@@ -171,9 +133,3 @@ mobility_commute_scatter + geom_point(color = "Blue") +
 You can highlight points that fall within ranges of values as well. For example, try highlighting the commuting zones where more than 80% of residents commute 15 minutes or less, and label them by commuting zone and state.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-```{r gghighlight exercise with label, warning = FALSE}
-mobility_commute_scatter + geom_point(color = "Blue") +
-     gghighlight(commute15min >= .80,
-                 label_key = cz_state)
-```
-
