@@ -9,8 +9,6 @@ Today we will continue using data from Chetty et al's 2014 paper "Where Is The L
 
 Load the data as a data frame called `cz` and load tidyverse.
 
-
-
 ```{r load data and packages, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 
@@ -34,7 +32,8 @@ And how can you make a scatterplot showing the correlation between these two var
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r mobility commute scatter, warning=FALSE}
-mobility_commute_scatter <- ggplot(cz, aes(x = commute15min, y = mobility))
+mobility_commute_scatter <- ggplot(cz, aes(x = commute15min,
+                                           y = mobility))
 
 mobility_commute_scatter + geom_point()
 ```
@@ -110,6 +109,9 @@ cz$commute15min[cz$cz_state=="Burlington, VT"]
 cz$mobility[cz$cz_state=="Burlington, VT"]
 ```
 
+```{r}
+mobility_commute_scatter + geom_point() + geom_smooth(method = lm)
+```
 
 First, create the Burlington data frame.
 
@@ -122,7 +124,8 @@ Now add another `geom_point()` layer for this new data frame to our existing plo
 
 ```{r add layer to plot 1, warning = FALSE}
 mobility_commute_scatter + geom_point() +
-     geom_point(data = burlington, aes(x = commute15min, y = mobility), 
+     geom_point(data = burlington, aes(x = commute15min, 
+                                       y = mobility), 
                 color = "Blue")
 ```
 
@@ -165,7 +168,7 @@ We can add a label by using the `label_key = ` option to reference a variable. T
 
 ```{r gghighlight example with label, warning = FALSE}
 mobility_commute_scatter + geom_point(color = "Blue") +
-     gghighlight(cz_state=="Burlington, VT",
+     gghighlight(cz_state=="Chicago, IL",
                  label_key = cz_state)
 ```
 
@@ -174,7 +177,7 @@ You can highlight points that fall within ranges of values as well. For example,
 ### REPLACE THIS LINE WITH YOUR CODE
 ```{r gghighlight exercise with label, warning = FALSE}
 mobility_commute_scatter + geom_point(color = "Blue") +
-     gghighlight(commute15min >= .80,
+     gghighlight(commute15min > .80,
                  label_key = cz_state)
 ```
 
