@@ -55,7 +55,8 @@ We can also create a scatterplot showing how the distributions of both variables
 
 ```{r commute income scatterplot}
 commute_incomeseg_scatter <- ggplot(cz, 
-                            aes(x = commute15min, y = income_seg))
+                            aes(x = commute15min, 
+                                y = income_seg))
 
 commute_incomeseg_scatter + geom_point()
 ```

@@ -1,7 +1,7 @@
 ---
 title: "More Association and Correlation"
 author: "Matt Lawrence"
-date: "10/2/2019"
+date: "10/6/2021"
 output: pdf_document
 ---
 
@@ -40,7 +40,7 @@ mobility_commute_scatter + geom_point()
 
 # Introducing Lines of Best Fit
 
-Scatterplots often include lines to help visualize the direction and strength of correlations. We will do much more with these lines at the end of the semester. But for now, it could be good to know how to include them. To do so, add another layer to the plot with the `geom_smooth(method = lm)` function. The smooth function finds a pattern across all the points, and the `method = lm` option says we want the pattern to be based on the "linear model" used in basic regression models.
+Scatterplots often include lines to help visualize the direction and strength of correlations. We will do more with these lines at the end of the semester. But for now, it could be good to know how to include them. To do so, add another layer to the plot with the `geom_smooth(method = lm)` function. The smooth function finds a pattern across all the points, and the `method = lm` option says we want the pattern to be based on the "linear model" used in basic regression models.
 
 ```{r mobility commute scatter with line of best fit, warning=FALSE}
 mobility_commute_scatter <- ggplot(cz, aes(x = commute15min, y = mobility))
@@ -50,7 +50,6 @@ mobility_commute_scatter + geom_point() + geom_smooth(method = lm)
 
 
 # Exercise With Other Variables
-
 
 Let's spend some time exploring a few of the other associations in our data using the following variables: 
 
@@ -90,28 +89,21 @@ cor(cz$frac_foreign_born, cz$mobility,
     use = "complete")
 ```
 
-## Correlations With Indexing
-
-```{r}
-florida <- cz %>%
-    filter(state == "FL")
-
-cor(florida$social_capital_index, florida$mobility,
-    use = "complete")
-```
 
 
 # Plots With Labeled Points
 
 The plots we have been making so far show points for every commuting zone (for which data are available). It is often helpful to identify specific points that are important for the analysis. For example, you might want to isolate the point for a specific commuting zone. There are several ways to do this.
 
-One way is to remember that ggplot is just a collection of layers. The idea with this approach is that on top of our existing plot we will add another layer that only has the point we want to identify. To do so, we need to create another data frame that only has that observation. We know how to do that using the `filter()` function in dplyr.
+On Monday, we saw how to use `plotly` to make interactive plots with custom tooltips and hover text boxes. That works great for exploring data in this window or if you use html output. Today we'll learn how to identify specific points for PDF or static output.
+
+We'll do so by taking advantage of the factthat a ggplot is just a collection of layers. The idea with this approach is that on top of our existing plot we will add another layer that only has the point we want to identify. To do so, we need to create another data frame that only has that observation. We know how to do that using the `filter()` function in dplyr.
 
 As an example, let's highlight the point for Burlington, VT's commuting zone in blue. First, create the Burlington data frame.
 
 ```{r dtata frame with just burlington}
-burlington <- filter(cz, cz_name == "Burlington" & state == "VT")
-# There are three commuting zones named Burlington, so we should add the state.
+burlington <- filter(cz, cz_state == "Burlington, VT")
+# There are three commuting zones named Burlington, so we should use the variable that adds the state.
 ```
 
 Now add another `geom_point()` layer for this new data frame to our existing plot. We'll have to give the name of the data frame and the aesthetic map again:
@@ -128,7 +120,7 @@ The blue point for Burlington is there, but it is hard to see. We can improve th
 mobility_commute_scatter + geom_point(color = "Light Gray") +
      geom_point(data = burlington, aes(x = commute15min, y = mobility),
                 color = "Blue", size = 2) + 
-     geom_text(data = burlington, aes(label = cz_name) , 
+     geom_text(data = burlington, aes(label = cz_state) , 
                color = "Blue")
 ```
 
@@ -138,14 +130,10 @@ We can use `vjust` and `hjust` to nudge the label. Let's nudge it slightly to th
 mobility_commute_scatter + geom_point(color = "Light Gray") +
      geom_point(data = burlington, aes(x = commute15min, y = mobility),
                 color = "Blue", size = 2) + 
-     geom_text(data = burlington, aes(label = cz_name) , 
+     geom_text(data = burlington, aes(label = cz_state) , 
                color = "Blue", hjust = 1.1)
 ```
 
-
-```{r}
-cz$cz_name[cz$state=="NY"]
-```
 
 A second (much easier) option uses the `gghighlight` package. Install and load the package.
 
@@ -154,19 +142,19 @@ A second (much easier) option uses the `gghighlight` package. Install and load t
 library(gghighlight)
 ```
 
-Now we simply add the `gghighlight()` function and include the same conditions by which we filtered in the previous example. Note that we will add the color option to the geom_point() function; all non-highlighted points will be turned gray:
+Now we simply add the `gghighlight()` function and include the same conditions by which we filtered in the previous example. Note that we will add the color option to the geom_point() function; all non-highlighted points will be turned gray by default:
 
 ```{r gghighlight example, warning = FALSE}
 mobility_commute_scatter + geom_point(color = "Blue") +
-     gghighlight(cz_name=="Burlington" & state=="VT")
+     gghighlight(cz_state=="Burlington, VT")
 ```
 
-We can add a label with the `label_key = ` option. You can list a variable name if it is in your aesthetic map or a specific string as in this example:
+We can add a label by using the `label_key = ` option to reference a variable. The text label will be the values of that variable for the highlighted point. 
 
 ```{r gghighlight example with label, warning = FALSE}
 mobility_commute_scatter + geom_point(color = "Blue") +
-     gghighlight(cz_name=="Burlington" & state=="VT",
-                 label_key = c("Burlington, VT"))
+     gghighlight(cz_state=="Burlington, VT",
+                 label_key = cz_state)
 ```
 
 You can highlight points that fall within ranges of values as well. For example, try highlighting the commuting zones where more than 80% of residents commute 15 minutes or less, and label them by state.
