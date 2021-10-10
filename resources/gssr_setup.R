@@ -76,3 +76,26 @@ gss_subset <- gss_all |>
 summary(gss_subset)
 
 write.csv(gss_subset, "data/assignment_03.csv", row.names = FALSE)
+
+## PS 1
+
+gss_all %>%
+  gss_which_years(c(polviews, joindem, attrally, 
+                    spkrac)) %>%
+  print(n = Inf)
+
+gss_subset <- gss_all |> 
+  filter(year==2014) |> 
+  select(id, age, sex, race, hispanic, 
+         educ, degree, class, polviews,
+         spkrac, 
+         joindem, attrally, signdpet, avoidbuy,
+         cntctgov, polfunds, usemedia, interpol) |> 
+  mutate(racehisp = ifelse(hispanic>1, 4, race),
+         racehisp = factor(racehisp,
+                           labels = c("White", "Black",
+                                      "Other", "Hispanic")),
+         class = ifelse(class==0 | class>4, NA, class),
+         class = factor(class,
+                        labels = c("Lower", "Working", "Middle", "Upper"))) |>
+  select(-c(race, hispanic))
