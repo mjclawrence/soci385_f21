@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-10-11" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Wrapping Up Descriptives
+### October 11, 2021
+
+---
+
+
+
+
+# Transition to Multivariate Descriptives
+
+### Bivariate description examines association between two variables
+
+--
+
+### Multivariate description begins to explain associations by including other variables
+
+--
+
+### Common variables in sociology:
+
+--
+
+- Race, sex, age, education, income, class, marital status, etc.
+
+--
+
+### Often more interesting as *control variables*
+
+--
+
+- How does the relationship between education and age at first birth *differ by race*?
+
+---
+
+# Language of Multivariate Explanations
+
+### *Controlling for* race, the association between years of education and age at first birth is...
+
+### *Independent of* race, the association between years of education and age at first birth is...
+
+### *Net of* race, the association between years of education and age at first birth is...
+
+### *Holding race constant*, the association between years of education and age at first birth is...
+
+---
+
+# Language of Multivariate Explanations
+
+### Will rarely *eliminate* the X1-Y relationship but may: weaken, reduce, reverse
+
+--
+
+### Does not have to change X1-Y, but should not say controlling "proves" anything
+
+--
+
+### Note: The focal relationship is still the X1-Y relationship. The new variables are X2, X3, X4, etc.
+
+---
+
+# Finding Lurking Variables
+
+### A&amp;F on GPA and income (p. 307)
+- "An alternative explanation is that high GPA and high income could both be caused by a lurking variable such as individuals' tendency to work hard."
+
+--
+
+### How would you measure working hard?
+
+--
+
+- But hours worked/studied, etc. could also be associated with income!
+
+---
+
+# Finding Lurking Variables
+
+### Preferable to think of multivariate models as attempts to offer "alternative explanations"
+
+--
+
+### Remember: theory is lurking, but magic variables rarely exist
+
+--
+
+### Remember also: do not try to control for too many things. Inference requires variation!
+
+---
+
+class: center
+
+# Why Multivariate Explanations Matter
+
+### "So often, when we show the deep logic of what once seemed odd or incomprehensible behavior, bystanders often nod knowingly and say, 'It's obvious.' ...On the other hand, if they don't like your finding...they will announce that your results are either (a) 'spurious' or (b) biased. In either case, what they mean is that *the way you chose the sample influenced the outcome*. This is the thing that we must avoid at all costs."
+-- Kristin Luker, *Salsa Dancing into the Social Sciences*, p. 110
+
+
+---
+
+# Types of Multivariate Explanations
+
+--
+
+## Spurious Associations
+
+### X2 related to X1 and Y; controlling for X2 reduces association between X1 and Y
+
+--
+
+- As ice cream sales increase, drowning injuries also tend to increase
+
+--
+
+- Fire damage tends to increase when there are more fire trucks responding
+
+---
+
+# Types of Multivariate Explanations
+
+--
+
+## Chain Relationships
+
+### X1 influences Y *through* X2 ("Intervening" or "Mediating" relationship)
+
+--
+
+- Neighborhood poverty -&gt; lack of transportation -&gt; unemployment
+
+--
+
+- Common in health research
+
+     - Smoking -&gt; Tar Buildup -&gt; Lung Disease
+
+---
+
+# Types of Multivariate Explanations
+
+## Suppressor Variables
+
+
+### No (or weak) association between X1 and Y until controlling for X2
+
+--
+
+- Controlling for age reveals association between education and income
+
+---
+
+# Types of Multivariate Explanations
+
+### Some neat examples in the Chetty et al (2014) mobility data
+
+--
+
+### Let's return to R to consider the correlation between racial segregation (`racial_seg`) and median household income (`hh_income`). Would you expect this correlation to be positive or negative? Would you expect this correlation to be strong or weak?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
