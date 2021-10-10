@@ -5,7 +5,7 @@ output:
 ---
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
-ps1 <- read.csv("http://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/ps1.csv")
+ps1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/ps1.csv")
 library(tidyverse)
 library(kableExtra)
 ```
@@ -20,7 +20,7 @@ library(kableExtra)
 # Proportion table
 kbl(round(prop.table(table(ps1$racespeech)),3),
     booktabs = TRUE,
-    align = rep("c", 2))
+    align = rep("c", 1))
 
 # Proportion table with row proportions
 kbl(round(prop.table(table(ps1$racehisp, ps1$racespeech),1),3),
