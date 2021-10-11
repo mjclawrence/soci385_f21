@@ -35,7 +35,7 @@ Let's review the matrix!
 matrix
 ```
 
-To only see some of the matrix, use indexing. We have indexed by value in the past, but we can also index by row and cell location in the dataframe. In this example, we want to pull the first three rows (1:3) and the first four columns (1:4):
+To only see some of the matrix, use indexing. We have indexed by value in the past, but we can also index by row and cell location in the dataframe. In this example, we want to pull the first three rows (1:3) and the first four columns (1:4). The row variable is the first in the index and the column variable is the second in the index (just like with table proportions).
 
 ```{r matrix with indexing}
 matrix[1:3, 1:4]
@@ -51,7 +51,7 @@ ggcorr(cz_subset, method = "complete",
        label = TRUE, label_round = 3)
 ```
 
-# Introducing Multivariate Relationships - See Slides
+# Introducing Multivariate Relationships
 
 Last week we identified individual points on a scatterplot to dig deeper into how two variables are associated. Another analytical tool is to examine whether the association differs at specific values of another variable.
 
@@ -160,7 +160,7 @@ quintile_plot1 + geom_col(position = "dodge") + # For side by side columns
 One popular package to use for adjusting color is the R Color Brewer package. You can install it and load it here:
 
 ```{r}
-#install.packages("RColorBrewer")
+install.packages("RColorBrewer")
 library(RColorBrewer)
 ```
 
@@ -169,8 +169,6 @@ There's good information on Brewer's color options at [this site](http://colorbr
 The site previews options for sequential (or continuous) variables and divergent (or factor/categorical/discrete) variables. Once you find a color scheme you like, input the palette name into the `scale_fill_brewer()` function.
 
 ```{r}
-library(RColorBrewer)
-
 quintile_plot1 + geom_col(position = "dodge") + # For side by side columns
      geom_text(position = position_dodge(1), vjust = -.25) +
   scale_fill_brewer(palette = "RdYlBu") # Palette Name
