@@ -41,6 +41,15 @@ To only see some of the matrix, use indexing. We have indexed by value in the pa
 matrix[1:3, 1:4]
 ```
 
+Other options exist for visualizing correlation matrices. The heatmaps in the GGally package are particularly effective.
+
+```{r}
+insert.packages("GGally")
+library(GGally)
+
+ggcorr(cz_subset, method = "complete",
+       label = TRUE, label_round = 3)
+```
 
 # Introducing Multivariate Relationships - See Slides
 
