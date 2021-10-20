@@ -1,25 +1,27 @@
----
-title: "Social Statistics"
-subtitle: "Sampling Distributions"
-date: "October 20, 2021"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
-    nature:
-        highlightLines: true
-        highlightStyle: zenburn
-        highlightSpans: true
-        titleSlideClass: ["middle"]
-        beforeInit: "macros.js"
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-10-20" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Sampling Distributions
+### October 20, 2021
+
 ---
 
-```{r setup, include=FALSE}
-# Change css [here](/notes_slides/slides/metropolis.css)
 
-options(htmltools.dir.version = FALSE)
-library(xaringanthemer)
-```
+
 
 # Thinking Probabilistically
 
@@ -73,7 +75,7 @@ library(xaringanthemer)
 
 --
 
-### $\Large{z = \frac{x - \mu}{\sigma}}$
+### `\(\Large{z = \frac{x - \mu}{\sigma}}\)`
 
 --
 
@@ -85,16 +87,7 @@ library(xaringanthemer)
 
 # Example With OK Cupid Dataset
 
-```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-library(tidyverse)
-cupid <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/cupid.csv")
-
-ggplot(cupid, aes(x = height)) + 
-     geom_bar() +
-     labs(x = "Height", y = "Density") +
-     theme(axis.title = element_text(size = 24), 
-           axis.text = element_text(size = 20))
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -105,8 +98,9 @@ ggplot(cupid, aes(x = height)) +
 --
 
 
-```{r}
-cupid <- mutate(cupid, height_z = 
+
+```r
+cupid &lt;- mutate(cupid, height_z = 
                   (height - mean(height)) /
                                sd(height))
 ```
@@ -119,10 +113,22 @@ cupid <- mutate(cupid, height_z =
 
 --
 
-```{r}
-summary(cupid$height_z)
 
+```r
+summary(cupid$height_z)
+```
+
+```
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.92468 -0.86381 -0.09099  0.00000  0.68184  3.00031
+```
+
+```r
 sd(cupid$height_z)
+```
+
+```
+## [1] 1
 ```
 
 ---
@@ -133,8 +139,13 @@ sd(cupid$height_z)
 
 --
 
-```{r}
+
+```r
 mean(cupid$height_z[cupid$height==71])
+```
+
+```
+## [1] 0.6818372
 ```
 
 --
@@ -154,15 +165,7 @@ mean(cupid$height_z[cupid$height==71])
 
 # Interpreting Z-Scores
 
-```{r, echo = FALSE, fig.width=12, fig.height=8}
-height_z_plot <- ggplot(cupid, aes(x = height_z))
-
-height_z_plot + geom_density() + 
-     geom_vline(xintercept =0.6818372, color = "red") +
-     theme(axis.title = element_text(size = 24), 
-           axis.text = element_text(size = 20)) +
-     labs(x = "height_z", y = "density") + ylim(c(0, .45))
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -173,8 +176,13 @@ height_z_plot + geom_density() +
 
 --
 
-```{r}
+
+```r
 dnorm(0.6818372) # d for density
+```
+
+```
+## [1] 0.3161971
 ```
 
 --
@@ -186,37 +194,13 @@ dnorm(0.6818372) # d for density
 
 # Interpreting Z-Scores
 
-```{r, echo= FALSE, fig.width=12, fig.height=8}
-height_z_plot + geom_density() + 
-             geom_vline(xintercept =  0.6818372, color = "red") + 
-             geom_hline(yintercept = 0.3161971, color = "red") +
-                  labs(x = "height_z", y = "density") +
-                  theme(axis.title = element_text(size = 24), 
-                        axis.text = element_text(size = 20)) +
-  ylim(c(0, .45))
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ---
 
 # Cumulative Probabilities and Densities
 
-```{r, echo = FALSE, fig.width = 12, fig.height = 8}
-height_z_density <- with(density(cupid$height_z), 
-                            data.frame(x , y))
-
-cumulative_density_plot <- ggplot(data = height_z_density, 
-                                  aes(x = x, y = y)) +
-     geom_line() +
-     geom_vline(xintercept = 0.6818372, color = "red") + 
-     geom_hline(yintercept = 0.3161971, color = "red") +
-     geom_area(mapping = aes(x = ifelse(x <= .6818372, x, .6818372)), 
-               fill = "red") + ylim(c(0, .45)) +
-     theme(axis.title = element_text(size = 24), 
-           axis.text = element_text(size = 20)) +
-     labs(x = "height_z", y = "density")
-
-cumulative_density_plot
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -232,17 +216,20 @@ cumulative_density_plot
 
 ### For Height of 71 Inches:
 
-```{r}
+
+```r
 pnorm(.6818372) # p for percentile
+```
+
+```
+## [1] 0.7523291
 ```
 
 ---
 
 # Cumulative Probabilities and Densities
 
-```{r, echo = FALSE, warning = FALSE, fig.width = 12, fig.height = 8}
-cumulative_density_plot + geom_text(x = -.1, y = .15, label = "75%", size = 15)
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -253,18 +240,20 @@ cumulative_density_plot + geom_text(x = -.1, y = .15, label = "75%", size = 15)
 
 --
 
-```{r proportion greater than positive z score}
+
+```r
 1 - pnorm(.682)
+```
+
+```
+## [1] 0.2476195
 ```
 
 ---
 
 # Use What You Know
 
-```{r, echo = FALSE, warning = FALSE, fig.width = 12, fig.height = 8}
-cumulative_density_plot + geom_text(x = -.1, y = .15, label = "75%", size = 15) +
-  geom_text(x = 1.1, y = .15, label = "25%", size = 15)
-```
+![](slides_06_01_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -282,8 +271,13 @@ cumulative_density_plot + geom_text(x = -.1, y = .15, label = "75%", size = 15) 
 
 --
 
-```{r}
+
+```r
 mean(cupid$height_z[cupid$height==64])
+```
+
+```
+## [1] -1.12142
 ```
 
 --
@@ -292,8 +286,13 @@ mean(cupid$height_z[cupid$height==64])
 
 --
 
-```{r}
+
+```r
 pnorm(-1.12)
+```
+
+```
+## [1] 0.1313569
 ```
 
 --
@@ -302,8 +301,13 @@ pnorm(-1.12)
 
 --
 
-```{r}
+
+```r
 1 - pnorm(-1.12)
+```
+
+```
+## [1] 0.8686431
 ```
 
 ---
@@ -345,7 +349,7 @@ pnorm(-1.12)
 
 --
 
-### $\Large{\sigma_{\bar{y}} = \frac{\sigma}{\sqrt{n}} = \frac{sd}{\sqrt{sample size}}}$
+### `\(\Large{\sigma_{\bar{y}} = \frac{\sigma}{\sqrt{n}} = \frac{sd}{\sqrt{sample size}}}\)`
 
 ---
 
@@ -360,10 +364,15 @@ pnorm(-1.12)
 
 --
 
-```{r}
-age_se <- sd(cupid$age) / sqrt(length(cupid$age))
+
+```r
+age_se &lt;- sd(cupid$age) / sqrt(length(cupid$age))
 
 age_se
+```
+
+```
+## [1] 0.1847327
 ```
 
 ---
@@ -396,10 +405,21 @@ age_se
 
 --
 
-```{r}
-qnorm(.025)
 
+```r
+qnorm(.025)
+```
+
+```
+## [1] -1.959964
+```
+
+```r
 qnorm(.975)
+```
+
+```
+## [1] 1.959964
 ```
 
 ---
@@ -420,10 +440,15 @@ qnorm(.975)
 
 --
 
-```{r}
+
+```r
 # Margin of Error:
 
 1.96*age_se
+```
+
+```
+## [1] 0.3620762
 ```
 
 
@@ -439,12 +464,13 @@ qnorm(.975)
 
 --
 
-```{r}
+
+```r
 # Lower Limit of Confidence Interval
-age_ll <- mean(cupid$age) - 1.96*age_se
+age_ll &lt;- mean(cupid$age) - 1.96*age_se
 
 # Upper Limit of Confidence Interval
-age_ul <- mean(cupid$age) + 1.96*age_se
+age_ul &lt;- mean(cupid$age) + 1.96*age_se
 ```
 
 ---
@@ -455,10 +481,15 @@ age_ul <- mean(cupid$age) + 1.96*age_se
 
 --
 
-```{r}
-age_ci <- c(age_ll, mean(cupid$age), age_ul)
+
+```r
+age_ci &lt;- c(age_ll, mean(cupid$age), age_ul)
 
 age_ci
+```
+
+```
+## [1] 32.02192 32.38400 32.74608
 ```
 
 --
@@ -482,49 +513,190 @@ age_ci
 
 # Exercise
 
-```{r}
+
+```r
 # Find the standard error:
 
-height_se <- sd(cupid$height) / sqrt(length(cupid$height))
+height_se &lt;- sd(cupid$height) / sqrt(length(cupid$height))
 ```
 
 --
 
-```{r}
+
+```r
 # For the margin of error, we need .005 on each side of our mean:
 
 qnorm(.995)
 ```
 
+```
+## [1] 2.575829
+```
+
 --
 
-```{r}
+
+```r
 # Margin of error =
 
 2.58 * height_se
+```
+
+```
+## [1] 0.2003042
 ```
 
 ---
 
 # Exercise
 
-```{r}
+
+```r
 # Construct the 99% Confidence Interval
 
-height_ll <- mean(cupid$height) - 2.58*height_se
-height_ul <- mean(cupid$height) + 2.58*height_se
+height_ll &lt;- mean(cupid$height) - 2.58*height_se
+height_ul &lt;- mean(cupid$height) + 2.58*height_se
 
-height_ci <- c(height_ll, mean(cupid$height), height_ul)
+height_ci &lt;- c(height_ll, mean(cupid$height), height_ul)
 ```
 
 --
 
-```{r}
+
+```r
 # Display
 
 height_ci
 ```
 
+```
+## [1] 68.1529 68.3532 68.5535
+```
+
 --
 
 ### Interpretation?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

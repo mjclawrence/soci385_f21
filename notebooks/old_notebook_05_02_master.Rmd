@@ -1,0 +1,175 @@
+---
+title: "Introducing Probability"
+date: "October 9, 2019"
+author: "Matt Lawrence"
+output:
+  pdf_document: default
+---
+
+
+# Transitioning to Probabilty
+
+Today we'll move from multivariate descriptions to probability, and we'll switch datasets to look at some distributions across counties rather than commuting zones. Load the counties dataset and the usual packages to get started.
+
+```{r load data and packages, echo = FALSE, warning = FALSE, message = FALSE}
+library(pander)
+library(tidyverse)
+
+counties <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/counties.csv")
+```
+
+
+### BACK TO SLIDES; WE'LL RETURN TO R SOON ###
+
+
+# Introducing Probability And Z-Scores
+
+A z-score or standardized value is a value's distance from the mean in standard deviations. It is calculated as: $\Large{z = \frac{x - \mu}{\sigma}}$. In words, the z-score is the difference between the observed value and the sample mean divided by the standard deviation.
+
+After confirming that `teen_birthrate` is approximately normally distributed, let's make a new variable with the standardized values of `teen_birthrate`:
+
+```{r standardize values}
+counties <- mutate(counties,
+     teen_birthrate_z = (teen_birthrate - mean(teen_birthrate)) /
+                         sd(teen_birthrate))
+```
+
+Z-scores should be normally distributed with a mean of 0 and a standard deviation of 1. Were we successful?                        
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r check distribution of standardized values}
+summary(counties$teen_birthrate_z)
+
+sd(counties$teen_birthrate_z)
+```
+
+What is the z-score for Addison County, Vermont's birth rate? (Note that in the counties dataset you have to use the state's full name, not its abbreviation.)
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r standardized birthrate for addison county}
+counties$teen_birthrate_z[counties$county=="Addison" &
+                               counties$state=="Vermont"]
+```
+
+
+When we plot standardized values that are approximately normal, we now know a lot about the proportion of observations falling along different points of the distribution. To see how, make a density plot showing the distribution of the standardized teen birthrates.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r plot standardized values}
+birthrate_z_plot <- ggplot(counties, aes(x = teen_birthrate_z))
+
+birthrate_z_plot + geom_density()
+```
+
+To find the probability of getting any z-score, use `dnorm()`. Think about this value as the y axis intersection with the density curve for any specific value on the x axis. For example, the probability that a randomly pulled county would have the same birthrate as Addison County, Vermont is:
+
+```{r dnorm to find density probability of z score}
+dnorm(-1.75531)
+```
+
+Probabilities of specific values are more helpful for descriptives than for inference. Moving forward, what is more helpful is knowing the probability of randomly pulling a value that is greater than or less than an observed value.  In other words, we want to add up the probabilities of pulling any value less than Addison County's value.
+
+We get that summed probability by thinking not of the density but of the *cumulative density*. The cumulative density is also the percentile.
+
+If you have the z-value and want the percentile associated with it, use `pnorm()`. For Addison County:
+
+```{r pnorm for percentile of z score}     
+pnorm(-1.75531)
+```
+
+The pnorm() function will give you the proportion of the distribution to the left of the z score. So about 4% of counties have a teen birth rate less than the teen birth rate of Addison County. Alternative, Addison County is at the 4th percentile in the national distribution of teen birth rates.
+
+We can also plot the entire *empirical cumulative density function*:
+
+```{r ecdf}
+birthrate_z_plot + geom_step(stat = "ecdf") + 
+     labs(y = "cumulative density")
+```
+
+Since normal distributions are symmetrical, the probability of getting a value that is more extreme of a negative z-score is the same as the probability of getting a value that is more extreme of that positive z-score.
+
+What is the z-score of Hamilton County, Florida?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r symmetric z scores}
+counties$teen_birthrate_z[counties$county=="Hamilton" & 
+                               counties$state=="Florida"]
+```
+
+What is the probability of another county having a birth rate that is higher than that of Hamilton County?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r proportion greater than positive z score}
+1 - pnorm(1.751348)
+```
+
+What proportion of counties have birth rates between those of Addison and Hamilton?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r proportion between extremes}
+pnorm(1.751348) - pnorm(-1.75531)
+```
+
+
+
+# Exercise
+
+1. Choose a county and find its z-score for the average commute time (variable = `commute`). 
+
+2. What is the probability that a randomly pulled county will have an average commute time greater than the county you chose?
+
+3. What is the probability that a randomly pulled county will have an average commute time less than the county you chose?
+
+
+# Exercise Follow Up
+
+Start by calculating z-scores for all values of the `commute` variable:
+
+```{r standardize commute variable}
+counties <- mutate(counties, commute_z = 
+     (commute - mean(commute)) / sd(commute))
+```
+
+Find the z-score for a specific county:
+
+```{r find z score}
+counties$commute_z[counties$county=="Allegheny" & counties$state=="Pennsylvania"]
+```
+
+Find the probability of a more extreme value than that z-score. In this case, the z-score is negative so we just use pnorm():
+
+```{r pnorm}
+pnorm(1.961353)
+```
+
+For the probability of z-score greater than this one, use:
+
+```{r}
+1 - pnorm(1.961353)
+```
+
+Plot it...
+
+```{r plot}
+commute_z_density <- with(density(counties$commute_z), data.frame(x , y))
+
+commute_cumulative_density_plot <- ggplot(data = commute_z_density, 
+                                          mapping = aes(x = x, y = y)) +
+     geom_line() +
+     geom_area(mapping = aes(x = ifelse(x >= 1.961353, x, 1.961353)),
+               fill = "red") + 
+     ylim(c(0, .5)) +
+     theme(axis.title = element_text(size = 24), 
+           axis.text = element_text(size = 20)) +
+     labs(x = "commute_z", y = "density")
+```
+
+```{r, warning = FALSE}
+commute_cumulative_density_plot
+```
