@@ -1,0 +1,389 @@
+---
+title: "Confidence Interval For A Proportion"
+date: "October 16, 2019"
+author: "Matt Lawrence"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+# Setting Up
+
+Load the `cupid.csv` file on Canvas as a data frame called `cupid` and load the usual packages.
+
+```{r load data and packages, include = FALSE, warning = FALSE}
+cupid <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/cupid.csv")
+library(tidyverse)
+library(kableExtra)
+```
+
+# How are sampling distributions and normal distributions related?
+
+Last class, we discussed the advantages of normal distributions for determining how likely individual values (in terms of standardized units) are to fall from the mean. The purpose of doing so is to use our knowledge of the normal distribution to have a sense of what the observed statistics in our sample can tell us about the likely values of the parameters in our population.
+
+When our sample statistics are normally distributed, the general 68-97-99 rules work well. When our sample statistics are not normally distributed, we have to think slightly differently about how to apply what we know about normal distributions. That's where the Central Limit Theorem comes into play. We assert that if we take repeated samples from our sample, the means of those repeated samples will be normally distributed...even if the values in our sample are not normally distributed. Let's see why that is the case, and why we need large sample sizes for the principle to hold.
+
+Let's start by showing that the values of the age variable in our dataset are not normally distributed.
+
+```{r}
+hist(cupid$age)
+```
+
+We can pull samples from the values of age any number of times. In this example, we'll see what happens if we pull 1000 samples with 2500 observations in each sample.
+
+```{r}
+n_pulls <- 1000
+n_sample <- 2500
+```
+
+Create an empty bucket where all the sample means will end up
+
+```{r}
+all_means = NULL
+```
+
+Now we set up the function
+
+```{r}
+for (i in 1:n_pulls) {
+  my_sample = sample(cupid$age, n_sample, replace = TRUE)
+  sample_mean = mean(my_sample)
+  all_means <- c(all_means, sample_mean)
+}
+```
+
+And plot the sample means. They should be normally distributed!
+
+```{r}
+hist(all_means)
+```
+
+We can write a new function to allow for more comparisons.
+
+```{r}
+sampling_function <- function(sample_times, sample_size) {
+  all_means = NULL
+  for (i in 1:sample_times) {
+    my_sample = sample(cupid$age, sample_size, replace = TRUE)
+    sample_mean = mean(my_sample)
+    all_means <- c(all_means, sample_mean)
+  }
+  hist(all_means, prob = TRUE)
+  lines(density(all_means), col = "red", lw = 2)
+  rm(all_means)
+}
+```
+
+Now we recall the name of the function and provide two values: the number of pulls and the size of each pull. In this example, we'll have 100 samples each with 50 observations. Are the means normally distributed now?
+
+```{r}
+sampling_function(300, 500)
+```
+
+What size sample and what number of repeated samples do you need for the means to approximate a normal distribution? 
+
+
+
+# Reviewing Confidence Intervals
+
+Last class we constructed the confidence interval for a mean. We began by finding the standard error using the following formula:
+
+$\Large{SE_{mean} = \frac {sd}{\sqrt{n}}}$
+
+```{r calculate standard error of age}
+age_se <- sd(cupid$age) / sqrt(length(cupid$age))
+```
+
+The margin of error is the standard error times the z-score associated with the confidence interval we are constructing. 
+
+For the 90% confidence interval, the z-score is 1.65. For the 95% confidence interval, the z-score is 1.96. For the 99% confidence interval, the z-score is 2.58.
+
+The lower limit of the confidence interval is the sample mean minus the margin of error. The upper limit of the confidence interval is the sample mean plus the margin of error.
+
+Let's save the lower limit and upper limit for the 95% confidence interval:
+
+```{r save lower and upper limits for .95 confidence interval}
+age_ll <- (mean(cupid$age) - 1.96*age_se)
+age_ul <- (mean(cupid$age) + 1.96*age_se)
+```
+
+It is often helpful to save the confidence interval and the mean as a vector:
+
+```{r save confidence interval as vector}
+age_ci <- c(age_ll, mean(cupid$age), age_ul)
+
+age_ci
+```
+
+How would you interpret this? Using this 95% confidence interval, are you confident that the mean age in the population to which this sample generalizes is less than 33?
+
+
+# Introducing String Functions
+
+What if we wanted to know whether the mean age varied between respondents who have and do not have kids?
+
+Let's start by looking at the distribution of the `offspring` variable.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+table(cupid$offspring)
+```
+
+If you add up all the values, they only sum to 1011 rather than 2500. A good way to know how many missing values there are in your tables is to add the "exclude = NULL" option:
+
+```{r}
+addmargins(table(cupid$offspring, exclude = NULL))
+```
+
+So 1489 observations do not have an answer to the `offspring` question. And there are many categories capturing respondents who have kids. How do we make a variable to distinguish respondents with kids (n = 207) and without kids (n = 804)?
+
+One efficient way would be to use the `str_detect()` function, which *detects* if character *strings* match a pattern. In this example, we'll use `mutate()` to create a new binary variable distinguishing those respondents with kids (1) from those without (0).
+
+The chunk below reads: create a new variable called `kids`. For this new variable, identify any observation where the value of the `offspring` variables includes the string "has". Assign any respondent with that condition a value of 1; all others should be assigned a value of 0.
+
+```{r}
+cupid <- cupid |> 
+  mutate(kids = ifelse(str_detect(offspring, "has"), 1, 0))
+```
+
+```{r}
+table(cupid$kids)
+```
+
+Find the 99% confidence intervals of age for respondents with and without kids.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+kids_0 <- filter(cupid, kids==0)
+kids_0_se <- sd(kids_0$age) / sqrt(length(kids_0$age))
+kids_0_ll <- mean(kids_0$age) - 2.58*kids_0_se
+kids_0_ul <- mean(kids_0$age) + 2.58*kids_0_se
+kids_0_ci <- c(kids_0_ll, mean(kids_0$age), kids_0_ul)
+kids_0_ci
+```
+
+```{r}
+kids_1 <- filter(cupid, kids==1)
+kids_1_se <- sd(kids_1$age) / sqrt(length(kids_1$age))
+kids_1_ll <- mean(kids_1$age) - 2.58*kids_1_se
+kids_1_ul <- mean(kids_1$age) + 2.58*kids_1_se
+kids_1_ci <- c(kids_1_ll, mean(kids_1$age), kids_1_ul)
+kids_1_ci
+```
+
+```{r}
+cupid |> 
+  filter(!is.na(kids)) |> 
+  group_by(kids) |> 
+  summarise(mean = mean(age),
+            se = (sd(age) / sqrt(length(age))),
+            ll = (mean(age) - 2.58*se),
+            ul = (mean(age) + 2.58*se)) |> 
+  select(kids, ll, mean, ul)
+```
+
+
+## Finding The Confidence Interval For A Proportion
+
+Categorical variables do not have spreads or distributions like continuous variables do. As a result, using the standard deviation to calculate the standard error for a proportion won't work. Instead, we'll use a different formula to find the standard error for a proportion:
+
+$\Large{SE_{proportion} = \sqrt{ \frac {p(1-p)} {n}}}$
+
+If you really want to know why proportions and means have different standard errors, check out [this mathematical explanation.](http://www.jerrydallal.com/lhsp/psd.htm)
+
+Today we'll find the 95% confidence interval for the proportion of OK Cupid users reporting their sexual orientation as "gay". First let's find the proportion stating that orientation in our sample by making a proprtion table of the `orientation` variable:
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r prop table for orientation}
+round(prop.table(table(cupid$orientation)),3)
+```
+
+To calculate the standard error for the proportion of all respondents self-reporting as gay, we need a way to calculate `p(1-p)`. The insight here is that if we create a new binary variable where respondents self-reporting as gay are coded 1 and respondents self-reporting as bisexual or straight are coded 0, the value of p will be the proportion of cases with a 1, which is also the mean of the binary variable.
+
+We can create that new binary variable by combining `mutate()` with the `ifelse()` function. Use the `ifelse()` function to add to the existing `cupid` data frame a new variable called `gay` that will take the value 1 if the value for the orientation variable is `gay` and will take the value 0 if the value for the orientation variable is anything else.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r create binary variable}
+cupid <- cupid |> 
+     mutate(gay = ifelse(orientation=="gay", 1, 0))
+```
+
+The mean of our new variable should be the same as the value in the proportion table we created earlier (0.088). Check it.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+mean(cupid$gay)
+```
+
+Now we can find the standard error of this proportion by plugging in the mean of our new variable as p in the standard error formula:
+
+```{r calculate standard error using binary variable}
+gay_se <- sqrt( (mean(cupid$gay) * (1 - mean(cupid$gay))) /
+     length(cupid$gay))
+     
+gay_se
+```
+
+Once we have the standard error, we construct the margin of error and the confidence interval for a proportion the same way we do for a mean. Find the 95% confidence interval for the proportion of respondents self-reporting as gay. Later today it is going to be important that the confidence interval and the mean are saved in a vector, so remember to do that! Call your vector `gay_ci`.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r lower and upper limits for proportion confidence interval}
+gay_ll <- mean(cupid$gay) - 1.96*gay_se
+gay_ul <- mean(cupid$gay) + 1.96*gay_se
+gay_ci <- c(gay_ll, mean(cupid$gay), gay_ul)
+gay_ci
+```
+
+# Exercise
+
+The `orientation` variable in this dataset has two other categories: bisexual and straight. Construct the 95% confidence intervals for both of them, and save them in separate vectors called `bisexual_ci` and `straight_ci`.
+
+
+### REPLACE THIS LINE WITH YOUR CODE
+```{r second binary variable}
+cupid <- mutate(cupid, bisexual = 
+                     ifelse(orientation=="bisexual", 1, 0))
+
+bisexual_se <- sqrt( (mean(cupid$bisexual) * 
+                           (1 - mean(cupid$bisexual))) /
+                          length(cupid$bisexual))
+
+bisexual_se
+
+bisexual_ll <- mean(cupid$bisexual) - 1.96*bisexual_se
+bisexual_ul <- mean(cupid$bisexual) + 1.96*bisexual_se
+bisexual_ci <- c(bisexual_ll, mean(cupid$bisexual), bisexual_ul)
+bisexual_ci
+```
+
+```{r third binary variable}
+cupid <- mutate(cupid, straight = ifelse(orientation=="straight", 1, 0))
+straight_se <- sqrt( (mean(cupid$straight) * (1 - mean(cupid$straight))) /
+     length(cupid$straight))
+     
+straight_se
+
+straight_ll <- mean(cupid$straight) - 1.96*straight_se
+straight_ul <- mean(cupid$straight) + 1.96*straight_se
+straight_ci <- c(straight_ll, mean(cupid$straight), straight_ul)
+straight_ci
+```
+
+
+# Combining Vectors To Create A Table
+
+You should have three vectors that have lower limits, means, and upper limits for each proportion's confidence interval. Now we want to create one table with all that information. We'll do that using the `rbind()` function, which binds rows together.
+
+```{r rbind to build table with mulitple vectors}
+orientation_table <- rbind(bisexual_ci, gay_ci, straight_ci)
+orientation_table
+```
+
+With that table saved as an object, this might be a good time to round all the values:
+
+```{r round table values}
+orientation_table <- round((orientation_table),3)
+orientation_table
+```
+
+Do you remember how to change the row names?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r change row names}
+rownames(orientation_table) <- 
+     c("Bisexual", "Gay", "Straight")
+
+orientation_table
+```
+
+Do you remember how to add column names?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r change column names}
+colnames(orientation_table) <- 
+     c("Lower Limit", "Proportion", "Upper Limit")
+
+orientation_table
+```
+
+
+
+# From Tables To Figures
+
+What kind of figure would be good for visualizing these data?
+
+All we have right now is a table. But we know ggplot is going to need these values in the form of a data frame with x and y variables. There are a few steps to turn this table into a ggplot-ready data frame.
+
+First, we have to make a new vector that takes the values of our row names:
+
+```{r save row names as vector}
+orientation <- rownames(orientation_table)
+```
+
+Second, we will bind this vector to our orientation table as a column. If we just use `cbind()` - which is a real function - all our numbers will turn into characters. We don't want that, so we'll use `cbind.data.frame()`:
+
+```{r bind vectors as columns}
+orientation_table <- cbind.data.frame(orientation, orientation_table)
+
+orientation_table
+```
+
+*Note: we are going step by step here, but in the future would there be a way to collapse the previous two chunks into one line of code?*
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+orientation_table_simplified <- cbind.data.frame(rownames(orientation_table), orientation_table)
+
+orientation_table_simplified
+```
+
+Third, we need to add a name for our new column. And we should change the other column names so they do not have spaces (since we will use them as variables). For this example, name the columns: Orientation, LL, Proportion, and UL.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r edit column names for ggplot}
+colnames(orientation_table) <- 
+     c("Orientation", "LL", "Proportion", "UL")
+```
+
+Finally, we are ready to build a figure. Try using `geom_point` which requires an x and a y variable:
+
+```{r plot with points}
+orientation_plot <- ggplot(orientation_table, 
+                           aes(x = Orientation, 
+                               y = Proportion))
+
+orientation_plot + geom_point()
+```
+
+We can show the 95% confidence interval by adding two variables to our aesthetic map: the variable with our lower limit is the `ymin` value and the variable with our upper limits is the `ymax` value. And then add another layer with geom_errorbar():
+
+```{r plot with error bars}
+orientation_plot <- ggplot(orientation_table, 
+                           aes(x = Orientation, 
+                               y = Proportion,
+                               ymin = LL, ymax = UL))
+
+orientation_plot + geom_point() + geom_errorbar()
+```
+
+
+The proportion of respondents reporting their orientation as straight is very high. Perhaps it is more interesting to only compare the proportions reporting their orientations as bisexual or gay. Those are rows one and two in our data frame, so we can tell ggplot to only use them by indexing those rows:
+
+```{r indexed plot with error bars}
+orientation_plot <- ggplot(orientation_table[1:2,], 
+                           aes(x = Orientation, 
+                               y = Proportion,
+                               ymin = LL, ymax = UL))
+
+orientation_plot + geom_point() + geom_errorbar()
+```
