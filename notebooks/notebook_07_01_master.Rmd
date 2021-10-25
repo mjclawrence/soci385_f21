@@ -76,7 +76,7 @@ sampling_function <- function(sample_times, sample_size) {
 Now we recall the name of the function and provide two values: the number of pulls and the size of each pull. In this example, we'll have 100 samples each with 50 observations. Are the means normally distributed with that sample size?
 
 ```{r}
-sampling_function(100, 50)
+sampling_function(1000, 1000)
 ```
 
 What size sample and what number of repeated samples do you need for the means to approximate a normal distribution? 
@@ -177,10 +177,11 @@ cupid |>
   filter(!is.na(kids)) |> 
   group_by(kids) |> 
   summarise(mean = mean(age),
+            sd = sd(age),
             se = (sd(age) / sqrt(length(age))),
             ll = (mean(age) - 2.58*se),
             ul = (mean(age) + 2.58*se)) |> 
-  select(kids, ll, mean, ul)
+  select(kids, sd, se, ll, mean, ul)
 ```
 
 Why is the confidence interval for the mean of respondents with kids so much wider?
@@ -200,6 +201,20 @@ Today we'll find the 95% confidence interval for the proportion of OK Cupid user
 ```{r prop table for orientation}
 round(prop.table(table(cupid$orientation)),3)
 ```
+Sex difference in orientation distribution
+
+```{r}
+round(prop.table(table(cupid$sex, cupid$orientation),1),3)
+```
+
+Average age of male and female respondents in each orientation category.
+
+```{r}
+cupid |> 
+  group_by(sex, orientation) |> 
+  summarise(mean_age = mean(age))
+```
+
 
 To calculate the standard error for the proportion of all respondents self-reporting as gay, we need a way to calculate `p(1-p)`. The insight here is that if we create a new binary variable where respondents self-reporting as gay are coded 1 and respondents self-reporting as bisexual or straight are coded 0, the value of p will be the proportion of cases with a 1, which is also the mean of the binary variable.
 
@@ -312,6 +327,18 @@ colnames(orientation_table) <-
      c("Lower Limit", "Proportion", "Upper Limit")
 
 orientation_table
+```
+
+```{r, eval = FALSE}
+orientation_table
+```
+
+
+```{r}
+library(kableExtra)
+kbl(orientation_table,
+    booktabs = TRUE,
+    align = rep("c", 3))
 ```
 
 
