@@ -12,9 +12,8 @@ output:
 Load the `gss_week7.csv` file on Canvas as a data frame called `gss_week7` and load the usual packages:
 
 ```{r load data and packages, include = FALSE, warning = FALSE}
-gss_week7 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/gss_week7.csv")
+gss_week7 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/gss_week7.csv")
 library(tidyverse)
-library(pander)
 ```
 
 

@@ -233,285 +233,164 @@ pre code {
 <p>This is what we did before to get the z-value associated with the 95% confidence interval:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucW5vcm0oLjk3NSkgXG5gYGBcbmBgYCJ9 -->
-<pre class="r"><code>```r
-qnorm(.975) </code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-The equivalent code with the t-distribution and a sample size of 1001 (so df = 1000):
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucXQoLjk3NSwgZGYgPSAxMDAwKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-qt(.975, df = 1000)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-With smaller samples, using the t-distribution builds in extra room since our estimates are less reliable: 
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucXQoLjk3NSwgZGYgPSAxMDApXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-qt(.975, df = 100)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-To find the probabilities associated with t-values, use `pt()` which also requires degrees of freedom:
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHQoMS45NjIzMzksIGRmID0gMTAwMClcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-pt(1.962339, df = 1000)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-And 1 - pt() also works the same way as 1 - pnorm():
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuMSAtIHB0KDEuOTgzOTcyLCBkZiA9IDEwMClcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-1 - pt(1.983972, df = 100)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-## Significance Testing
-
-Let&#39;s test if the mean value of `childs` in 2014 differed from 2.04 (the 1984 mean).
-
-What was the mean for `childs` in 2014?
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubWVhbihnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-mean(gss_week7$childs[gss_week7$year==2014])</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-The test statistic is calculated as: 
-$\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}$
-
-For our test, the test statistic is:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuKDEuNzcwMzI1IC0gMi4wNCkgLyAwLjA1ODAxNDI0XG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-(1.770325 - 2.04) / 0.05801424</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIC00LjY0ODQyOFxuIn0= --&gt;
-</code></pre>
-<p>[1] -4.648428</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-What is the t-value for the critical region for our sample size and an alpha level of .05?
-
-### REPLACE THIS LINE WITH YOUR CODE ###
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucXQoLjAyNSwgZGYgPSA0OTEpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-qt(.025, df = 491)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-## Shortcut!
-
-R has a built-in function called `t.test()` that will calculate all of these test statistics. With one mean, we have to fill in the value of mu ($\mu$) which is the null hypothesis value. If you leave it out, the default is zero.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuMDQpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-t.test(gss_week7$childs[gss_week7$year==2014], mu = 2.04)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-For another example, let&#39;s look at 2014&#39;s mean ideal number of children (variable = `ideal_childs`). Using `t.test()`, can we reject the null hypothesis that the 2014 mean is the same as 2.41 at the .05 alpha level?
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNDEpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.41)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckaWRlYWxfY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTAuNjU1NTcsIGRmID0gNDkxLCBwLXZhbHVlID0gMC41MTI0XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIG1lYW4gaXMgbm90IGVxdWFsIHRvIDIuNDFcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAyLjMyMjkwOSAyLjQ1MzUxNFxuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBcbiAyLjM4ODIxMSBcbiJ9 --&gt;
-</code></pre>
-<pre><code>One Sample t-test</code></pre>
-<p>data: gss_week7<span class="math inline">\(ideal_childs[gss_week7\)</span>year == 2014] t = -0.65557, df = 491, p-value = 0.5124 alternative hypothesis: true mean is not equal to 2.41 95 percent confidence interval: 2.322909 2.453514 sample estimates: mean of x 2.388211</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Can we reject the null hypothesis that the 2014 mean is the same as 2.5 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNSxcbiAgICAgICBjb25mLmxldmVsID0gLjk5KVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.5,
-       conf.level = .99)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckaWRlYWxfY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTMuMzYzNSwgZGYgPSA0OTEsIHAtdmFsdWUgPSAwLjAwMDgyOTlcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMi41XG45OSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMi4zMDIyNjcgMi40NzQxNTZcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggXG4gMi4zODgyMTEgXG4ifQ== --&gt;
-</code></pre>
-<pre><code>One Sample t-test</code></pre>
-<p>data: gss_week7<span class="math inline">\(ideal_childs[gss_week7\)</span>year == 2014] t = -3.3635, df = 491, p-value = 0.0008299 alternative hypothesis: true mean is not equal to 2.5 99 percent confidence interval: 2.302267 2.474156 sample estimates: mean of x 2.388211 ```</p>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucW5vcm0oLjk3NSkgXG5gYGAifQ== -->
+<pre class="r"><code>qnorm(.975) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuOTU5OTY0XG4ifQ== -->
+<pre><code>[1] 1.959964</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The equivalent code with the t-distribution and a sample size of 1001 (so df = 1000):</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXQoLjk3NSwgZGYgPSAxMDAwKVxuYGBgIn0= -->
+<pre class="r"><code>qt(.975, df = 1000)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuOTYyMzM5XG4ifQ== -->
+<pre><code>[1] 1.962339</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>With smaller samples, using the t-distribution builds in extra room since our estimates are less reliable:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXQoLjk3NSwgZGYgPSAxMDApXG5gYGAifQ== -->
+<pre class="r"><code>qt(.975, df = 100)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuOTgzOTcyXG4ifQ== -->
+<pre><code>[1] 1.983972</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To find the probabilities associated with t-values, use <code>pt()</code> which also requires degrees of freedom:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHQoMS45NjIzMzksIGRmID0gMTAwMClcbmBgYCJ9 -->
+<pre class="r"><code>pt(1.962339, df = 1000)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuOTc1XG4ifQ== -->
+<pre><code>[1] 0.975</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>And 1 - pt() also works the same way as 1 - pnorm():</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMSAtIHB0KDEuOTgzOTcyLCBkZiA9IDEwMClcbmBgYCJ9 -->
+<pre class="r"><code>1 - pt(1.983972, df = 100)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDI0OTk5OTdcbiJ9 -->
+<pre><code>[1] 0.02499997</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="significance-testing" class="section level2">
+<h2>Significance Testing</h2>
+<p>Let’s test if the mean value of <code>childs</code> in 2014 differed from 2.04 (the 1984 mean).</p>
+<p>What was the mean for <code>childs</code> in 2014?</p>
+<div id="replace-this-line-with-your-code" class="section level3">
+<h3>REPLACE THIS LINE WITH YOUR CODE</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSlcbmBgYCJ9 -->
+<pre class="r"><code>mean(gss_week7$childs[gss_week7$year==2014])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuNzcwMzI1XG4ifQ== -->
+<pre><code>[1] 1.770325</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The test statistic is calculated as: <span class="math inline">\(\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}\)</span></p>
+<p>For our test, the test statistic is:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuKDEuNzcwMzI1IC0gMi4wNCkgLyAwLjA1ODAxNDI0XG5gYGAifQ== -->
+<pre class="r"><code>(1.770325 - 2.04) / 0.05801424</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC00LjY0ODQyOFxuIn0= -->
+<pre><code>[1] -4.648428</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>What is the t-value for the critical region for our sample size and an alpha level of .05?</p>
+</div>
+<div id="replace-this-line-with-your-code-1" class="section level3">
+<h3>REPLACE THIS LINE WITH YOUR CODE</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXQoLjAyNSwgZGYgPSA0OTEpXG5gYGAifQ== -->
+<pre class="r"><code>qt(.025, df = 491)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjk2NDgwN1xuIn0= -->
+<pre><code>[1] -1.964807</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="shortcut" class="section level2">
+<h2>Shortcut!</h2>
+<p>R has a built-in function called <code>t.test()</code> that will calculate all of these test statistics. With one mean, we have to fill in the value of mu (<span class="math inline">\(\mu\)</span>) which is the null hypothesis value. If you leave it out, the default is zero.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuMDQpXG5gYGAifQ== -->
+<pre class="r"><code>t.test(gss_week7$childs[gss_week7$year==2014], mu = 2.04)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTQuNjQ4NCwgZGYgPSA0OTEsIHAtdmFsdWUgPSA0LjMwNGUtMDZcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMi4wNFxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIDEuNjU2MzM4IDEuODg0MzEyXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IFxuIDEuNzcwMzI1IFxuIn0= -->
+<pre><code>
+    One Sample t-test
+
+data:  gss_week7$childs[gss_week7$year == 2014]
+t = -4.6484, df = 491, p-value = 4.304e-06
+alternative hypothesis: true mean is not equal to 2.04
+95 percent confidence interval:
+ 1.656338 1.884312
+sample estimates:
+mean of x 
+ 1.770325 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>For another example, let’s look at 2014’s mean ideal number of children (variable = <code>ideal_childs</code>). Using <code>t.test()</code>, can we reject the null hypothesis that the 2014 mean is the same as 2.41 at the .05 alpha level?</p>
+<div id="replace-this-line-with-your-code-2" class="section level3">
+<h3>REPLACE THIS LINE WITH YOUR CODE</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNDEpXG5gYGAifQ== -->
+<pre class="r"><code>t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.41)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckaWRlYWxfY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTAuNjU1NTcsIGRmID0gNDkxLCBwLXZhbHVlID0gMC41MTI0XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIG1lYW4gaXMgbm90IGVxdWFsIHRvIDIuNDFcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAyLjMyMjkwOSAyLjQ1MzUxNFxuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBcbiAyLjM4ODIxMSBcbiJ9 -->
+<pre><code>
+    One Sample t-test
+
+data:  gss_week7$ideal_childs[gss_week7$year == 2014]
+t = -0.65557, df = 491, p-value = 0.5124
+alternative hypothesis: true mean is not equal to 2.41
+95 percent confidence interval:
+ 2.322909 2.453514
+sample estimates:
+mean of x 
+ 2.388211 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Can we reject the null hypothesis that the 2014 mean is the same as 2.5 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).</p>
+</div>
+<div id="replace-this-line-with-your-code-3" class="section level3">
+<h3>REPLACE THIS LINE WITH YOUR CODE</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNSxcbiAgICAgICBjb25mLmxldmVsID0gLjk5KVxuYGBgIn0= -->
+<pre class="r"><code>t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.5,
+       conf.level = .99)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWNpbmcgSHlwb3RoZXNpcyBUZXN0aW5nIgpkYXRlOiAiT2N0b2JlciAyNywgMjAyMSIKYXV0aG9yOiAiTWF0dCBMYXdyZW5jZSIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQKLS0tCgojIyBTZXR0aW5nIFVwCgpMb2FkIHRoZSBgZ3NzX3dlZWs3LmNzdmAgZmlsZSBvbiBDYW52YXMgYXMgYSBkYXRhIGZyYW1lIGNhbGxlZCBgZ3NzX3dlZWs3YCBhbmQgbG9hZCB0aGUgdXN1YWwgcGFja2FnZXM6CgpgYGB7ciBsb2FkIGRhdGEgYW5kIHBhY2thZ2VzLCBpbmNsdWRlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRX0KZ3NzX3dlZWs3IDwtIHJlYWQuY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vbWpjbGF3cmVuY2Uvc29jaTM4NS9tYXN0ZXIvZGF0YS9nc3Nfd2VlazcuY3N2IikKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocGFuZGVyKQpgYGAKCgojIyBDb21wYXJpbmcgVGhlIFogYW5kIFQgRGlzdHJpYnV0aW9ucwoKV2hlbiB0aGUgcG9wdWxhdGlvbiBzdGFuZGFyZCBkZXZpYXRpb24gaXMgdW5rbm93biAoYWxtb3N0IGFsd2F5cyksIHRoZSB1bmNlcnRhaW50eSBvZiB0aGUgc3RhbmRhcmQgZXJyb3IgZXN0aW1hdGUgaXMgYWRkcmVzc2VkIGJ5IHVzaW5nIGEgbmV3IGRpc3RyaWJ1dGlvbjogdGhlIHQgZGlzdHJpYnV0aW9uLiBUaGlzIGRpc3RyaWJ1dGlvbiBhbHNvIGhhcyBhIGJlbGwgc2hhcGUsIGJ1dCBpdHMgdGFpbHMgYXJlIHRoaWNrZXIgdGhhbiB0aGUgbm9ybWFsIG1vZGVs4oCZcy4KCldoZW4gdGhlIHNhbXBsZSBzaXplIGlzIGxhcmdlLCB6IGFuZCB0IGFyZSB0aGUgc2FtZS4gV2hlbiBpbiBkb3VidCwgdXNlIHQuIEl0IHdpbGwgYWx3YXlzIHdvcmsgc2luY2UgaXQgYWRqdXN0cyBmb3IgdGhlIHNhbXBsZSBzaXplLgoKWW91IGNhbiBmaW5kIHQtdmFsdWVzIGFuZCBhc3NvY2lhdGVkIHByb2JhYmlsaXRpZXMgdXNpbmcgZnVuY3Rpb25zIHNpbWlsYXIgdG8gdGhlIGBub3JtKClgIGZ1bmN0aW9ucy4gVGhlIGRpZmZlcmVuY2UgaXMgdGhhdCB3aXRoIHRoZSBgdCgpYCBmdW5jdGlvbnMgeW91IGFsc28gZ2l2ZSB0aGUgZGVncmVlcyBvZiBmcmVlZG9tLgoKClRoaXMgaXMgd2hhdCB3ZSBkaWQgYmVmb3JlIHRvIGdldCB0aGUgei12YWx1ZSBhc3NvY2lhdGVkIHdpdGggdGhlIDk1JSBjb25maWRlbmNlIGludGVydmFsOgpgYGB7ciBxbm9ybSBmb3Igbm9ybWFsIGRpc3RyaWJ1dGlvbn0KcW5vcm0oLjk3NSkgCmBgYAoKVGhlIGVxdWl2YWxlbnQgY29kZSB3aXRoIHRoZSB0LWRpc3RyaWJ1dGlvbiBhbmQgYSBzYW1wbGUgc2l6ZSBvZiAxMDAxIChzbyBkZiA9IDEwMDApOgpgYGB7ciBxdCBmb3IgdCBkaXN0cmlidXRpb259CnF0KC45NzUsIGRmID0gMTAwMCkKYGBgCgpXaXRoIHNtYWxsZXIgc2FtcGxlcywgdXNpbmcgdGhlIHQtZGlzdHJpYnV0aW9uIGJ1aWxkcyBpbiBleHRyYSByb29tIHNpbmNlIG91ciBlc3RpbWF0ZXMgYXJlIGxlc3MgcmVsaWFibGU6IApgYGB7ciBxdCBmb3IgdCBkaXN0cmlidXRpb24gd2l0aCBzbWFsbGVyIHNhbXBsZX0KcXQoLjk3NSwgZGYgPSAxMDApCmBgYAoKVG8gZmluZCB0aGUgcHJvYmFiaWxpdGllcyBhc3NvY2lhdGVkIHdpdGggdC12YWx1ZXMsIHVzZSBgcHQoKWAgd2hpY2ggYWxzbyByZXF1aXJlcyBkZWdyZWVzIG9mIGZyZWVkb206CmBgYHtyIHB0IGZvciB0IGRpc3RyaWJ1dGlvbn0KcHQoMS45NjIzMzksIGRmID0gMTAwMCkKYGBgCgpBbmQgMSAtIHB0KCkgYWxzbyB3b3JrcyB0aGUgc2FtZSB3YXkgYXMgMSAtIHBub3JtKCk6CmBgYHtyIHB0IGZvciB0IGRpc3RyaWJ1dGlvbiB3aXRoIHNtYWxsZXIgc2FtcGxlfQoxIC0gcHQoMS45ODM5NzIsIGRmID0gMTAwKQpgYGAKCgojIyBTaWduaWZpY2FuY2UgVGVzdGluZwoKTGV0J3MgdGVzdCBpZiB0aGUgbWVhbiB2YWx1ZSBvZiBgY2hpbGRzYCBpbiAyMDE0IGRpZmZlcmVkIGZyb20gMi4wNCAodGhlIDE5ODQgbWVhbikuCgpXaGF0IHdhcyB0aGUgbWVhbiBmb3IgYGNoaWxkc2AgaW4gMjAxND8KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERQoKYGBge3IgZmluZCBtZWFuIGZvciBzYW1wbGUgeWVhcn0KbWVhbihnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSkKYGBgCgoKVGhlIHRlc3Qgc3RhdGlzdGljIGlzIGNhbGN1bGF0ZWQgYXM6IAokXExhcmdle3QgPSBcZnJhY3t5IC0geV97SDB9fXtTRC8gXHNxcnR7bn19fSQKCkZvciBvdXIgdGVzdCwgdGhlIHRlc3Qgc3RhdGlzdGljIGlzOgoKYGBge3IgY2FsY3VsYXRlIHRlc3Qgc3RhdGlzdGljfQooMS43NzAzMjUgLSAyLjA0KSAvIDAuMDU4MDE0MjQKYGBgCgpXaGF0IGlzIHRoZSB0LXZhbHVlIGZvciB0aGUgY3JpdGljYWwgcmVnaW9uIGZvciBvdXIgc2FtcGxlIHNpemUgYW5kIGFuIGFscGhhIGxldmVsIG9mIC4wNT8KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERSAjIyMKCmBgYHtyIGZpbmQgdCB2YWx1ZSBmb3IgY3JpdGljYWwgcmVnaW9ufQpxdCguMDI1LCBkZiA9IDQ5MSkKYGBgCgoKIyMgU2hvcnRjdXQhCgpSIGhhcyBhIGJ1aWx0LWluIGZ1bmN0aW9uIGNhbGxlZCBgdC50ZXN0KClgIHRoYXQgd2lsbCBjYWxjdWxhdGUgYWxsIG9mIHRoZXNlIHRlc3Qgc3RhdGlzdGljcy4gV2l0aCBvbmUgbWVhbiwgd2UgaGF2ZSB0byBmaWxsIGluIHRoZSB2YWx1ZSBvZiBtdSAoJFxtdSQpIHdoaWNoIGlzIHRoZSBudWxsIGh5cG90aGVzaXMgdmFsdWUuIElmIHlvdSBsZWF2ZSBpdCBvdXQsIHRoZSBkZWZhdWx0IGlzIHplcm8uCgpgYGB7ciB0IHRlc3QgaW4gcn0KdC50ZXN0KGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuMDQpCmBgYAoKRm9yIGFub3RoZXIgZXhhbXBsZSwgbGV0J3MgbG9vayBhdCAyMDE0J3MgbWVhbiBpZGVhbCBudW1iZXIgb2YgY2hpbGRyZW4gKHZhcmlhYmxlID0gYGlkZWFsX2NoaWxkc2ApLiBVc2luZyBgdC50ZXN0KClgLCBjYW4gd2UgcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCB0aGUgMjAxNCBtZWFuIGlzIHRoZSBzYW1lIGFzIDIuNDEgYXQgdGhlIC4wNSBhbHBoYSBsZXZlbD8KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERQoKYGBge3IgdCB0ZXN0IGluIHIgZXhlcmNpc2V9CnQudGVzdChnc3Nfd2VlazckaWRlYWxfY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSwgbXUgPSAyLjQxKQpgYGAKCkNhbiB3ZSByZWplY3QgdGhlIG51bGwgaHlwb3RoZXNpcyB0aGF0IHRoZSAyMDE0IG1lYW4gaXMgdGhlIHNhbWUgYXMgMi41IGF0IHRoZSAuMDEgYWxwaGEgbGV2ZWw/IFdlIGNhbiBjaGFuZ2UgdGhlIGRlZmF1bHQgbGV2ZWwgb2YgLjA1IHRvIC4wMSB1c2luZyB0aGUgY29uZi5sZXZlbCBvcHRpb24gKHdoaWNoIHJlcXVpcmVzIHRoZSBjb25maWRlbmNlIGxldmVsLCBzbyAuOTkgZm9yIHRoZSAuMDEgYWxwaGEgbGV2ZWwpLgoKIyMjIFJFUExBQ0UgVEhJUyBMSU5FIFdJVEggWU9VUiBDT0RFCgpgYGB7ciB0IHRlc3QgMiBpbiByIGV4ZXJjaXNlfQp0LnRlc3QoZ3NzX3dlZWs3JGlkZWFsX2NoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxNF0sIG11ID0gMi41LAogICAgICAgY29uZi5sZXZlbCA9IC45OSkKYGBg</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWNpbmcgSHlwb3RoZXNpcyBUZXN0aW5nIgpkYXRlOiAiT2N0b2JlciAyNywgMjAyMSIKYXV0aG9yOiAiTWF0dCBMYXdyZW5jZSIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQKLS0tCgojIyBTZXR0aW5nIFVwCgpMb2FkIHRoZSBgZ3NzX3dlZWs3LmNzdmAgZmlsZSBvbiBDYW52YXMgYXMgYSBkYXRhIGZyYW1lIGNhbGxlZCBgZ3NzX3dlZWs3YCBhbmQgbG9hZCB0aGUgdXN1YWwgcGFja2FnZXM6CgpgYGB7ciBsb2FkIGRhdGEgYW5kIHBhY2thZ2VzLCBpbmNsdWRlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRX0KZ3NzX3dlZWs3IDwtIHJlYWQuY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vbWpjbGF3cmVuY2Uvc29jaTM4NV9mMjEvbWFpbi9kYXRhL2dzc193ZWVrNy5jc3YiKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgoKIyMgQ29tcGFyaW5nIFRoZSBaIGFuZCBUIERpc3RyaWJ1dGlvbnMKCldoZW4gdGhlIHBvcHVsYXRpb24gc3RhbmRhcmQgZGV2aWF0aW9uIGlzIHVua25vd24gKGFsbW9zdCBhbHdheXMpLCB0aGUgdW5jZXJ0YWludHkgb2YgdGhlIHN0YW5kYXJkIGVycm9yIGVzdGltYXRlIGlzIGFkZHJlc3NlZCBieSB1c2luZyBhIG5ldyBkaXN0cmlidXRpb246IHRoZSB0IGRpc3RyaWJ1dGlvbi4gVGhpcyBkaXN0cmlidXRpb24gYWxzbyBoYXMgYSBiZWxsIHNoYXBlLCBidXQgaXRzIHRhaWxzIGFyZSB0aGlja2VyIHRoYW4gdGhlIG5vcm1hbCBtb2RlbOKAmXMuCgpXaGVuIHRoZSBzYW1wbGUgc2l6ZSBpcyBsYXJnZSwgeiBhbmQgdCBhcmUgdGhlIHNhbWUuIFdoZW4gaW4gZG91YnQsIHVzZSB0LiBJdCB3aWxsIGFsd2F5cyB3b3JrIHNpbmNlIGl0IGFkanVzdHMgZm9yIHRoZSBzYW1wbGUgc2l6ZS4KCllvdSBjYW4gZmluZCB0LXZhbHVlcyBhbmQgYXNzb2NpYXRlZCBwcm9iYWJpbGl0aWVzIHVzaW5nIGZ1bmN0aW9ucyBzaW1pbGFyIHRvIHRoZSBgbm9ybSgpYCBmdW5jdGlvbnMuIFRoZSBkaWZmZXJlbmNlIGlzIHRoYXQgd2l0aCB0aGUgYHQoKWAgZnVuY3Rpb25zIHlvdSBhbHNvIGdpdmUgdGhlIGRlZ3JlZXMgb2YgZnJlZWRvbS4KCgpUaGlzIGlzIHdoYXQgd2UgZGlkIGJlZm9yZSB0byBnZXQgdGhlIHotdmFsdWUgYXNzb2NpYXRlZCB3aXRoIHRoZSA5NSUgY29uZmlkZW5jZSBpbnRlcnZhbDoKYGBge3IgcW5vcm0gZm9yIG5vcm1hbCBkaXN0cmlidXRpb259CnFub3JtKC45NzUpIApgYGAKClRoZSBlcXVpdmFsZW50IGNvZGUgd2l0aCB0aGUgdC1kaXN0cmlidXRpb24gYW5kIGEgc2FtcGxlIHNpemUgb2YgMTAwMSAoc28gZGYgPSAxMDAwKToKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9ufQpxdCguOTc1LCBkZiA9IDEwMDApCmBgYAoKV2l0aCBzbWFsbGVyIHNhbXBsZXMsIHVzaW5nIHRoZSB0LWRpc3RyaWJ1dGlvbiBidWlsZHMgaW4gZXh0cmEgcm9vbSBzaW5jZSBvdXIgZXN0aW1hdGVzIGFyZSBsZXNzIHJlbGlhYmxlOiAKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9uIHdpdGggc21hbGxlciBzYW1wbGV9CnF0KC45NzUsIGRmID0gMTAwKQpgYGAKClRvIGZpbmQgdGhlIHByb2JhYmlsaXRpZXMgYXNzb2NpYXRlZCB3aXRoIHQtdmFsdWVzLCB1c2UgYHB0KClgIHdoaWNoIGFsc28gcmVxdWlyZXMgZGVncmVlcyBvZiBmcmVlZG9tOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb259CnB0KDEuOTYyMzM5LCBkZiA9IDEwMDApCmBgYAoKQW5kIDEgLSBwdCgpIGFsc28gd29ya3MgdGhlIHNhbWUgd2F5IGFzIDEgLSBwbm9ybSgpOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb24gd2l0aCBzbWFsbGVyIHNhbXBsZX0KMSAtIHB0KDEuOTgzOTcyLCBkZiA9IDEwMCkKYGBgCgoKIyMgU2lnbmlmaWNhbmNlIFRlc3RpbmcKCkxldCdzIHRlc3QgaWYgdGhlIG1lYW4gdmFsdWUgb2YgYGNoaWxkc2AgaW4gMjAxNCBkaWZmZXJlZCBmcm9tIDIuMDQgKHRoZSAxOTg0IG1lYW4pLgoKV2hhdCB3YXMgdGhlIG1lYW4gZm9yIGBjaGlsZHNgIGluIDIwMTQ/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUKCmBgYHtyIGZpbmQgbWVhbiBmb3Igc2FtcGxlIHllYXJ9Cm1lYW4oZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxNF0pCmBgYAoKClRoZSB0ZXN0IHN0YXRpc3RpYyBpcyBjYWxjdWxhdGVkIGFzOiAKJFxMYXJnZXt0ID0gXGZyYWN7eSAtIHlfe0gwfX17U0QvIFxzcXJ0e259fX0kCgpGb3Igb3VyIHRlc3QsIHRoZSB0ZXN0IHN0YXRpc3RpYyBpczoKCmBgYHtyIGNhbGN1bGF0ZSB0ZXN0IHN0YXRpc3RpY30KKDEuNzcwMzI1IC0gMi4wNCkgLyAwLjA1ODAxNDI0CmBgYAoKV2hhdCBpcyB0aGUgdC12YWx1ZSBmb3IgdGhlIGNyaXRpY2FsIHJlZ2lvbiBmb3Igb3VyIHNhbXBsZSBzaXplIGFuZCBhbiBhbHBoYSBsZXZlbCBvZiAuMDU/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUgIyMjCgpgYGB7ciBmaW5kIHQgdmFsdWUgZm9yIGNyaXRpY2FsIHJlZ2lvbn0KcXQoLjAyNSwgZGYgPSA0OTEpCmBgYAoKCiMjIFNob3J0Y3V0IQoKUiBoYXMgYSBidWlsdC1pbiBmdW5jdGlvbiBjYWxsZWQgYHQudGVzdCgpYCB0aGF0IHdpbGwgY2FsY3VsYXRlIGFsbCBvZiB0aGVzZSB0ZXN0IHN0YXRpc3RpY3MuIFdpdGggb25lIG1lYW4sIHdlIGhhdmUgdG8gZmlsbCBpbiB0aGUgdmFsdWUgb2YgbXUgKCRcbXUkKSB3aGljaCBpcyB0aGUgbnVsbCBoeXBvdGhlc2lzIHZhbHVlLiBJZiB5b3UgbGVhdmUgaXQgb3V0LCB0aGUgZGVmYXVsdCBpcyB6ZXJvLgoKYGBge3IgdCB0ZXN0IGluIHJ9CnQudGVzdChnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSwgbXUgPSAyLjA0KQpgYGAKCkZvciBhbm90aGVyIGV4YW1wbGUsIGxldCdzIGxvb2sgYXQgMjAxNCdzIG1lYW4gaWRlYWwgbnVtYmVyIG9mIGNoaWxkcmVuICh2YXJpYWJsZSA9IGBpZGVhbF9jaGlsZHNgKS4gVXNpbmcgYHQudGVzdCgpYCwgY2FuIHdlIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgdGhlIDIwMTQgbWVhbiBpcyB0aGUgc2FtZSBhcyAyLjQxIGF0IHRoZSAuMDUgYWxwaGEgbGV2ZWw/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUKCmBgYHtyIHQgdGVzdCBpbiByIGV4ZXJjaXNlfQp0LnRlc3QoZ3NzX3dlZWs3JGlkZWFsX2NoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxNF0sIG11ID0gMi40MSkKYGBgCgpDYW4gd2UgcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCB0aGUgMjAxNCBtZWFuIGlzIHRoZSBzYW1lIGFzIDIuNSBhdCB0aGUgLjAxIGFscGhhIGxldmVsPyBXZSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IGxldmVsIG9mIC4wNSB0byAuMDEgdXNpbmcgdGhlIGNvbmYubGV2ZWwgb3B0aW9uICh3aGljaCByZXF1aXJlcyB0aGUgY29uZmlkZW5jZSBsZXZlbCwgc28gLjk5IGZvciB0aGUgLjAxIGFscGhhIGxldmVsKS4KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERQoKYGBge3IgdCB0ZXN0IDIgaW4gciBleGVyY2lzZX0KdC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNSwKICAgICAgIGNvbmYubGV2ZWwgPSAuOTkpCmBgYAo=</div>
 
 
 

@@ -99,3 +99,27 @@ gss_subset <- gss_all |>
          class = factor(class,
                         labels = c("Lower", "Working", "Middle", "Upper"))) |>
   select(-c(race, hispanic))
+
+## Week 7
+
+gss_subset <- gss_all |> 
+  filter(year>=2010) |> 
+  select(id, year, childs, chldidel, parsol, kidssol) |> 
+  filter(parsol<=5) |> 
+  filter(kidssol<=5) |> 
+  filter(childs<=6) |> 
+  filter(chldidel<=6) |> 
+  mutate(parsol = factor(parsol,
+                         labels = c("Much Better",
+                                    "Somewhat Better",
+                                    "About The Same",
+                                    "Somewhat Worse",
+                                    "Much Worse")),
+         kidssol = factor(kidssol,
+                          labels = c("Much Better",
+                                     "Somewhat Better",
+                                     "About The Same",
+                                     "Somewhat Worse",
+                                     "Much Worse")))
+
+write.csv(gss_subset, "data/gss_week7.csv", row.names = FALSE)
