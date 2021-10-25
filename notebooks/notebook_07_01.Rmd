@@ -1,12 +1,3 @@
----
-title: "Continuing With Confidence Intervals"
-date: "October 25, 2021"
-author: "Matt Lawrence"
-output:
-  pdf_document: default
-  html_notebook: default
----
-
 # Setting Up
 
 Load the `cupid.csv` file on Canvas as a data frame called `cupid` and load tidyverse.
@@ -183,7 +174,6 @@ cupid |>
   select(kids, ll, mean, ul)
 ```
 
-Why is the confidence interval for the mean of respondents with kids so much wider?
 
 ## Finding The Confidence Interval For A Proportion
 
@@ -334,16 +324,6 @@ Second, we will bind this vector to our orientation table as a column. If we jus
 orientation_table <- cbind.data.frame(orientation, orientation_table)
 
 orientation_table
-```
-
-*Note: we are going step by step here, but in the future would there be a way to collapse the previous two chunks into one line of code?*
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-orientation_table_simplified <- cbind.data.frame(rownames(orientation_table), orientation_table)
-
-orientation_table_simplified
 ```
 
 Third, we need to add a name for our new column. And we should change the other column names so they do not have spaces (since we will use them as variables). For this example, name the columns: Orientation, LL, Proportion, and UL.
