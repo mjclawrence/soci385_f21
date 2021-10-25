@@ -2,9 +2,7 @@
 title: "Introducing Hypothesis Testing"
 date: "October 27, 2021"
 author: "Matt Lawrence"
-output:
-  pdf_document: default
-  html_notebook: default
+output: pdf_document
 ---
 
 ## Setting Up
