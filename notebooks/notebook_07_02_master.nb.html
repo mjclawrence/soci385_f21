@@ -288,29 +288,38 @@ pre code {
 </div>
 <div id="significance-testing" class="section level2">
 <h2>Significance Testing</h2>
-<p>Let’s test if the mean value of <code>childs</code> in 2014 differed from 2.04 (the 1984 mean).</p>
-<p>What was the mean for <code>childs</code> in 2014?</p>
+<p>Let’s test if the mean value of <code>childs</code> in 2018 differed from 2.2 (the 1984 mean, which we get from previous research).</p>
+<p>What was the mean for <code>childs</code> in 2018?</p>
 <div id="replace-this-line-with-your-code" class="section level3">
 <h3>REPLACE THIS LINE WITH YOUR CODE</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSlcbmBgYCJ9 -->
-<pre class="r"><code>mean(gss_week7$childs[gss_week7$year==2014])</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE4XSlcbmBgYCJ9 -->
+<pre class="r"><code>mean(gss_week7$childs[gss_week7$year==2018])</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuNzcwMzI1XG4ifQ== -->
-<pre><code>[1] 1.770325</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuOTk4MjU1XG4ifQ== -->
+<pre><code>[1] 1.998255</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>The test statistic is calculated as: <span class="math inline">\(\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}\)</span></p>
+<p>Let’s get the standard deviation and the square root of n</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2QgPC0gc2QoZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxOF0pXG5zcXJ0X24gPC0gc3FydChsZW5ndGgoZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxOF0pKVxuYGBgIn0= -->
+<pre class="r"><code>sd &lt;- sd(gss_week7$childs[gss_week7$year==2018])
+sqrt_n &lt;- sqrt(length(gss_week7$childs[gss_week7$year==2018]))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>For our test, the test statistic is:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuKDEuNzcwMzI1IC0gMi4wNCkgLyAwLjA1ODAxNDI0XG5gYGAifQ== -->
-<pre class="r"><code>(1.770325 - 2.04) / 0.05801424</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuKDEuOTk4MjU1IC0gMi4yKSAvIChzZC9zcXJ0X24pXG5gYGAifQ== -->
+<pre class="r"><code>(1.998255 - 2.2) / (sd/sqrt_n)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC00LjY0ODQyOFxuIn0= -->
-<pre><code>[1] -4.648428</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0zLjM4OTcwOFxuIn0= -->
+<pre><code>[1] -3.389708</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -320,11 +329,11 @@ pre code {
 <h3>REPLACE THIS LINE WITH YOUR CODE</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXQoLjAyNSwgZGYgPSA0OTEpXG5gYGAifQ== -->
-<pre class="r"><code>qt(.025, df = 491)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXQoLjAyNSwgZGYgPSA1NzIpXG5gYGAifQ== -->
+<pre class="r"><code>qt(.025, df = 572)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjk2NDgwN1xuIn0= -->
-<pre><code>[1] -1.964807</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjk2NDEyXG4ifQ== -->
+<pre><code>[1] -1.96412</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -335,62 +344,75 @@ pre code {
 <p>R has a built-in function called <code>t.test()</code> that will calculate all of these test statistics. With one mean, we have to fill in the value of mu (<span class="math inline">\(\mu\)</span>) which is the null hypothesis value. If you leave it out, the default is zero.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuMDQpXG5gYGAifQ== -->
-<pre class="r"><code>t.test(gss_week7$childs[gss_week7$year==2014], mu = 2.04)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMThdLCBtdSA9IDIuMilcbmBgYCJ9 -->
+<pre class="r"><code>t.test(gss_week7$childs[gss_week7$year==2018], mu = 2.2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTQuNjQ4NCwgZGYgPSA0OTEsIHAtdmFsdWUgPSA0LjMwNGUtMDZcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMi4wNFxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIDEuNjU2MzM4IDEuODg0MzEyXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IFxuIDEuNzcwMzI1IFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMThdXG50ID0gLTMuMzg5NywgZGYgPSA1NzIsIHAtdmFsdWUgPSAwLjAwMDc0NzlcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMi4yXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMS44ODEzNTYgMi4xMTUxNTNcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggXG4gMS45OTgyNTUgXG4ifQ== -->
 <pre><code>
     One Sample t-test
 
-data:  gss_week7$childs[gss_week7$year == 2014]
-t = -4.6484, df = 491, p-value = 4.304e-06
-alternative hypothesis: true mean is not equal to 2.04
+data:  gss_week7$childs[gss_week7$year == 2018]
+t = -3.3897, df = 572, p-value = 0.0007479
+alternative hypothesis: true mean is not equal to 2.2
 95 percent confidence interval:
- 1.656338 1.884312
+ 1.881356 2.115153
 sample estimates:
 mean of x 
- 1.770325 </code></pre>
+ 1.998255 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>For another example, let’s look at 2014’s mean ideal number of children (variable = <code>ideal_childs</code>). Using <code>t.test()</code>, can we reject the null hypothesis that the 2014 mean is the same as 2.41 at the .05 alpha level?</p>
+<p>For another example, let’s look at 2018’s mean ideal number of children (variable = <code>chldidel</code>). Using <code>t.test()</code>, can we reject the null hypothesis that the 2016 mean is the same as 2.55 at the .05 alpha level?</p>
 <div id="replace-this-line-with-your-code-2" class="section level3">
 <h3>REPLACE THIS LINE WITH YOUR CODE</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNDEpXG5gYGAifQ== -->
-<pre class="r"><code>t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.41)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGxkaWRlbFtnc3Nfd2VlazckeWVhcj09MjAxOF0sIG11ID0gMi41NSlcbmBgYCJ9 -->
+<pre class="r"><code>t.test(gss_week7$chldidel[gss_week7$year==2018], mu = 2.55)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckaWRlYWxfY2hpbGRzW2dzc193ZWVrNyR5ZWFyID09IDIwMTRdXG50ID0gLTAuNjU1NTcsIGRmID0gNDkxLCBwLXZhbHVlID0gMC41MTI0XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIG1lYW4gaXMgbm90IGVxdWFsIHRvIDIuNDFcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAyLjMyMjkwOSAyLjQ1MzUxNFxuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBcbiAyLjM4ODIxMSBcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckY2hsZGlkZWxbZ3NzX3dlZWs3JHllYXIgPT0gMjAxOF1cbnQgPSAxLjU4NTYsIGRmID0gNTcyLCBwLXZhbHVlID0gMC4xMTM0XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIG1lYW4gaXMgbm90IGVxdWFsIHRvIDIuNTVcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAyLjUzNTQ4MyAyLjY4NjE1OFxuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBcbiAgMi42MTA4MiBcbiJ9 -->
 <pre><code>
     One Sample t-test
 
-data:  gss_week7$ideal_childs[gss_week7$year == 2014]
-t = -0.65557, df = 491, p-value = 0.5124
-alternative hypothesis: true mean is not equal to 2.41
+data:  gss_week7$chldidel[gss_week7$year == 2018]
+t = 1.5856, df = 572, p-value = 0.1134
+alternative hypothesis: true mean is not equal to 2.55
 95 percent confidence interval:
- 2.322909 2.453514
+ 2.535483 2.686158
 sample estimates:
 mean of x 
- 2.388211 </code></pre>
+  2.61082 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Can we reject the null hypothesis that the 2014 mean is the same as 2.5 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).</p>
+<p>Can we reject the null hypothesis that the 2016 mean is the same as 2.55 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).</p>
 </div>
 <div id="replace-this-line-with-your-code-3" class="section level3">
 <h3>REPLACE THIS LINE WITH YOUR CODE</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNSxcbiAgICAgICBjb25mLmxldmVsID0gLjk5KVxuYGBgIn0= -->
-<pre class="r"><code>t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.5,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGdzc193ZWVrNyRjaGxkaWRlbFtnc3Nfd2VlazckeWVhcj09MjAxNF0sIG11ID0gMi42MyxcbiAgICAgICBjb25mLmxldmVsID0gLjk5KVxuYGBgIn0= -->
+<pre class="r"><code>t.test(gss_week7$chldidel[gss_week7$year==2014], mu = 2.63,
        conf.level = .99)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBnc3Nfd2VlazckY2hsZGlkZWxbZ3NzX3dlZWs3JHllYXIgPT0gMjAxNF1cbnQgPSAtMy4yMTk3LCBkZiA9IDU5NCwgcC12YWx1ZSA9IDAuMDAxMzUzXG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIG1lYW4gaXMgbm90IGVxdWFsIHRvIDIuNjNcbjk5IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAyLjQzOTU5MiAyLjYwOTE0N1xuc2FtcGxlIGVzdGltYXRlczpcbm1lYW4gb2YgeCBcbiAgMi41MjQzNyBcbiJ9 -->
+<pre><code>
+    One Sample t-test
+
+data:  gss_week7$chldidel[gss_week7$year == 2014]
+t = -3.2197, df = 594, p-value = 0.001353
+alternative hypothesis: true mean is not equal to 2.63
+99 percent confidence interval:
+ 2.439592 2.609147
+sample estimates:
+mean of x 
+  2.52437 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWNpbmcgSHlwb3RoZXNpcyBUZXN0aW5nIgpkYXRlOiAiT2N0b2JlciAyNywgMjAyMSIKYXV0aG9yOiAiTWF0dCBMYXdyZW5jZSIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQKLS0tCgojIyBTZXR0aW5nIFVwCgpMb2FkIHRoZSBgZ3NzX3dlZWs3LmNzdmAgZmlsZSBvbiBDYW52YXMgYXMgYSBkYXRhIGZyYW1lIGNhbGxlZCBgZ3NzX3dlZWs3YCBhbmQgbG9hZCB0aGUgdXN1YWwgcGFja2FnZXM6CgpgYGB7ciBsb2FkIGRhdGEgYW5kIHBhY2thZ2VzLCBpbmNsdWRlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRX0KZ3NzX3dlZWs3IDwtIHJlYWQuY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vbWpjbGF3cmVuY2Uvc29jaTM4NV9mMjEvbWFpbi9kYXRhL2dzc193ZWVrNy5jc3YiKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgoKIyMgQ29tcGFyaW5nIFRoZSBaIGFuZCBUIERpc3RyaWJ1dGlvbnMKCldoZW4gdGhlIHBvcHVsYXRpb24gc3RhbmRhcmQgZGV2aWF0aW9uIGlzIHVua25vd24gKGFsbW9zdCBhbHdheXMpLCB0aGUgdW5jZXJ0YWludHkgb2YgdGhlIHN0YW5kYXJkIGVycm9yIGVzdGltYXRlIGlzIGFkZHJlc3NlZCBieSB1c2luZyBhIG5ldyBkaXN0cmlidXRpb246IHRoZSB0IGRpc3RyaWJ1dGlvbi4gVGhpcyBkaXN0cmlidXRpb24gYWxzbyBoYXMgYSBiZWxsIHNoYXBlLCBidXQgaXRzIHRhaWxzIGFyZSB0aGlja2VyIHRoYW4gdGhlIG5vcm1hbCBtb2RlbOKAmXMuCgpXaGVuIHRoZSBzYW1wbGUgc2l6ZSBpcyBsYXJnZSwgeiBhbmQgdCBhcmUgdGhlIHNhbWUuIFdoZW4gaW4gZG91YnQsIHVzZSB0LiBJdCB3aWxsIGFsd2F5cyB3b3JrIHNpbmNlIGl0IGFkanVzdHMgZm9yIHRoZSBzYW1wbGUgc2l6ZS4KCllvdSBjYW4gZmluZCB0LXZhbHVlcyBhbmQgYXNzb2NpYXRlZCBwcm9iYWJpbGl0aWVzIHVzaW5nIGZ1bmN0aW9ucyBzaW1pbGFyIHRvIHRoZSBgbm9ybSgpYCBmdW5jdGlvbnMuIFRoZSBkaWZmZXJlbmNlIGlzIHRoYXQgd2l0aCB0aGUgYHQoKWAgZnVuY3Rpb25zIHlvdSBhbHNvIGdpdmUgdGhlIGRlZ3JlZXMgb2YgZnJlZWRvbS4KCgpUaGlzIGlzIHdoYXQgd2UgZGlkIGJlZm9yZSB0byBnZXQgdGhlIHotdmFsdWUgYXNzb2NpYXRlZCB3aXRoIHRoZSA5NSUgY29uZmlkZW5jZSBpbnRlcnZhbDoKYGBge3IgcW5vcm0gZm9yIG5vcm1hbCBkaXN0cmlidXRpb259CnFub3JtKC45NzUpIApgYGAKClRoZSBlcXVpdmFsZW50IGNvZGUgd2l0aCB0aGUgdC1kaXN0cmlidXRpb24gYW5kIGEgc2FtcGxlIHNpemUgb2YgMTAwMSAoc28gZGYgPSAxMDAwKToKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9ufQpxdCguOTc1LCBkZiA9IDEwMDApCmBgYAoKV2l0aCBzbWFsbGVyIHNhbXBsZXMsIHVzaW5nIHRoZSB0LWRpc3RyaWJ1dGlvbiBidWlsZHMgaW4gZXh0cmEgcm9vbSBzaW5jZSBvdXIgZXN0aW1hdGVzIGFyZSBsZXNzIHJlbGlhYmxlOiAKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9uIHdpdGggc21hbGxlciBzYW1wbGV9CnF0KC45NzUsIGRmID0gMTAwKQpgYGAKClRvIGZpbmQgdGhlIHByb2JhYmlsaXRpZXMgYXNzb2NpYXRlZCB3aXRoIHQtdmFsdWVzLCB1c2UgYHB0KClgIHdoaWNoIGFsc28gcmVxdWlyZXMgZGVncmVlcyBvZiBmcmVlZG9tOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb259CnB0KDEuOTYyMzM5LCBkZiA9IDEwMDApCmBgYAoKQW5kIDEgLSBwdCgpIGFsc28gd29ya3MgdGhlIHNhbWUgd2F5IGFzIDEgLSBwbm9ybSgpOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb24gd2l0aCBzbWFsbGVyIHNhbXBsZX0KMSAtIHB0KDEuOTgzOTcyLCBkZiA9IDEwMCkKYGBgCgoKIyMgU2lnbmlmaWNhbmNlIFRlc3RpbmcKCkxldCdzIHRlc3QgaWYgdGhlIG1lYW4gdmFsdWUgb2YgYGNoaWxkc2AgaW4gMjAxNCBkaWZmZXJlZCBmcm9tIDIuMDQgKHRoZSAxOTg0IG1lYW4pLgoKV2hhdCB3YXMgdGhlIG1lYW4gZm9yIGBjaGlsZHNgIGluIDIwMTQ/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUKCmBgYHtyIGZpbmQgbWVhbiBmb3Igc2FtcGxlIHllYXJ9Cm1lYW4oZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxNF0pCmBgYAoKClRoZSB0ZXN0IHN0YXRpc3RpYyBpcyBjYWxjdWxhdGVkIGFzOiAKJFxMYXJnZXt0ID0gXGZyYWN7eSAtIHlfe0gwfX17U0QvIFxzcXJ0e259fX0kCgpGb3Igb3VyIHRlc3QsIHRoZSB0ZXN0IHN0YXRpc3RpYyBpczoKCmBgYHtyIGNhbGN1bGF0ZSB0ZXN0IHN0YXRpc3RpY30KKDEuNzcwMzI1IC0gMi4wNCkgLyAwLjA1ODAxNDI0CmBgYAoKV2hhdCBpcyB0aGUgdC12YWx1ZSBmb3IgdGhlIGNyaXRpY2FsIHJlZ2lvbiBmb3Igb3VyIHNhbXBsZSBzaXplIGFuZCBhbiBhbHBoYSBsZXZlbCBvZiAuMDU/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUgIyMjCgpgYGB7ciBmaW5kIHQgdmFsdWUgZm9yIGNyaXRpY2FsIHJlZ2lvbn0KcXQoLjAyNSwgZGYgPSA0OTEpCmBgYAoKCiMjIFNob3J0Y3V0IQoKUiBoYXMgYSBidWlsdC1pbiBmdW5jdGlvbiBjYWxsZWQgYHQudGVzdCgpYCB0aGF0IHdpbGwgY2FsY3VsYXRlIGFsbCBvZiB0aGVzZSB0ZXN0IHN0YXRpc3RpY3MuIFdpdGggb25lIG1lYW4sIHdlIGhhdmUgdG8gZmlsbCBpbiB0aGUgdmFsdWUgb2YgbXUgKCRcbXUkKSB3aGljaCBpcyB0aGUgbnVsbCBoeXBvdGhlc2lzIHZhbHVlLiBJZiB5b3UgbGVhdmUgaXQgb3V0LCB0aGUgZGVmYXVsdCBpcyB6ZXJvLgoKYGBge3IgdCB0ZXN0IGluIHJ9CnQudGVzdChnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSwgbXUgPSAyLjA0KQpgYGAKCkZvciBhbm90aGVyIGV4YW1wbGUsIGxldCdzIGxvb2sgYXQgMjAxNCdzIG1lYW4gaWRlYWwgbnVtYmVyIG9mIGNoaWxkcmVuICh2YXJpYWJsZSA9IGBpZGVhbF9jaGlsZHNgKS4gVXNpbmcgYHQudGVzdCgpYCwgY2FuIHdlIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgdGhlIDIwMTQgbWVhbiBpcyB0aGUgc2FtZSBhcyAyLjQxIGF0IHRoZSAuMDUgYWxwaGEgbGV2ZWw/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUKCmBgYHtyIHQgdGVzdCBpbiByIGV4ZXJjaXNlfQp0LnRlc3QoZ3NzX3dlZWs3JGlkZWFsX2NoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxNF0sIG11ID0gMi40MSkKYGBgCgpDYW4gd2UgcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCB0aGUgMjAxNCBtZWFuIGlzIHRoZSBzYW1lIGFzIDIuNSBhdCB0aGUgLjAxIGFscGhhIGxldmVsPyBXZSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IGxldmVsIG9mIC4wNSB0byAuMDEgdXNpbmcgdGhlIGNvbmYubGV2ZWwgb3B0aW9uICh3aGljaCByZXF1aXJlcyB0aGUgY29uZmlkZW5jZSBsZXZlbCwgc28gLjk5IGZvciB0aGUgLjAxIGFscGhhIGxldmVsKS4KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERQoKYGBge3IgdCB0ZXN0IDIgaW4gciBleGVyY2lzZX0KdC50ZXN0KGdzc193ZWVrNyRpZGVhbF9jaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMTRdLCBtdSA9IDIuNSwKICAgICAgIGNvbmYubGV2ZWwgPSAuOTkpCmBgYAo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWNpbmcgSHlwb3RoZXNpcyBUZXN0aW5nIgpkYXRlOiAiT2N0b2JlciAyNywgMjAyMSIKYXV0aG9yOiAiTWF0dCBMYXdyZW5jZSIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQKLS0tCgojIyBTZXR0aW5nIFVwCgpMb2FkIHRoZSBgZ3NzX3dlZWs3LmNzdmAgZmlsZSBvbiBDYW52YXMgYXMgYSBkYXRhIGZyYW1lIGNhbGxlZCBgZ3NzX3dlZWs3YCBhbmQgbG9hZCB0aGUgdXN1YWwgcGFja2FnZXM6CgpgYGB7ciBsb2FkIGRhdGEgYW5kIHBhY2thZ2VzLCBpbmNsdWRlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRX0KZ3NzX3dlZWs3IDwtIHJlYWQuY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vbWpjbGF3cmVuY2Uvc29jaTM4NV9mMjEvbWFpbi9kYXRhL2dzc193ZWVrNy5jc3YiKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgoKIyMgQ29tcGFyaW5nIFRoZSBaIGFuZCBUIERpc3RyaWJ1dGlvbnMKCldoZW4gdGhlIHBvcHVsYXRpb24gc3RhbmRhcmQgZGV2aWF0aW9uIGlzIHVua25vd24gKGFsbW9zdCBhbHdheXMpLCB0aGUgdW5jZXJ0YWludHkgb2YgdGhlIHN0YW5kYXJkIGVycm9yIGVzdGltYXRlIGlzIGFkZHJlc3NlZCBieSB1c2luZyBhIG5ldyBkaXN0cmlidXRpb246IHRoZSB0IGRpc3RyaWJ1dGlvbi4gVGhpcyBkaXN0cmlidXRpb24gYWxzbyBoYXMgYSBiZWxsIHNoYXBlLCBidXQgaXRzIHRhaWxzIGFyZSB0aGlja2VyIHRoYW4gdGhlIG5vcm1hbCBtb2RlbOKAmXMuCgpXaGVuIHRoZSBzYW1wbGUgc2l6ZSBpcyBsYXJnZSwgeiBhbmQgdCBhcmUgdGhlIHNhbWUuIFdoZW4gaW4gZG91YnQsIHVzZSB0LiBJdCB3aWxsIGFsd2F5cyB3b3JrIHNpbmNlIGl0IGFkanVzdHMgZm9yIHRoZSBzYW1wbGUgc2l6ZS4KCllvdSBjYW4gZmluZCB0LXZhbHVlcyBhbmQgYXNzb2NpYXRlZCBwcm9iYWJpbGl0aWVzIHVzaW5nIGZ1bmN0aW9ucyBzaW1pbGFyIHRvIHRoZSBgbm9ybSgpYCBmdW5jdGlvbnMuIFRoZSBkaWZmZXJlbmNlIGlzIHRoYXQgd2l0aCB0aGUgYHQoKWAgZnVuY3Rpb25zIHlvdSBhbHNvIGdpdmUgdGhlIGRlZ3JlZXMgb2YgZnJlZWRvbS4KCgpUaGlzIGlzIHdoYXQgd2UgZGlkIGJlZm9yZSB0byBnZXQgdGhlIHotdmFsdWUgYXNzb2NpYXRlZCB3aXRoIHRoZSA5NSUgY29uZmlkZW5jZSBpbnRlcnZhbDoKYGBge3IgcW5vcm0gZm9yIG5vcm1hbCBkaXN0cmlidXRpb259CnFub3JtKC45NzUpIApgYGAKClRoZSBlcXVpdmFsZW50IGNvZGUgd2l0aCB0aGUgdC1kaXN0cmlidXRpb24gYW5kIGEgc2FtcGxlIHNpemUgb2YgMTAwMSAoc28gZGYgPSAxMDAwKToKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9ufQpxdCguOTc1LCBkZiA9IDEwMDApCmBgYAoKV2l0aCBzbWFsbGVyIHNhbXBsZXMsIHVzaW5nIHRoZSB0LWRpc3RyaWJ1dGlvbiBidWlsZHMgaW4gZXh0cmEgcm9vbSBzaW5jZSBvdXIgZXN0aW1hdGVzIGFyZSBsZXNzIHJlbGlhYmxlOiAKYGBge3IgcXQgZm9yIHQgZGlzdHJpYnV0aW9uIHdpdGggc21hbGxlciBzYW1wbGV9CnF0KC45NzUsIGRmID0gMTAwKQpgYGAKClRvIGZpbmQgdGhlIHByb2JhYmlsaXRpZXMgYXNzb2NpYXRlZCB3aXRoIHQtdmFsdWVzLCB1c2UgYHB0KClgIHdoaWNoIGFsc28gcmVxdWlyZXMgZGVncmVlcyBvZiBmcmVlZG9tOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb259CnB0KDEuOTYyMzM5LCBkZiA9IDEwMDApCmBgYAoKQW5kIDEgLSBwdCgpIGFsc28gd29ya3MgdGhlIHNhbWUgd2F5IGFzIDEgLSBwbm9ybSgpOgpgYGB7ciBwdCBmb3IgdCBkaXN0cmlidXRpb24gd2l0aCBzbWFsbGVyIHNhbXBsZX0KMSAtIHB0KDEuOTgzOTcyLCBkZiA9IDEwMCkKYGBgCgoKIyMgU2lnbmlmaWNhbmNlIFRlc3RpbmcKCkxldCdzIHRlc3QgaWYgdGhlIG1lYW4gdmFsdWUgb2YgYGNoaWxkc2AgaW4gMjAxOCBkaWZmZXJlZCBmcm9tIDIuMiAodGhlIDE5ODQgbWVhbiwgd2hpY2ggd2UgZ2V0IGZyb20gcHJldmlvdXMgcmVzZWFyY2gpLgoKV2hhdCB3YXMgdGhlIG1lYW4gZm9yIGBjaGlsZHNgIGluIDIwMTg/CgojIyMgUkVQTEFDRSBUSElTIExJTkUgV0lUSCBZT1VSIENPREUKCmBgYHtyIGZpbmQgbWVhbiBmb3Igc2FtcGxlIHllYXJ9Cm1lYW4oZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxOF0pCmBgYAoKClRoZSB0ZXN0IHN0YXRpc3RpYyBpcyBjYWxjdWxhdGVkIGFzOiAKJFxMYXJnZXt0ID0gXGZyYWN7eSAtIHlfe0gwfX17U0QvIFxzcXJ0e259fX0kCgpMZXQncyBnZXQgdGhlIHN0YW5kYXJkIGRldmlhdGlvbiBhbmQgdGhlIHNxdWFyZSByb290IG9mIG4KCmBgYHtyfQpzZCA8LSBzZChnc3Nfd2VlazckY2hpbGRzW2dzc193ZWVrNyR5ZWFyPT0yMDE4XSkKc3FydF9uIDwtIHNxcnQobGVuZ3RoKGdzc193ZWVrNyRjaGlsZHNbZ3NzX3dlZWs3JHllYXI9PTIwMThdKSkKYGBgCgoKRm9yIG91ciB0ZXN0LCB0aGUgdGVzdCBzdGF0aXN0aWMgaXM6CgpgYGB7ciBjYWxjdWxhdGUgdGVzdCBzdGF0aXN0aWN9CigxLjk5ODI1NSAtIDIuMikgLyAoc2Qvc3FydF9uKQpgYGAKCldoYXQgaXMgdGhlIHQtdmFsdWUgZm9yIHRoZSBjcml0aWNhbCByZWdpb24gZm9yIG91ciBzYW1wbGUgc2l6ZSBhbmQgYW4gYWxwaGEgbGV2ZWwgb2YgLjA1PwoKIyMjIFJFUExBQ0UgVEhJUyBMSU5FIFdJVEggWU9VUiBDT0RFICMjIwoKYGBge3IgZmluZCB0IHZhbHVlIGZvciBjcml0aWNhbCByZWdpb259CnF0KC4wMjUsIGRmID0gNTcyKQpgYGAKCgojIyBTaG9ydGN1dCEKClIgaGFzIGEgYnVpbHQtaW4gZnVuY3Rpb24gY2FsbGVkIGB0LnRlc3QoKWAgdGhhdCB3aWxsIGNhbGN1bGF0ZSBhbGwgb2YgdGhlc2UgdGVzdCBzdGF0aXN0aWNzLiBXaXRoIG9uZSBtZWFuLCB3ZSBoYXZlIHRvIGZpbGwgaW4gdGhlIHZhbHVlIG9mIG11ICgkXG11JCkgd2hpY2ggaXMgdGhlIG51bGwgaHlwb3RoZXNpcyB2YWx1ZS4gSWYgeW91IGxlYXZlIGl0IG91dCwgdGhlIGRlZmF1bHQgaXMgemVyby4KCmBgYHtyIHQgdGVzdCBpbiByfQp0LnRlc3QoZ3NzX3dlZWs3JGNoaWxkc1tnc3Nfd2VlazckeWVhcj09MjAxOF0sIG11ID0gMi4yKQpgYGAKCkZvciBhbm90aGVyIGV4YW1wbGUsIGxldCdzIGxvb2sgYXQgMjAxOCdzIG1lYW4gaWRlYWwgbnVtYmVyIG9mIGNoaWxkcmVuICh2YXJpYWJsZSA9IGBjaGxkaWRlbGApLiBVc2luZyBgdC50ZXN0KClgLCBjYW4gd2UgcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCB0aGUgMjAxNiBtZWFuIGlzIHRoZSBzYW1lIGFzIDIuNTUgYXQgdGhlIC4wNSBhbHBoYSBsZXZlbD8KCiMjIyBSRVBMQUNFIFRISVMgTElORSBXSVRIIFlPVVIgQ09ERQoKYGBge3IgdCB0ZXN0IGluIHIgZXhlcmNpc2V9CnQudGVzdChnc3Nfd2VlazckY2hsZGlkZWxbZ3NzX3dlZWs3JHllYXI9PTIwMThdLCBtdSA9IDIuNTUpCmBgYAoKQ2FuIHdlIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgdGhlIDIwMTYgbWVhbiBpcyB0aGUgc2FtZSBhcyAyLjU1IGF0IHRoZSAuMDEgYWxwaGEgbGV2ZWw/IFdlIGNhbiBjaGFuZ2UgdGhlIGRlZmF1bHQgbGV2ZWwgb2YgLjA1IHRvIC4wMSB1c2luZyB0aGUgY29uZi5sZXZlbCBvcHRpb24gKHdoaWNoIHJlcXVpcmVzIHRoZSBjb25maWRlbmNlIGxldmVsLCBzbyAuOTkgZm9yIHRoZSAuMDEgYWxwaGEgbGV2ZWwpLgoKIyMjIFJFUExBQ0UgVEhJUyBMSU5FIFdJVEggWU9VUiBDT0RFCgpgYGB7ciB0IHRlc3QgMiBpbiByIGV4ZXJjaXNlfQp0LnRlc3QoZ3NzX3dlZWs3JGNobGRpZGVsW2dzc193ZWVrNyR5ZWFyPT0yMDE0XSwgbXUgPSAyLjYzLAogICAgICAgY29uZi5sZXZlbCA9IC45OSkKYGBgCg==</div>
 
 
 

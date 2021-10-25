@@ -54,24 +54,32 @@ And 1 - pt() also works the same way as 1 - pnorm():
 
 ## Significance Testing
 
-Let's test if the mean value of `childs` in 2014 differed from 2.04 (the 1984 mean).
+Let's test if the mean value of `childs` in 2018 differed from 2.2 (the 1984 mean, which we get from previous research).
 
-What was the mean for `childs` in 2014?
+What was the mean for `childs` in 2018?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r find mean for sample year}
-mean(gss_week7$childs[gss_week7$year==2014])
+mean(gss_week7$childs[gss_week7$year==2018])
 ```
 
 
 The test statistic is calculated as: 
 $\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}$
 
+Let's get the standard deviation and the square root of n
+
+```{r}
+sd <- sd(gss_week7$childs[gss_week7$year==2018])
+sqrt_n <- sqrt(length(gss_week7$childs[gss_week7$year==2018]))
+```
+
+
 For our test, the test statistic is:
 
 ```{r calculate test statistic}
-(1.770325 - 2.04) / 0.05801424
+(1.998255 - 2.2) / (sd/sqrt_n)
 ```
 
 What is the t-value for the critical region for our sample size and an alpha level of .05?
@@ -79,7 +87,7 @@ What is the t-value for the critical region for our sample size and an alpha lev
 ### REPLACE THIS LINE WITH YOUR CODE ###
 
 ```{r find t value for critical region}
-qt(.025, df = 491)
+qt(.025, df = 572)
 ```
 
 
@@ -88,22 +96,22 @@ qt(.025, df = 491)
 R has a built-in function called `t.test()` that will calculate all of these test statistics. With one mean, we have to fill in the value of mu ($\mu$) which is the null hypothesis value. If you leave it out, the default is zero.
 
 ```{r t test in r}
-t.test(gss_week7$childs[gss_week7$year==2014], mu = 2.04)
+t.test(gss_week7$childs[gss_week7$year==2018], mu = 2.2)
 ```
 
-For another example, let's look at 2014's mean ideal number of children (variable = `ideal_childs`). Using `t.test()`, can we reject the null hypothesis that the 2014 mean is the same as 2.41 at the .05 alpha level?
+For another example, let's look at 2018's mean ideal number of children (variable = `chldidel`). Using `t.test()`, can we reject the null hypothesis that the 2016 mean is the same as 2.55 at the .05 alpha level?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r t test in r exercise}
-t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.41)
+t.test(gss_week7$chldidel[gss_week7$year==2018], mu = 2.55)
 ```
 
-Can we reject the null hypothesis that the 2014 mean is the same as 2.5 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).
+Can we reject the null hypothesis that the 2016 mean is the same as 2.55 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r t test 2 in r exercise}
-t.test(gss_week7$ideal_childs[gss_week7$year==2014], mu = 2.5,
+t.test(gss_week7$chldidel[gss_week7$year==2014], mu = 2.63,
        conf.level = .99)
 ```
