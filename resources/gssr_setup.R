@@ -123,3 +123,100 @@ gss_subset <- gss_all |>
                                      "Much Worse")))
 
 write.csv(gss_subset, "data/gss_week7.csv", row.names = FALSE)
+
+
+---
+  
+  
+## Week 7
+  
+gss_subset <- gss_all |> 
+  filter(year==2008 | year==2018) |> 
+  select(year, hrs1, health, class, sex)
+
+
+gss_get_marginals(varnames = c("health", "class"), data = gss_doc)
+
+
+gss_subset <- gss_subset |> 
+  mutate(health = factor(health,
+                         labels = c("Excellent",
+                                    "Good",
+                                    "Fair",
+                                    "Poor")),
+         class = factor(class,
+                        labels = c("Lower",
+                                   "Working",
+                                   "Middle",
+                                   "Upper")))
+
+years <- gss_which_years(gss_all, mntlhlth)
+
+days <- gss_get_marginals(varnames = "mntlhlth", data = gss_doc)
+
+
+days <- gss_all |> 
+  filter(year==2018) |> 
+  filter(age >= 25) |>
+  filter(!is.na(mntlhlth)) |> 
+  filter(!is.na(degree)) |> 
+  select(id, mntlhlth, degree) |> 
+  mutate(degree = factor(degree,
+                         labels = c("Less than high school",
+                                    "High school",
+                                    "Some college",
+                                    "College degree",
+                                    "Grad/Prof degree")))
+
+summary(days$mntlhlth)
+
+
+t.test(days$mntlhlth, mu = 3, conf.level = .99)
+t.test(days$mntlhlth[days$mntlhlth>0], mu = 7, conf.level = .95)
+
+ci <- days |> 
+  #filter(mntlhlth>0) |> 
+  group_by(degree) |> 
+  summarise(mean = mean(mntlhlth, na.rm=TRUE),
+            sd = sd(mntlhlth, na.rm=TRUE),
+            se = sd / sqrt(length(mntlhlth)),
+            ll = mean - 1.96*se,
+            ul = mean + 1.96*se) |> 
+  ggplot(aes(x = degree, y = mean, ymin = ll, ymax = ul)) +
+  geom_point() + geom_errorbar()
+
+
+ci
+
+
+test <- days |> 
+  mutate(any = ifelse(mntlhlth>10, 1, 0),
+         college = ifelse(str_detect(degree, "degree"), 1, 0))
+
+addmargins(table(test$college, test$any))
+
+prop.test(92, 810, p = .10, conf.level = .99)
+prop.test(34, 479, p = .10, conf.level = .95)
+
+write.csv(days, "data/assignment_05.csv", row.names = FALSE)
+
+## Mental Health Example
+
+- Does the mean number of days differ from 3 at 99% confidence level?
+- Among respondents with any days of mental health, does the mean number of days differ from 7 at 95% confidence level?
+- Consider respondents who have not completed college. Among these respondents, does the proportion with any mental health days differ from .10 at the 99% confidence level?
+- Consider respondents who have completed college or more. Among these respondents, does the proportion with any mental health days differ from .10 at the 95% confidence level?
+  
+  
+t.test(assignment_05$mntlhlth, mu = 3, conf.level = .99)
+
+t.test(assignment_05$mntlhlth[assignment_05$mntlhlth>0], mu = 7, conf.level = .95)
+
+assignment_05 <- assignment_05 |> 
+  mutate(any = ifelse(mntlhlth>10, 1, 0),
+         college = ifelse(str_detect(degree, "degree"), 1, 0))
+
+addmargins(table(assignment_05$college, assignment_05$any))
+
+prop.test(92, 810, p = .10, conf.level = .99)
+prop.test(34, 479, p = .10, conf.level = .95)

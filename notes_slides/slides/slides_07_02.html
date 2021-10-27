@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-10-27" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Introducing Hypothesis Testing
+### October 27, 2021
+
+---
+
+
+
+
+# Introducing Significance Testing
+
+--
+
+### Confidence Intervals: Based on our sample estimate and confidence level, what is the range of possible values for population parameter?
+
+--
+
+### Shift to significance: How unusual - how unlikely - is our sample estimate?
+
+--
+
+### More specifically: What is the probability (.1, .05, .01, etc.) of getting a value at least as extreme as our estimate?
+
+--
+
+### Can we be confident at a certain level of probability that the difference between our estimate and another value is *statistically significant*, meaning not just from random chance?
+
+---
+
+# Parts of the Significance Test
+
+### Assumptions: Random, Normal, Large, Increasing Validity
+
+--
+
+### Build two hypotheses covering the entire range
+
+--
+
+### Null Hypothesis: What we are testing *against* 
+- Null is usually 0 but can be any value
+- `\(H_0: \hat{\mu} = 0\)` 
+
+--
+
+### Alternative Hypothesis: What we estimate from our data
+- Estimated mean is not 0
+- `\(H_A: \hat{\mu} \neq 0\)` 
+
+---
+
+# Parts of the Significance Test
+
+### Compute a test statistic for our estimate
+
+--
+
+### Previously we wanted distance from the mean in SDs
+- That formula: `\(\Large{z = \frac{x-\mu}{\sigma}}\)`
+
+--
+
+### Now we want distance from the null hypothesis' value in SEs
+- This formula: `\(\Large{t = \frac{\mu_x - \mu_0}{SD_x / \sqrt{n}}}\)`
+- t adjusts for *degrees of freedom*
+- Denominator = standard error
+- Fill in `\(\mu_0\)` from null hypothesis (0)
+
+---
+
+# From Z to T
+### When the population standard deviation is unknown (almost always), the uncertainty of the standard error estimate is addressed by using a new distribution: the t distribution.
+
+--
+
+### This distribution also has a bell shape, but its tails are thicker than the normal model’s
+
+--
+
+### Therefore observations are more likely to fall beyond two SDs from the mean than under the normal distribution
+
+--
+
+### These extra thick tails are also helpful for resolving our problem with a less reliable estimate and a bigger standard error (if n is small)
+
+---
+
+# From Z to T
+![:scale 90%](385_figures/t_normal.png)
+
+---
+
+# From Z to T
+
+### When the sample size is big enough, z and t are the same.
+
+--
+
+### When in doubt, use t and assert the degrees of freedom. It will always work.
+
+--
+
+
+```r
+qnorm(.975)
+```
+
+```
+## [1] 1.959964
+```
+
+```r
+qt(.975, df = 1000)
+```
+
+```
+## [1] 1.962339
+```
+
+```r
+qt(.975, df = 100)
+```
+
+```
+## [1] 1.983972
+```
+
+---
+
+# From Z to T
+
+### Other `norm()` functions also work with `t()`:
+
+--
+
+
+```r
+pt(1.962339, df = 1000)
+```
+
+```
+## [1] 0.975
+```
+
+```r
+1 - pt(1.983972, df = 100)
+```
+
+```
+## [1] 0.02499997
+```
+
+
+---
+
+# Back to the Significance Test
+
+### Calculate the test statistic, and convert it to a probability (a p-value) using `pt()` if negative or `1 - pt()` if positive.
+- Multiply this probability by two to get the probability for each tail.
+
+--
+
+### That p-value is probability of observing a value of the test statistic at least as extreme as the absolute value of our estimate
+- A smaller p-value presents stronger evidence against `\(H_0\)`.
+
+--
+
+### Careful: not the probability that the null hypothesis is true
+
+---
+
+# Parts of the Significance Test
+
+### Choose significance level
+- Alpha `\(\alpha\)` is significance level, or level of uncertainty, against which we want to evaluate the test statistic
+- Also known as rejection region or critical region
+
+### We will reject the null hypothesis if test statistic falls within this rejection/critical region
+
+
+--
+
+- But we will not *accept* the null hypothesis if test statistic falls outside this region
+
+
+--
+
+
+### Described in terms of probability of being *beyond* the range of values that are more likely, so we say .05 rather than .95
+
+---
+
+# Critical Region
+
+
+![:scale 65%](385_figures/critical_region.png)
+
+---
+
+# Significance Test for Mean - Example
+
+--
+
+### Imagine we want to test if the average number of children a GSS respondent has in 2018 is different from the average from 1984. Why might we expect people have different numbers of children in these two periods?
+
+--
+
+### Using `gss_week7.csv` file on Canvas, let's test if the mean value of `childs` in 2018 differed from the 1984 mean of 2.2 (which we know from previous research).
+
+--
+
+### What was the mean for `childs` in 2018?
+
+
+
+--
+
+
+```r
+mean(gss_week7$childs[gss_week7$year==2018])
+```
+
+```
+## [1] 1.998255
+```
+
+---
+
+# Significance Test for Mean - Example
+
+--
+
+### Null Hypothesis = Actual mean is 2.2 (filled in from 1984)
+
+--
+
+### Alternative Hypothesis = Actual mean is *not* 2.2
+- Note, if alternative were that the mean is 2, hypotheses would not cover entire range!
+
+--
+
+### Significance level = .05
+
+---
+
+# Significance Test for Mean - Example
+
+`\(\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}\)`
+
+--
+
+`\(\Large{t = \frac{1.998 - 2.2}{0.05951692}}\)`
+
+--
+
+### t = -3.389708
+
+--
+
+### In words: sample mean of 1.998 is 3.39 *standard errors* below the null hypothesis value.
+
+---
+
+# Significance Test for Mean - Example
+
+### What is the t-value for the critical region for our sample size and an alpha level of .05?
+
+--
+
+### There are 573 observations in the 2018 sample, so we use 572 for the degrees of freedom
+
+--
+
+
+```r
+qt(.975, df = 572)
+```
+
+```
+## [1] 1.96412
+```
+
+--
+
+### For mean to be significant at .05 level, the test statistic needs to be at least 1.96412 standard errors away. Our test statistic of 3.39 is more extreme than 1.96412, so we can reject the null hypothesis that the mean number of children in 2018 differs from 2.2. 
+
+---
+
+# Significance Test for Mean - Example
+
+### We would reach the same conclusion using p-values. The test statistic of 3.39 is negative, so we can use `pt()` instead of `1 - pt()`:
+
+--
+
+
+```r
+pt(-3.39, df = 572)
+```
+
+```
+## [1] 0.0003735504
+```
+
+--
+
+
+```r
+# Multiply By 2 For Both Tails:
+
+2 * 0.0003735504
+```
+
+```
+## [1] 0.0007471008
+```
+
+--
+
+### The p-value for our hypothesis test is less than .05, so we can reject the null hypothesis.
+
+---
+
+# Significance Test for Mean - Example
+
+### We would also reach the same conclusion using confidence intervals.
+
+--
+
+
+
+
+```r
+idealchilds_ci
+```
+
+```
+## [1] 1.881356 1.998255 2.115153
+```
+
+--
+
+### The null hypothesis value of 2.2 falls outside our confidence interval, so we can reject the null hypothesis.
+
+---
+
+# Big Shortcut: t.test()
+
+--
+
+
+```r
+t.test(gss_week7$childs[gss_week7$year==2018], 
+      mu = 2.2)
+```
+
+--
+
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  gss_week7$childs[gss_week7$year == 2018]
+## t = -3.3897, df = 572, p-value = 0.0007479
+## alternative hypothesis: true mean is not equal to 2.2
+## 95 percent confidence interval:
+##  1.881356 2.115153
+## sample estimates:
+## mean of x 
+##  1.998255
+```
+
+---
+
+# Significance Test for Mean - Example
+
+### Red box gives the test statistic. Blue box gives the probability of getting a value more extreme than the test statistic. Green box is the 95% confidence interval. Orange box gives the sample mean. 
+
+![scale: 50](../385_figures/ttest_childs_example.png)
+
+---
+
+# Exercise
+
+### Let's look at 2018's mean ideal number of children (variable = `ideal_childs`)
+
+--
+
+### Using `t.test()`, can we reject the null hypothesis that the 2018 mean is the same as the 1990 mean of 2.55 at the .05 alpha level?
+
+--
+
+
+```r
+t.test(gss_week7$chldidel[gss_week7$year==2018], 
+      mu = 2.55)
+```
+
+---
+
+# Exercise
+
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  gss_week7$chldidel[gss_week7$year == 2018]
+## t = 1.5856, df = 572, p-value = 0.1134
+## alternative hypothesis: true mean is not equal to 2.55
+## 95 percent confidence interval:
+##  2.535483 2.686158
+## sample estimates:
+## mean of x 
+##   2.61082
+```
+
+---
+
+# Significance Test for Mean - Exercise
+
+### No, do not reject the null hypothesis:
+
+--
+
+- The test statistic is not more extreme than -1.97
+- The p-value is greater than .05
+- The confidence interval does include null hypothesis value of 2.55
+
+---
+
+# Other t.test() Options
+
+### Can we reject the null hypothesis that the 2016 mean is the same as 2.5 at the .01 alpha level? We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level).
+
+--
+
+
+```r
+#To Change Confidence Level:
+
+t.test(gss_week7$chldidel[gss_week7$year==2016], 
+      mu = 2.5, conf.level = .99)
+```
+
+---
+
+# Other t.test() Options
+
+
+```r
+#To Change Confidence Level:
+
+t.test(gss_week7$chldidel[gss_week7$year==2016], 
+      mu = 2.5, conf.level = .99)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  gss_week7$chldidel[gss_week7$year == 2016]
+## t = 1.5082, df = 720, p-value = 0.1319
+## alternative hypothesis: true mean is not equal to 2.5
+## 99 percent confidence interval:
+##  2.466898 2.626029
+## sample estimates:
+## mean of x 
+##  2.546463
+```
+
+---
+
+# Inference For Single Proportions
+
+- Means and proportions have different distributions, standard errors and hypothesis tests.
+
+- For proportions, we'll use `prop.test()` rather than `t.test()`.
+
+- Example: Does the proportion of respondents whose number of children is equal to their ideal number of children differ from .33?
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
