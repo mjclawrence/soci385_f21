@@ -201,8 +201,10 @@ pt(1.962339, df = 1000)
 
 ### What was the mean for `childs` in 2018?
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 gss_week7 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/gss_week7.csv")
+
+library(tidyverse)
 ```
 
 --
@@ -410,3 +412,76 @@ t.test(gss_week7$chldidel[gss_week7$year==2016],
 
 - Example: Does the proportion of respondents whose number of children is equal to their ideal number of children differ from .33?
 
+---
+
+# Inference For Single Proportions
+
+- First step, create binary variable capturing respondents whose number of children is equal to their ideal number of children. Call it `has_ideal`.
+
+---
+
+# Inference For Single Proportions
+
+```{r}
+gss_week7 <- gss_week7 |> 
+  mutate(has_ideal = ifelse(childs == chldidel, 1, 0))
+```
+
+---
+
+# Inference For Single Proportions
+
+- For the test, we will need the frequency with a 1 and the total in the sample.
+
+--
+
+```{r}
+addmargins(table(gss_week7$has_ideal))
+```
+
+---
+
+# Inference For Single Proportions
+
+- Enter those two values in `prop.test()` along with the null hypothesis value you want to test. The function calculates the proportion and compares it to the null hypothesis value.
+
+--
+
+```{r, eval = FALSE}
+prop.test(889, 2923, p = .33)
+```
+
+---
+
+# Inference For Single Proportions
+
+```{r}
+prop.test(889, 2923, p = .33)
+```
+
+---
+
+# Another Example
+
+Does the proportion of respondents with less children than their ideal number differ from .5 at the 99% confidence level?
+
+---
+
+# Another Example
+
+```{r}
+gss_week7 <- gss_week7 |> 
+  mutate(less_ideal = ifelse(childs < chldidel, 1, 0))
+```
+
+```{r}
+addmargins(table(gss_week7$less_ideal))
+```
+
+---
+
+# Another Example
+
+```{r}
+prop.test(1486, 2923, p = .53, conf.level = .99)
+```

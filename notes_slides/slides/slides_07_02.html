@@ -495,6 +495,126 @@ t.test(gss_week7$chldidel[gss_week7$year==2016],
 
 - Example: Does the proportion of respondents whose number of children is equal to their ideal number of children differ from .33?
 
+---
+
+# Inference For Single Proportions
+
+- First step, create binary variable capturing respondents whose number of children is equal to their ideal number of children. Call it `has_ideal`.
+
+---
+
+# Inference For Single Proportions
+
+
+```r
+gss_week7 &lt;- gss_week7 |&gt; 
+  mutate(has_ideal = ifelse(childs == chldidel, 1, 0))
+```
+
+---
+
+# Inference For Single Proportions
+
+- For the test, we will need the frequency with a 1 and the total in the sample.
+
+--
+
+
+```r
+addmargins(table(gss_week7$has_ideal))
+```
+
+```
+## 
+##    0    1  Sum 
+## 2034  889 2923
+```
+
+---
+
+# Inference For Single Proportions
+
+- Enter those two values in `prop.test()` along with the null hypothesis value you want to test. The function calculates the proportion and compares it to the null hypothesis value.
+
+--
+
+
+```r
+prop.test(889, 2923, p = .33)
+```
+
+---
+
+# Inference For Single Proportions
+
+
+```r
+prop.test(889, 2923, p = .33)
+```
+
+```
+## 
+## 	1-sample proportions test with continuity correction
+## 
+## data:  889 out of 2923, null probability 0.33
+## X-squared = 8.7246, df = 1, p-value = 0.003139
+## alternative hypothesis: true p is not equal to 0.33
+## 95 percent confidence interval:
+##  0.2875599 0.3212387
+## sample estimates:
+##         p 
+## 0.3041396
+```
+
+---
+
+# Another Example
+
+Does the proportion of respondents with less children than their ideal number differ from .5 at the 99% confidence level?
+
+---
+
+# Another Example
+
+
+```r
+gss_week7 &lt;- gss_week7 |&gt; 
+  mutate(less_ideal = ifelse(childs &lt; chldidel, 1, 0))
+```
+
+
+```r
+addmargins(table(gss_week7$less_ideal))
+```
+
+```
+## 
+##    0    1  Sum 
+## 1437 1486 2923
+```
+
+---
+
+# Another Example
+
+
+```r
+prop.test(1486, 2923, p = .53, conf.level = .99)
+```
+
+```
+## 
+## 	1-sample proportions test with continuity correction
+## 
+## data:  1486 out of 2923, null probability 0.53
+## X-squared = 5.3975, df = 1, p-value = 0.02017
+## alternative hypothesis: true p is not equal to 0.53
+## 99 percent confidence interval:
+##  0.4844006 0.5323247
+## sample estimates:
+##         p 
+## 0.5083818
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

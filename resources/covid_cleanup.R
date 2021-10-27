@@ -7,7 +7,7 @@ names(covid)
 table(covid$year)
 
 covid <- covid |> 
-  filter(year == 2021 & month == 10 & day == 5) |> 
+  filter(year == 2021 & month == 10 & day == 26) |> 
   select(countyfips, vaccine_rate, fullvaccine_rate)
 
 write.csv(covid, "data/covid.csv", row.names = FALSE)

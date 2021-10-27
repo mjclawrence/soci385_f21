@@ -25,9 +25,9 @@ This week you will continue practicing with hypothesis testing. The assignment r
 
 ### Questions
 
-1. Does the mean number of days of poor mental health differ from 3 at 99% confidence level?
+1. Does the mean number of days of poor mental health differ from 3 at the 99% confidence level?
 
-2. Among respondents reporting any days of poor mental health, does the mean number of days differ from 7 at 95% confidence level?
+2. Among respondents reporting any days of poor mental health, does the mean number of days differ from 7 at the 95% confidence level?
 
 3. Consider respondents who have not entered or completed college. Among these respondents, does the proportion with any mental health days differ from .10 at the 99% confidence level?
 

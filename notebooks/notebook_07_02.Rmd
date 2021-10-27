@@ -1,0 +1,138 @@
+## Setting Up
+
+Load the `gss_week7.csv` file on Canvas as a data frame called `gss_week7` and load the usual packages:
+
+```{r load data and packages, include = FALSE, warning = FALSE}
+gss_week7 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/gss_week7.csv")
+library(tidyverse)
+```
+
+
+## Comparing The Z and T Distributions
+
+When the population standard deviation is unknown (almost always), the uncertainty of the standard error estimate is addressed by using a new distribution: the t distribution. This distribution also has a bell shape, but its tails are thicker than the normal model’s.
+
+When the sample size is large, z and t are the same. When in doubt, use t. It will always work since it adjusts for the sample size.
+
+You can find t-values and associated probabilities using functions similar to the `norm()` functions. The difference is that with the `t()` functions you also give the degrees of freedom.
+
+
+This is what we did before to get the z-value associated with the 95% confidence interval:
+```{r qnorm for normal distribution}
+qnorm(.975) 
+```
+
+The equivalent code with the t-distribution and a sample size of 1001 (so df = 1000):
+```{r qt for t distribution}
+qt(.975, df = 1000)
+```
+
+With smaller samples, using the t-distribution builds in extra room since our estimates are less reliable: 
+```{r qt for t distribution with smaller sample}
+qt(.975, df = 100)
+```
+
+To find the probabilities associated with t-values, use `pt()` which also requires degrees of freedom:
+```{r pt for t distribution}
+pt(1.962339, df = 1000)
+```
+
+And 1 - pt() also works the same way as 1 - pnorm():
+```{r pt for t distribution with smaller sample}
+1 - pt(1.983972, df = 100)
+```
+
+
+## Significance Testing
+
+Let's test if the mean value of `childs` in 2018 differed from 2.2 (the 1984 mean, which we get from previous research).
+
+What was the mean for `childs` in 2018?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+The test statistic is calculated as: 
+$\Large{t = \frac{y - y_{H0}}{SD/ \sqrt{n}}}$
+
+Let's get the standard deviation and the square root of n
+
+```{r}
+sd <- sd(gss_week7$childs[gss_week7$year==2018])
+sqrt_n <- sqrt(length(gss_week7$childs[gss_week7$year==2018]))
+```
+
+
+For our test, the test statistic is:
+
+```{r calculate test statistic}
+(1.998255 - 2.2) / (sd/sqrt_n)
+```
+
+What is the t-value for the critical region for our sample size and an alpha level of .05?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+Our test statistic is more extreme than that so we can reject the null hypothesis.
+
+We could also use the p-value in the hypothesis test. If our p-value is less than the alpha level for our confidence range, we can reject the null hypothesis. 
+
+What is the p-value for our test statistic?
+
+```{r}
+pt(-3.389708, df = 572)
+```
+
+That's for one side of the curve, so we need to double it for the test:
+
+```{r}
+pt(-3.389708, df = 572) * 2
+```
+
+We can reject the null hypothesis because the p-value is less than .05 (the cutoff for a 95% test).
+
+
+## Shortcut!
+
+R has a built-in function called `t.test()` that will calculate all of these test statistics. With one mean, we have to fill in the value of mu ($\mu$) which is the null hypothesis value. If you leave it out, the default is zero.
+
+```{r t test in r}
+t.test(gss_week7$childs[gss_week7$year==2018], mu = 2.2)
+```
+
+For another example, let's look at 2018's mean ideal number of children (variable = `chldidel`). Using `t.test()`, can we reject the null hypothesis that the 2018 mean is the same as 2.55 at the .05 alpha level?
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+
+We can change the default level of .05 to .01 using the conf.level option (which requires the confidence level, so .99 for the .01 alpha level). Can we reject the null hypothesis that the 2016 mean is the same as 2.5 at the .01 alpha level? 
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+
+# Inference For Single Proportions
+
+We have previously seen that proportions and means have different standard errors. As a result, we use different hypothesis tests for them as well. We'll skip to the shortcut this time. 
+
+Example: Does the proportion of respondents whose number of children is equal to their ideal number of children differ from .33? 
+
+First let's create a binary variable called `has_ideal` identifying respondents whose number of children is equal to their ideal number of children with a 1 and everyone else with a 0.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+For the test, we will need the frequency with a 1 and the total in the sample.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+Enter those two values in `prop.test()` along with the null hypothesis value you want to test. The function calculates the proportion and compares it to the null hypothesis value.
+
+```{r}
+prop.test(889, 2923, p = .33)
+```
+
+The prop.test function doesn't use the t-distribution so the test statistic is different (and cannot be compared to 1.96). But the p-value can still be compared to the alpha level and you can still compare the null hypothesis value to your confidence interval.
+
+In the example above, can we reject the null hypothesis that the proportion differs from .33? 
+
+Another example: Does the proportion of respondents with less children than their ideal number differ from .5 at the 99% confidence level?
+
+### REPLACE THIS LINE WITH YOUR CODE
