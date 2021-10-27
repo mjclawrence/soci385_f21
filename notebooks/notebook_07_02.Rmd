@@ -133,6 +133,6 @@ The prop.test function doesn't use the t-distribution so the test statistic is d
 
 In the example above, can we reject the null hypothesis that the proportion differs from .33? 
 
-Another example: Does the proportion of respondents with less children than their ideal number differ from .5 at the 99% confidence level?
+Another example: Does the proportion of respondents with less children than their ideal number differ from .53 at the 99% confidence level?
 
 ### REPLACE THIS LINE WITH YOUR CODE
