@@ -68,7 +68,7 @@ addmargins(table(assignment_05$college_degree,
 # Test proportion
 
 prop.test(342, 810, 
-          p = .10, conf.level = .99)
+          p = .1, conf.level = .99)
 ```
 
 
@@ -76,11 +76,7 @@ prop.test(342, 810,
 
 ```{r}
 prop.test(213, 479,
-          p = .10, conf.level = .95)
+          p = .1, conf.level = .95)
 ```
 
-```{r}
-t.test(assignment_05$mntlhlth[assignment_05$college_degree==0],
-          assignment_05$mntlhlth[assignment_05$college_degree==1])
-```
 
