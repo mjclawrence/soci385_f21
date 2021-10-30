@@ -21,7 +21,7 @@ options(htmltools.dir.version = FALSE)
 library(xaringanthemer)
 ```
 
-# Assignment 5 Review
+# Assignment 5 Review - Question 1
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
@@ -30,57 +30,170 @@ assignment_05 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385
 week_8_1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/week_8_1.csv")
 ```
 
-# Warm Up - Question 1
 
-### Use the `week_8_1` data. At the .05 alpha level, can you reject the null hypothesis that the mean number of memberships is 1.5? Why or why not?
-
---
-
-```{r, eval = FALSE}
-t.test(week_8_1$memnum, mu = 1.5)
-```
-
----
-
-# Warm Up - Question 1
-
-```{r, echo = FALSE}
-t.test(week_8_1$memnum, mu = 1.5)
-```
-
---
-
-### Can reject the null hypothesis at the .05 alpha level. Test statistic is greater than 1.96, p-value is less than .05, 95% confidence interval does not include 1.5.
-
----
-
-# Warm Up - Question 2
-
-### At the .01 alpha level, can you reject the null hypothesis that the mean number of memberships is 1.5? Why or why not?
+### Does the mean number of days of poor mental health differ from 3 at the 99% confidence level?
 
 --
 
 ```{r, eval = FALSE}
-t.test(week_8_1$memnum, mu = 1.5, conf.level = .99)
+t.test(assignment_05$mntlhlth, mu = 3, conf.level = .99)
 ```
 
 ---
 
-# Warm Up - Question 2
+# Question 1
+
+--
 
 ```{r, echo = FALSE}
-t.test(week_8_1$memnum, mu = 1.5, conf.level = .99)
+t.test(assignment_05$mntlhlth, mu = 3, conf.level = .99)
+```
+
+```{r}
+# Find cutoff for t-stat
+qt(.995, df = 1288)
+```
+
+
+---
+
+# Question 1
+
+### Cannot reject the null hypothesis at 99% confidence level
+- t-stat is not more extreme than 2.58
+- p-value is not less than .01
+- confidence interval includes mu value of 3
+
+---
+
+# Question 2
+
+### Among respondents reporting any days of poor mental health, does the mean number of days differ from 7 at the 95% confidence level?
+
+--
+
+```{r, eval = FALSE}
+t.test(assignment_05$mntlhlth[assignment_05$mntlhlth>0],
+       mu = 7, 
+       conf.level = .95) # could delete; it's the default
+```
+
+---
+
+# Question 2
+
+```{r, echo = FALSE}
+t.test(assignment_05$mntlhlth[assignment_05$mntlhlth>0],
+       mu = 7, 
+       conf.level = .95)
+```
+
+```{r}
+# Find cutoff for t-stat
+qt(.975, df = 554)
+```
+
+---
+
+# Question 2
+
+### Can reject the null hypothesis at 95% confidence level
+- t-stat is more extreme than 1.96
+- p-value is less than .05
+- confidence interval does not include mu value of 7
+        
+---
+
+# Question 3
+
+### Consider respondents who have not entered or completed college. Among these respondents, does the proportion with any mental health days differ from .10 at the 99% confidence level?
+
+```{r}
+# Set up binary variables
+
+assignment_05 <- assignment_05 |> 
+  mutate(college_degree = 
+           ifelse(str_detect(degree, "degree"), 1, 0),
+         any_days = 
+           ifelse(mntlhlth>0, 1, 0))
+```
+
+---
+
+# Question 3
+
+```{r}
+# Get frequencies
+
+addmargins(table(assignment_05$college_degree,
+                 assignment_05$any_days))
 ```
 
 --
 
-### Cannot reject the null hypothesis at the .01 alpha level. Test statistic is not greater than 2.58, p-value is not less than .01, 99% confidence interval does include 1.5.
+```{r, eval = FALSE}
+# Feed frequencies to prop.test
+
+prop.test(342, 810, p = .10, conf.level = .99)
+```
+
+
+---
+
+# Question 3
+
+```{r, echo = FALSE}
+prop.test(342, 810, p = .10, conf.level = .99)
+```
+
+--
+
+### Reject the null hypothesis
+- p value is less than .01
+- confidence interval does not include p of .10
+
+---
+
+# Question 4
+
+### Consider respondents who have completed college or more. Among these respondents, does the proportion with any mental health days differ from .10 at the 95% confidence level?
+
+--
+
+```{r}
+# Get frequencies
+
+addmargins(table(assignment_05$college_degree,
+                 assignment_05$any_days))
+```
+
+```{r, eval = FALSE}
+# Feed frequencies to prop.test
+
+prop.test(213, 479, p = .10, conf.level = .95)
+```
+
+---
+
+# Question 4
+
+```{r, echo = FALSE}
+# Feed frequencies to prop.test
+
+prop.test(213, 479, p = .10, conf.level = .95)
+```
+
+--
+
+### Reject the null hypothesis
+- p value is less than .05
+- confidence interval does not include p of .10
 
 ---
 
 # Comparing Samples
 
-### Warm up exercises measured the difference between an estimated mean and a null hypothesis value in terms of standard errors
+### Assignment questions measured the difference between an estimated mean and a null hypothesis value in terms of standard errors
 
 --
 
@@ -148,7 +261,7 @@ $se = \sqrt{ \frac{var_1}{n_1} + \frac{var_2}{n_2}}$
 --
 
 ```{r}
-subset <- filter(week_8_1, memnum!="NA")
+subset <- filter(week_8_1, !is.na(memnum))
 ```
 
 --
@@ -165,8 +278,8 @@ subset <- filter(week_8_1, memnum!="NA")
 
 ```{r}
 subset <- mutate(subset, college = 
-                      ifelse(degree=="College Degree" | 
-                                  degree =="Grad/Prof Degree", 1, 0))
+                      ifelse(str_detect(degree, 
+                                        "Degree"), 1, 0))
 ```
 
 ---
@@ -199,8 +312,8 @@ mean(subset$memnum[subset$college==1])
 ```{r}
 # This also works
 
-means <- subset %>%
-     group_by(college) %>%
+means <- subset |> 
+     group_by(college) |> 
      summarize(mean_memnum = mean(memnum, na.rm = TRUE))
 
 means
@@ -396,32 +509,4 @@ t.test(subset$memnum[subset$degree=="Some College"],
 --
 
 ### Meaningful differences are not always statistically significant
-- Temporary drop in desired fertility during the "Great Recession" could tell us something about relationship between economic insecurity and family formation
-
----
-
-# Statistical Vs Sociological Significance
-
-
-![](385_figures/vox_pvalues.png)
-
----
-
-# Statistical Vs Sociological Significance
-
-
-![:scale 95%](385_figures/pvalue_press_release_1.png)
-
----
-
-# Statistical Vs Sociological Significance
-
-
-![:scale 95%](385_figures/pvalue_press_release_2.png)
-
----
-
-# Statistical Vs Sociological Significance
-
-
-![:scale 95%](385_figures/pvalue_press_release_3.png)
+- Temporary drop in desired fertility during the Covid pandemic could tell us something about relationship between economic insecurity and family formation
