@@ -144,7 +144,7 @@ prop.table(racehisp_teenbirth_table,1)
 Let's try a couple examples with a new dataset
 
 ```{r}
-week_8_2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/week_8_2.csv")
+week_8_2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/week_8_2.csv")
 ```
 
 We'll start with class differences in how respondents think people "get ahead". We can check the GSS website for a description of this variable: https://gssdataexplorer.norc.org/variables/585/vshow
@@ -159,16 +159,16 @@ Start with a proportion table with `class` in the rows and `getahead` in the col
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r proportion table}
-pander(round(prop.table(table(week_8_2$class, 
-      week_8_2$getahead),1),3))
+round(prop.table(table(week_8_2$class, 
+      week_8_2$getahead),1),3)
 ```
 
 ```{r exercise set up, warning = FALSE, message = FALSE}
 
 # Create Data Frame:
-exercise2 <- week_8_2 %>%
-      mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) %>%
-      filter(class == "Working class" | class == "Middle class") %>%
+exercise2 <- week_8_2  |>
+      mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |>
+      filter(class == "Working class" | class == "Middle class") |>
       droplevels()
 
 # Save Table:
@@ -190,11 +190,11 @@ prop.table(table(week_8_2$racehisp, week_8_2$getahead),1)
 
 
 ```{r set up binary variable and filter}
-exercise2 <- week_8_2 %>%
+exercise2 <- week_8_2 |>
             mutate(hardwork = 
-                  ifelse(getahead == "Hard work", 1, 0)) %>%
+                  ifelse(getahead == "Hard work", 1, 0)) |>
             filter(racehisp == "Black" | 
-                  racehisp == "White") %>%
+                  racehisp == "White") |>
    droplevels()
 ```
 
