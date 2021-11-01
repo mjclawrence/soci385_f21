@@ -345,10 +345,32 @@ subset &lt;- filter(week_8_1, !is.na(memnum))
 
 ### Could use binary variables or indexing. For this example, create a binary variable called `college` where everyone with at least a college degree gets a 1 and everyone else gets a 0.
 
+---
+
+# CIs for Comparing Means
+
+### What values of `degree` should we distinguish?
+
 --
 
 
 ```r
+table(subset$degree)
+```
+
+```
+## 
+##   College Degree Grad/Prof Degree       HS Diploma     Less Than HS 
+##              285              145              734              189 
+##     Some College 
+##              112
+```
+
+--
+
+
+```r
+# Create binary variable
 subset &lt;- mutate(subset, college = 
                       ifelse(str_detect(degree, 
                                         "Degree"), 1, 0))
