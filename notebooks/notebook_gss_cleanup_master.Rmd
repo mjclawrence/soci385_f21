@@ -1,0 +1,132 @@
+---
+title: "GSS Cleanup"
+author: "ML"
+date: "11/3/2021"
+output: pdf_document
+---
+
+## Set Up
+
+Install the `gssr` package:
+
+```{r}
+#remotes::install_github("kjhealy/gssr")
+```
+
+You do not have to reinstall the package so put a hashtag in front of the `remotes...` line in the chunk above.
+
+You will have to load the package every time you want to use it. You load it just as you load any other package. We'll also load tidyverse to use its helper functions.
+
+```{r}
+library(gssr)
+library(tidyverse)
+```
+
+## GSS Codebook
+
+Loading the package will give you two helpful messages. To attach the entire GSS dataset as a dataframe, use `data(gss_all)`. To attach just the codebook, use `data(gss_doc)`. We'll start with just the codebook.
+
+```{r}
+data(gss_doc)
+```
+
+Now open the data spreadsheet view of the `gss_doc` dataframe. The id column lists the variable names. The  description column is a simple summary of the question. The text column is the exact wording of the survey question. The properties and marginals columns will come in handy soon. 
+
+Use the filter option in the spreadsheet view to find the variable with the description related to subjective class identification. What is the variable name? What is the exact wording of the question?
+
+Once you know the variable id, you can also get the value labels and the wording using the `filter` and `select` functions we have seen before.
+
+```{r}
+gss_doc |>  
+  filter(id == "class") |> 
+  select(id, description, text)
+```
+
+You can pull multiple values at the same time. This could be helpful if you want to create your own codebook with all the variables in your study.
+
+```{r}
+gss_doc |>  
+  filter(id == "class" | id == "degree") |> 
+  select(id, description, text)
+```
+
+Let's find the values and the distribution for the class variable across all years.
+
+```{r}
+gss_get_marginals("class", gss_doc)
+```
+
+You can see in the table above that values of 0, 8, and 9 are all NA. Values of 5 should probably also be NA, but that kind of decision is up to the researcher. If you just want a quick way to see the values that the GSS identifes with missing responses, access the question's properties.
+
+```{r}
+gss_get_props("class", gss_doc)
+```
+
+## GSS Dataset
+
+Now let's look at the data. The package automatically named the dataframe `gss_all` but we have to load it. It might take a little while to load since it's a big file.
+
+```{r}
+data(gss_all)
+```
+
+Let's see in which years the `class` question was asked.
+
+```{r}
+gss_which_years(gss_all, "class")
+```
+
+If the question were not asked in a year, we would see FALSE instead of TRUE. We do not need all the observations from every year between 1972 and 2018 for our example. Let's keep the observations from 2008 or 2018 in a new dataframe we will call `gss_subset`.
+
+```{r}
+gss_subset <- gss_all |> 
+  filter(year == 2008 | year == 2018)
+```
+
+We'll work with only a few variables to keep things even more simple. Select these variable names: `id`, `year`, `hrs1`, `health`, `class`, and `sex`.
+
+```{r}
+gss_subset <- gss_subset |> 
+  select(id, year, hrs1, health, class, sex)
+```
+
+Run a summary of this dataframe to see how the values are coded and if there are any missing values.
+
+```{r}
+summary(gss_subset)
+```
+
+It would be a good idea at this point to check the properties for all your variables as well to make sure that the NAs are correctly capturing all the missing values. Here's how to do that will multiple variables.
+
+```{r}
+gss_get_props(c("id", "year", "hrs1", "health", "class", "sex"), gss_doc)
+```
+
+From the summary, it looks like we need to add variable labels for `health`, `class`, and `sex`. We already saw a way to find the labels associated with the values of class. Let's use that same function to get the labels for `health` and `sex` too.
+
+```{r}
+gss_get_marginals(c("class", "health", "sex"), gss_doc)
+```
+
+Use these values and labels to clean up the `sex` variable.
+
+```{r}
+gss_subset <- gss_subset |> 
+  mutate(sex = factor(sex,
+                      labels = c("Male", "Female")))
+```
+
+You will use the same tools to clean up the `class` and `health` variables in Assignment 6.
+
+Finally, let's save the cleaned up subset to use it again without having to repeat all the above steps.
+
+```{r}
+save(gss_subset, file = "../data/gss_cleanup_example.RData")
+```
+
+Note that we saved the file with the .Rdata extension rather than the .csv extension. The advantage of .Rdata is that this file type preserves the factor level ordering so you will not have to reassert it every time. To reopen this file, use `load()`.
+
+```{r}
+load("../data/gss_cleanup_example.RData")
+```
+

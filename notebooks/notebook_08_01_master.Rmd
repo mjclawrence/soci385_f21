@@ -39,6 +39,13 @@ subset <- mutate(subset, college =
                                         "Degree"), 1, 0))
 ```
 
+```{r}
+subset <- mutate(subset, college2 = 
+                   ifelse(degree == "College Degree" |
+                            degree == "Grad/Prof Degree", 1, 0))
+```
+
+
 For the standard error formula, we will need the number of respondents in each category of `college`:
 
 ### REPLACE THIS LINE WITH YOUR CODE
@@ -162,8 +169,8 @@ Give a sociological hypothesis for why you expect the difference you are testing
 
 ```{r}
 # Average age at first birth between Black and white respondents
-t.test(subset$agekdbrn[subset$racehisp=="Black"],
-       subset$agekdbrn[subset$racehisp=="White"])
+t.test(week_8_1$agekdbrn[week_8_1$racehisp=="Black" & week_8_1$sex=="Female"],
+       week_8_1$agekdbrn[week_8_1$racehisp=="Hispanic" & week_8_1$sex=="Female"])
 ```
 
 ```{r}
@@ -177,7 +184,8 @@ t.test(subset$agekdbrn[subset$racehisp=="Black" &
 ```{r}
 # Average number of political actions between male and female respondents
 t.test(week_8_1$polactions[week_8_1$sex=="Male"],
-       week_8_1$polactions[week_8_1$sex=="Female"])
+       week_8_1$polactions[week_8_1$sex=="Female"],
+       conf.level = .99)
 ```
 
 ```{r}

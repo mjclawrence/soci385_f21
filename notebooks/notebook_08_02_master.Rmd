@@ -15,6 +15,29 @@ week_8_1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 ```
 
 
+## Warm Up
+
+Test if there is a significant difference (at the 95% confidence level) in average age between respondents who work for someone else and respondents who are self employed. Use the `age` variable for age and the `wrkslf` variable for work status.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+# Average age between respondents who work for someone else and who are self employed
+t.test(week_8_1$age[week_8_1$wrkslf=="Work For Someone Else"],
+       week_8_1$age[week_8_1$wrkslf=="Self Employed"])
+```
+
+Test if there is a significant difference (at the 95% confidence level) in average number of political actions between respondents who self identify as lower class and respondents who self identify as working class. Use the `polactions` variable for political actions and the `wrkslf` variable for work status.
+
+### REPLACE THIS LINE WITH YOUR CODE
+
+```{r}
+# Average number of political actions between upper and working class respondents
+t.test(week_8_1$polactions[week_8_1$class=="Lower"],
+       week_8_1$polactions[week_8_1$class=="Working"],
+       conf.level = .95)
+```
+
 ## Comparing Proportions
 
 We have seen over the last couple weeks that proportions and means have different standard errors. That is still true when we are comparing differences in proportions. Also, when working with differences in proportions, we will use different SEs for confidence intervals and for significance tests.
@@ -42,7 +65,7 @@ Let's look at racial differences in the proportion of female respondents who hav
 
 What do we need?
 
-Start by cleaning up the data frame so we only have female respondents.
+Start by cleaning up the data frame so we only have female respondents. You can keep the same data frame name.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
@@ -65,7 +88,6 @@ This is going to be easier if we make a binary variable called `teen_birth` wher
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-
 ```{r}
 week_8_1 <- week_8_1 |> 
    mutate(teen_birth = ifelse(agekdbrn<=19, 1, 0))
@@ -77,49 +99,27 @@ And look at the proportions with a 1 by race.
 
 
 ```{r}
-teen_birth_race <- week_8_1 |> 
+week_8_1 |> 
    group_by(racehisp) |> 
    summarise(prop_teen_birth = mean(teen_birth, na.rm=TRUE))
-
-teen_birth_race
 ```
 
 Is there a significant difference in the Black and Hispanic proportions at the .05 alpha level?
 
-To find out, we'll use a new function: `prop.test()`. The key difference between this function and `t.test()` is that `prop.test()` requires a frequency table rather than two variables. So we need a table of the number of respondents in each `racehisp` category that interests us who have a 0 and 1 for our `teen_birth` variable.
+To find out, we'll use `prop.test()` again. The change in how we use `prop.test()` this week compared to last week is that we now need a full frequency table rather than two frequencies. So in this example we need a table of the number of respondents in each `racehisp` category that interests us who have a 0 and 1 for our `teen_birth` variable.
 
-We know how to get a table for *all* the racehisp categories. How do we get just the Black and Hispanic rows?
-
-### REPLACE THIS LINE WITH YOUR CODE
-
+We know how to get a frequency table (not a proportion table) for *all* the racehisp categories. We can filter to keep respondents with "Black" or "Hispanic" values for racehisp. But the "White" and "Other" values still technically exist so we have to use the `droplevels()` function to get rid of them. Then use that new data frame to save the table we need as an object called `racehisp_teenbirth_table`.
 
 ```{r}
-# Might think this works...
-
-week_8_1 <- week_8_1 |> 
-   filter(racehisp=="Black" | racehisp=="Hispanic")
-
-table(week_8_1$racehisp, week_8_1$teen_birth)
-
-# But we still have the `Other` and `White` rows...
-```
-
-
-```{r}
-
-# Get rid of rows with no observations with the `droplevels()` function
-
-racehisp_teenbirth <- week_8_1 |> 
+black_hispanic <- week_8_1 |> 
    filter(racehisp == "Black" | racehisp == "Hispanic") |> 
-   droplevels()
+   droplevels() # Add this to drop the factor levels you don't want in the table
 ```
 
 
-Now create a frequency table (not a proportion table) as an object...
-
 ```{r}
-racehisp_teenbirth_table <- table(racehisp_teenbirth$racehisp,
-                                  racehisp_teenbirth$teen_birth)
+racehisp_teenbirth_table <- table(black_hispanic$racehisp,
+                                  black_hispanic$teen_birth)
 
 racehisp_teenbirth_table
 ```
@@ -166,17 +166,31 @@ round(prop.table(table(week_8_2$class,
 ```{r exercise set up, warning = FALSE, message = FALSE}
 
 # Create Data Frame:
-exercise2 <- week_8_2  |>
-      mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |>
-      filter(class == "Working class" | class == "Middle class") |>
-      droplevels()
+example1 <- week_8_2  |>
+   mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |>
+   filter(class == "Working class" | class == "Middle class") |>
+   droplevels()
+```
 
+This also works if you want to use str_detect with multiple strings!
+```{r}
+example1 <- week_8_2 |> 
+   mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |> 
+   filter(str_detect(class, "Working|Middle")) |> # No space before or after |
+   droplevels()
+```
+
+
+Now save the table and run the test.
+
+```{r}
 # Save Table:
-exercise2_table <- table(exercise2$class, exercise2$hardwork)
+example1_table <- table(example1$class, example1$hardwork)
 
 # Run Test:
-prop.test(exercise2_table)
+prop.test(example1_table)
 ```
+
 
 ## Exercise 2
 
@@ -191,10 +205,9 @@ prop.table(table(week_8_2$racehisp, week_8_2$getahead),1)
 
 ```{r set up binary variable and filter}
 exercise2 <- week_8_2 |>
-            mutate(hardwork = 
-                  ifelse(getahead == "Hard work", 1, 0)) |>
-            filter(racehisp == "Black" | 
-                  racehisp == "White") |>
+   mutate(hardwork = 
+             ifelse(getahead == "Hard work", 1, 0)) |>
+   filter(str_detect(racehisp, "Black|White")) |> 
    droplevels()
 ```
 

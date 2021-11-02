@@ -1,0 +1,106 @@
+---
+ouput: pdf_document
+---
+
+
+## SOCI 385 - Social Statistics
+## Fall 2021
+## Assignment 6
+
+***This assignment is due via Canvas by 10:00 AM on Monday, November 8, 2021.***
+
+***Please show all your code and write your responses in complete sentences as appropriate.***
+
+This week you will continue practicing with significance tests for difference in means and proportions. The assignment requires the GSS data you began to clean in class on Wednesday. You are free (and encouraged!) to use the R shortcuts we learned in class. ***Use an alpha level of .05 for all the tests.***
+
+The variables are:
+
+`year`: The year the survey was completed, either 2008 or 2018
+
+`hrs1`: Self-reported hours worked last week, from 1-89
+
+`health`: Self-reported condition of health, coded "Excellent" "Good", "Fair", or "Poor"
+
+`class`: Self-reported social class, coded "Working class", "Lower class", "Middle class", or "Upper class"
+
+`sex`: Self-reported sex, coded "Female" or "Male"
+
+
+### Questions
+
+```{r}
+library(tidyverse)
+library(gssr)
+```
+
+
+1. Finish cleaning the variables you downloaded from the GSS. The `notebook_gss_cleanup.Rmd` file should help you get started. Note that you have to clean the `health` and `class` variables on your own.
+
+```{r}
+load("../../data/gss_cleanup_example.RData")
+```
+
+```{r}
+data(gss_doc)
+```
+
+```{r}
+gss_get_marginals(c("health", "class"), gss_doc)
+```
+
+```{r}
+gss_subset <- gss_subset |> 
+  mutate(health = factor(health,
+                         labels = c("Excellent", "Good",
+                                    "Fair", "Poor")),
+         class = factor(class,
+                        labels = c("Lower", "Working",
+                                   "Middle", "Upper")))
+```
+
+
+2. Is there a significant difference in mean hours worked last week between respondents identifying with the lower class and respondents identifying with the working class? Why or why not?
+
+```{r}
+t.test(gss_subset$hrs1[gss_subset$class=="Lower"],
+       gss_subset$hrs1[gss_subset$class=="Working"])
+```
+
+
+3. Is there a significant difference in mean hours worked last week between respondents identifying with the lower class in the 2008 survey and respondents identifying with the lower class in the 2018 survey? Why or why not?
+
+```{r}
+t.test(gss_subset$hrs1[gss_subset$class=="Lower" & gss_subset$year==2008],
+       gss_subset$hrs1[gss_subset$class=="Lower" & gss_subset$year==2018])
+```
+
+
+4. Is there a significant difference in the 2018 survey in the proportion of female respondents who report having excellent or good health (vs fair or poor health) and the proportion of male respondents who report having excellent or good health (vs fair or poor health)? Why or why not?
+
+```{r}
+q4 <- gss_subset |> 
+  filter(year == 2018) |> 
+  mutate(health_hi = ifelse(health == "Excellent" | health == "Good", 1, 0))
+```
+
+```{r}
+q4_table <- table(q4$sex, q4$health_hi)
+prop.test(q4_table)
+```
+
+5. Is there a significant difference in the 2018 survey in the proportion of working class respondents who report having excellent health (vs fair or poor health) and the proportion of middle class respondents who report having excellent health (vs fair or poor health)? Why or why not?
+
+```{r}
+q5 <- q4 |> 
+  filter(class == "Working" | class == "Middle")  |> 
+  droplevels()
+```
+
+```{r}
+q5_table <- table(q5$class, q5$health_hi)
+```
+
+```{r}
+prop.test(q5_table)
+```
+
