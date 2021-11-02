@@ -1,10 +1,3 @@
----
-title: "GSS Cleanup"
-author: "ML"
-date: "11/3/2021"
-output: pdf_document
----
-
 ## Set Up
 
 Install the `gssr` package:
@@ -30,7 +23,7 @@ Loading the package will give you two helpful messages. To attach the entire GSS
 data(gss_doc)
 ```
 
-Now open the data spreadsheet view of the `gss_doc` dataframe. The id column lists the variable names. The  description column is a simple summary of the question. The text column is the exact wording of the survey question. The properties and marginals columns will come in handy soon. 
+Now open the data spreadsheet view of the `gss_doc` dataframe. The id column lists the variable names. The description column is a simple summary of the question. The text column is the exact wording of the survey question. The properties and marginals columns will come in handy soon. 
 
 Use the filter option in the spreadsheet view to find the variable with the description related to subjective class identification. What is the variable name? What is the exact wording of the question?
 
