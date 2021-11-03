@@ -26,14 +26,14 @@ The variables are:
 
 `health`: Self-reported condition of health, coded "Excellent" "Good", "Fair", or "Poor"
 
-`class`: Self-reported social class, coded "Working class", "Lower class", "Middle class", or "Upper class"
+`class`: Self-reported social class, coded "Lower class", "Working class", "Middle class", or "Upper class"
 
 `sex`: Self-reported sex, coded "Female" or "Male"
 
 
 ### Questions
 
-1. Finish cleaning the variables you downloaded from the GSS. The worksheet should help you get started. Note that you have to clean the `health` and `class` variables on your own.
+1. Finish cleaning the variables selected from the GSS. The notebook we used in class should help you. Note that you have to clean the `health` and `class` variables on your own.
 
 2. Is there a significant difference in mean hours worked last week between respondents identifying with the lower class and respondents identifying with the working class? Why or why not?
 

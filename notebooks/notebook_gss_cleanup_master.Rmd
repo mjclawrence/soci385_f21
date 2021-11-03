@@ -56,7 +56,7 @@ Let's find the values and the distribution for the class variable across all yea
 gss_get_marginals("class", gss_doc)
 ```
 
-You can see in the table above that values of 0, 8, and 9 are all NA. Values of 5 should probably also be NA, but that kind of decision is up to the researcher. If you just want a quick way to see the values that the GSS identifes with missing responses, access the question's properties.
+You can see in the table above that values of 0, 8, and 9 are all NA. Values of 5 should probably also be NA, but that kind of decision is up to the researcher. If you just want a quick way to see the values that the GSS identifies with missing responses, access the question's properties.
 
 ```{r}
 gss_get_props("class", gss_doc)
