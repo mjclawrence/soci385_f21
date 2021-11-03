@@ -1,5 +1,5 @@
 ---
-ouput: pdf_document
+output: pdf_document
 ---
 
 
@@ -28,7 +28,7 @@ The variables are:
 
 ### Questions
 
-```{r}
+```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(gssr)
 ```
