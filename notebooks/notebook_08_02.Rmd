@@ -1,10 +1,3 @@
----
-title: "Differences in Proportions"
-author: "Matt Lawrence"
-date: "11/3/2021"
-output: pdf_document
----
-
 ## Setting Up
 
 We'll start with the `week_8_1.csv` file again today. Load it with the usual packages.
@@ -21,44 +14,10 @@ week_8_1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-# Average number of political actions between upper and working class respondents
-t.test(week_8_1$polactions[week_8_1$class=="Lower"],
-       week_8_1$polactions[week_8_1$class=="Working"],
-       conf.level = .95)
-```
-
-Difference is not significant because you cannot reject the null hypothesis that the true difference is 0. Test statistic of -1.5848 is not more extreme than -1.96, p-value of .1142 is not less than .05, and confidence interval does include 0.
-
-What is the relationship between the test statistic and the p-value?
-
-```{r}
-pt(-1.5848, df = 268.46) # probability of a more extreme value to the left of t
-1 - pt(1.5848, df = 268.46) # probability of a more extreme value to the right of t
-pt(-1.5848, df = 268.46) * 2 # sum of probabilities = p-value
-```
-
-These degrees of freedom are different from what we saw before because the t-test adjusts for the samples' variances not being equal. If we assert that the variances are equal, we get df = n1 + n2 - 2
-
-```{r}
-t.test(week_8_1$polactions[week_8_1$class=="Lower"],
-       week_8_1$polactions[week_8_1$class=="Working"],
-       conf.level = .95,
-       var.equal = TRUE)
-```
-
 
 2. Test if there is a significant difference (at the 95% confidence level) in average age between respondents who work for someone else and respondents who are self employed. Use the `age` variable for age and the `wrkslf` variable for work status.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-# Average age between respondents who work for someone else and who are self employed
-t.test(week_8_1$age[week_8_1$wrkslf=="Work For Someone Else"],
-       week_8_1$age[week_8_1$wrkslf=="Self Employed"])
-```
-
-Difference is significant because you can reject the null hypothesis that the true difference is 0. Test statistic of -12.416 is more extreme than -1.96, p-value of 2.2e-16 is less than .05, and confidence interval does not include 0.
 
 
 ## Comparing Proportions
@@ -92,37 +51,17 @@ Start by cleaning up the data frame so we only have female respondents. You can 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-week_8_1 <- filter(week_8_1, sex == "Female")
-```
-
-
 Let's review a proportion table with `racehisp` in the rows and `agekdbrn` in the columns.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r proportion table}
-round(prop.table(table(week_8_1$racehisp, 
-      week_8_1$agekdbrn),1),3)
-```
 
 This is going to be easier if we make a binary variable called `teen_birth` where respondents who were 19 or younger when they had their first birth are coded with a 1 and everyone else gets a 0.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-week_8_1 <- week_8_1 |> 
-   mutate(teen_birth = ifelse(agekdbrn<=19, 1, 0))
-```
-
 And look at the proportions with a 1 by race.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-
-```{r}
-round(prop.table(table(week_8_1$racehisp, week_8_1$teen_birth),1),3)
-```
 
 Is there a significant difference in the Black and Hispanic proportions at the .05 alpha level?
 
@@ -167,7 +106,6 @@ Let's try a couple examples with a new dataset
 week_8_2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/week_8_2.csv")
 ```
 
-We'll start with class differences in how respondents think people "get ahead".
 
 ## Exercise 1
 
@@ -175,71 +113,9 @@ At the .05 level, test the difference between the proportion of working class re
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-Start with a proportion table with `class` in the rows and `getahead` in the columns:
-
-```{r proportion table}
-round(prop.table(table(week_8_2$class, 
-      week_8_2$getahead),1),3)
-```
-Now create a binary variable for "Hard work" (call it `hardwork`) and filter for the observations you want to compare in a table.
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r exercise set up, warning = FALSE, message = FALSE}
-
-# Create Data Frame:
-example1 <- week_8_2  |>
-   mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |>
-   filter(class == "Working class" | class == "Middle class") |>
-   droplevels()
-```
-
-This also works if you want to use str_detect with multiple strings!
-
-```{r}
-example1 <- week_8_2 |> 
-   mutate(hardwork = ifelse(getahead == "Hard work", 1, 0)) |> 
-   filter(str_detect(class, "Working|Middle")) |> # No space before or after |
-   droplevels()
-```
-
-Now save the frequency table and run the test.
-
-```{r}
-# Save Table:
-example1_table <- table(example1$class, example1$hardwork)
-
-# Run Test:
-prop.test(example1_table)
-```
-
 
 ## Exercise 2
 
 At the .05 level, test the difference between the proportion of Black respondents who say that hard work is how people get ahead and the proportion of white respondents who say that hard work is how people get ahead. Use the variable name `hardwork` when you make the binary variable for "Hard work".
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-prop.table(table(week_8_2$racehisp, week_8_2$getahead),1)
-```
-
-
-```{r set up binary variable and filter}
-exercise2 <- week_8_2 |>
-   mutate(hardwork = 
-             ifelse(getahead == "Hard work", 1, 0)) |>
-   filter(str_detect(racehisp, "Black|White")) |> 
-   droplevels()
-```
-
-```{r proportions exercise frequency table}
-exercise2_table <- table(exercise2$racehisp, exercise2$hardwork)
-exercise2_table
-```
-
-And now feed this saved table into the `prop.test()` function:
-
-```{r prop test with frequency table}
-prop.test(exercise2_table)
-```

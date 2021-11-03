@@ -6,7 +6,7 @@ Install the `gssr` package:
 remotes::install_github("kjhealy/gssr")
 ```
 
-You do not have to reinstall the package so put a hashtag in front of the `remotes...` line in the chunk above.
+You do not have to reinstall the package so put a hashtag in front of the `remotes...` line in the chunk above after the package has installex.
 
 You will have to load the package every time you want to use it. You load it just as you load any other package. We'll also load tidyverse to use its helper functions.
 
