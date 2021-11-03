@@ -22,7 +22,7 @@ week_8_1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r}
-# Average number of political actions between upper and working class respondents
+# Average number of political actions between lower and working class respondents
 t.test(week_8_1$polactions[week_8_1$class=="Lower"],
        week_8_1$polactions[week_8_1$class=="Working"],
        conf.level = .95)
@@ -33,9 +33,10 @@ Difference is not significant because you cannot reject the null hypothesis that
 What is the relationship between the test statistic and the p-value?
 
 ```{r}
-pt(-1.5848, df = 268.46) # probability of a more extreme value to the left of t
-1 - pt(1.5848, df = 268.46) # probability of a more extreme value to the right of t
-pt(-1.5848, df = 268.46) * 2 # sum of probabilities = p-value
+pt(-1.5848, df = 268.46) # probability of a more extreme value to the left of negative t
+1 - pt(1.5848, df = 268.46) # probability of a more extreme value to the right of positive t
+pt(-1.5848, df = 268.46) + (1 - pt(1.5848, df = 268.46)) # sum of probabilities = p-value
+pt(-1.5848, df = 268.46) * 2 # simplified way to get the sum of probabilities
 ```
 
 These degrees of freedom are different from what we saw before because the t-test adjusts for the samples' variances not being equal. If we assert that the variances are equal, we get df = n1 + n2 - 2
