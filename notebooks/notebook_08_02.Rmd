@@ -14,7 +14,6 @@ week_8_1 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-
 2. Test if there is a significant difference (at the 95% confidence level) in average age between respondents who work for someone else and respondents who are self employed. Use the `age` variable for age and the `wrkslf` variable for work status.
 
 ### REPLACE THIS LINE WITH YOUR CODE
@@ -112,7 +111,6 @@ week_8_2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/
 At the .05 level, test the difference between the proportion of working class respondents who say that hard work is how people get ahead and the proportion of middle class respondents who say that hard work is how people get ahead. Use the variable name `hardwork` when you make the binary variable for "Hard work".
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
 
 ## Exercise 2
 
