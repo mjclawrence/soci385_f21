@@ -97,7 +97,6 @@ Start by cleaning up the data frame so we only have female respondents. You can 
 week_8_1 <- filter(week_8_1, sex == "Female")
 ```
 
-
 Let's review a proportion table with `racehisp` in the rows and `agekdbrn` in the columns.
 
 ### REPLACE THIS LINE WITH YOUR CODE
