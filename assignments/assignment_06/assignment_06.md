@@ -41,4 +41,4 @@ The variables are:
 
 4. Is there a significant difference in the 2018 survey in the proportion of female respondents who report having excellent or good health (vs fair or poor health) and the proportion of male respondents who report having excellent or good health (vs fair or poor health)? Why or why not?
 
-5. Is there a significant difference in the 2018 survey in the proportion of working class respondents who report having excellent health (vs fair or poor health) and the proportion of middle class respondents who report having excellent health (vs fair or poor health)? Why or why not?
+5. Is there a significant difference in the 2018 survey in the proportion of working class respondents who report having excellent health and the proportion of middle class respondents who report having excellent health? Why or why not?

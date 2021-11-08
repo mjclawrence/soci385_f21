@@ -4,6 +4,98 @@ data("gss_doc")
 data("gss_all")
 
 
+## PS 2
+
+ps2 <- gss_all |> 
+  filter(year>=2010) |> 
+  select(year, age, eqwlth, conlegis,
+         degree, race, hispanic) |> 
+  mutate(racehisp = ifelse(hispanic>1, 4, race),
+       racehisp = factor(racehisp,
+                         labels = c("White", "Black",
+                                    "Other", "Hispanic"))) |>
+  select(-c(race, hispanic)) |>
+  filter(!is.na(racehisp)) |> 
+  mutate(conlegis = factor(conlegis,
+                           labels = c("A great deal",
+                                      "Only some",
+                                      "Hardly any")),
+         degree = factor(degree,
+                         labels = c("Less than HS",
+                                    "HS Diploma",
+                                    "Some College",
+                                    "Bachelor's Degree",
+                                    "Grad/Prof Degree"))) |>
+  filter(!is.na(eqwlth))
+
+write.csv(ps2, "data/ps2.csv", row.names = FALSE)
+
+q1 <- ps2 %>% group_by(year) %>% 
+  summarize(mean = mean(eqwlth),
+            sd = sd(eqwlth),
+            n = length(eqwlth),
+            se = sd / sqrt(n),
+            ll = mean - 1.96*se,
+            ul = mean + 1.96*se)
+q1
+
+ggplot(q1, aes(x = factor(year), y = mean, ymin = ll, ymax = ul)) + geom_point() + geom_errorbar() +
+  ylim(c(1,5))
+
+# Q2
+ps2 <- ps2 %>%
+  mutate(agecat = 
+           ifelse(age %in% 18:24, 1,
+                  ifelse(age %in% 25:39, 2,
+                         ifelse(age %in% 40:54, 3,
+                                ifelse(age %in% 55:64, 4, 5)))))
+
+
+multiple_ttests <- ps2 %>%
+  group_by(agecat) %>%
+  filter(year == 2010 | year == 2018) %>%
+  summarise_each(list(~t.test(.[year == 2010], .[year == 2018])$statistic,
+                      ~t.test(.[year == 2010], .[year == 2018])$p.value,
+                      ~t.test(.[year == 2010], .[year == 2018])$estimate[[1]],
+                      ~t.test(.[year == 2010], .[year == 2018])$estimate[[2]]), 
+                 vars = eqwlth) |> 
+  mutate(difference = `vars_[[..3` - `vars_[[..4`) |> 
+  select(-c(4:5))
+multiple_ttests
+
+
+
+q3 <- ps2 %>% mutate(conf_hi = 
+                       ifelse(conlegis == "Hardly any", 1, 0)) %>%
+  filter(eqwlth==1 | eqwlth==7)
+
+# Create a table
+q3_table <- table(q3$eqwlth, q3$conf_hi)
+pander(round(prop.table(q3_table,1),3))
+
+# Run prop.test on the table
+prop.test(q3_table)
+
+q4b <- filter(ps2, degree=="Less than HS")
+chisq.test(q4b$racehisp, q4b$eqwlth)
+
+fisher.test(q4b$racehisp, q4b$eqwlth, simulate.p.value = TRUE)
+
+library(vcdExtra)
+
+# Put conlegis in the right order
+ps2$conlegis <- factor(ps2$conlegis, 
+                       levels = c("Hardly any", "Only some", "A great deal"))
+
+# Make a table
+q4c_table <- table(ps2$agecat, ps2$conlegis)
+
+# Run the test on the table
+GKgamma(q4c_table)
+
+---
+
+
 gss_doc %>% filter(id == "educ") %>%
   select(properties) %>%
   unnest(cols = c(properties))

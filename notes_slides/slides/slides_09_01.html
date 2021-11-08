@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-11-08" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Categorical Associations
+### November 8, 2021
+
+---
+
+
+
+
+
+
+
+# Assignment 6 Review
+
+
+--
+
+### Cleanup
+
+
+```r
+assignment_6 &lt;- assignment_6 |&gt; 
+  mutate(health = factor(health,
+                         labels = c("Excellent", "Good",
+                                    "Fair", "Poor")),
+         class = factor(class,
+                        labels = c("Lower", "Working",
+                                   "Middle", "Upper")))
+```
+
+
+---
+
+# Assignment 6 Review
+
+### Q2. Is there a significant difference in mean hours worked last week between respondents identifying with the lower class and respondents identifying with the working class? Why or why not?
+
+--
+
+
+```r
+t.test(assignment_6$hrs1[assignment_6$class==
+                            "Lower"],
+       assignment_6$hrs1[assignment_6$class==
+                            "Working"])
+```
+
+---
+
+# Assignment 6 Review 
+
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  assignment_6$hrs1[assignment_6$class == "Lower"] and assignment_6$hrs1[assignment_6$class == "Working"]
+## t = -4.0901, df = 138.41, p-value = 7.28e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -8.915424 -3.104682
+## sample estimates:
+## mean of x mean of y 
+##  36.28099  42.29104
+```
+
+--
+
+### Can reject: t more extreme than -1.96, p-value less than .05, null hypothesis value not in confidence interval
+
+---
+
+# Assignment 6 Review
+
+### Q3.  Is there a significant difference in mean hours worked last week between respondents identifying with the lower class in the 2008 survey and respondents identifying with the lower class in the 2018 survey? Why or why not?
+
+--
+
+
+```r
+t.test(assignment_6$hrs1[assignment_6$class=="Lower" &amp;
+                            assignment_6$year==2008],
+       assignment_6$hrs1[assignment_6$class=="Lower" &amp;
+                            assignment_6$year==2018])
+```
+
+---
+
+# Assignment 6 Review
+
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  assignment_6$hrs1[assignment_6$class == "Lower" &amp; assignment_6$year == 2008] and assignment_6$hrs1[assignment_6$class == "Lower" &amp; assignment_6$year == 2018]
+## t = 0.54403, df = 110.52, p-value = 0.5875
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -4.026162  7.073315
+## sample estimates:
+## mean of x mean of y 
+##  37.21277  35.68919
+```
+
+--
+
+### Cannot reject: t less extreme than 1.96, p-value greater than .05, null hypothesis value is in confidence interval
+
+---
+
+# Assignment 6 Review
+
+### Q4. Is there a significant difference in the 2018 survey in the proportion of female respondents who report having excellent or good health (vs fair or poor health) and the proportion of male respondents who report having excellent or good health (vs fair or poor health)? Why or why not?
+
+--
+
+
+```r
+# Start by making a binary value for excelent/good health 
+#     vs fair/poor health
+# And filter for 2018 survey
+
+question_4 &lt;- assignment_6 |&gt; 
+  mutate(excellent_good_health = ifelse(health == "Excellent" | health == "Good", 1, 0)) |&gt; 
+  filter(year == 2018)
+
+# Save frequency table
+
+health_sex_table &lt;- table(question_4$sex, question_4$excellent_good_health)
+```
+
+---
+
+# Assignment 6 Review
+
+
+```r
+# Run prop.test on the saved table
+
+prop.test(health_sex_table)
+```
+
+```
+## 
+## 	2-sample test for equality of proportions with continuity correction
+## 
+## data:  health_sex_table
+## X-squared = 1.689, df = 1, p-value = 0.1937
+## alternative hypothesis: two.sided
+## 95 percent confidence interval:
+##  -0.01520217  0.07706626
+## sample estimates:
+##    prop 1    prop 2 
+## 0.2969871 0.2660550
+```
+
+---
+
+# Assignment 6 Review
+
+### Cannot reject: p-value greater than .05, null hypothesis value is in confidence interval
+
+---
+
+# Assignment 6 Review
+
+### Q5. Is there a significant difference in the proportion of working class respondents who report having excellent (vs fair or poor health) and the proportion of middle class respondents who report having excellent health (vs fair or poor health) ? Why or why not?
+
+--
+
+
+```r
+question_5 &lt;- assignment_6 |&gt; 
+  filter(health != "Good") |&gt; 
+  mutate(excellent_health = ifelse(health == "Excellent", 1, 0)) |&gt; 
+  filter(class == "Working" | class == "Middle") |&gt; 
+  droplevels()
+
+year_health_table &lt;- table(question_5$class,
+                           question_5$excellent_health)
+```
+
+---
+
+# Assignment 6 Review
+
+
+```r
+prop.test(year_health_table)
+```
+
+```
+## 
+## 	2-sample test for equality of proportions with continuity correction
+## 
+## data:  year_health_table
+## X-squared = 37.275, df = 1, p-value = 1.026e-09
+## alternative hypothesis: two.sided
+## 95 percent confidence interval:
+##  0.1167729 0.2278993
+## sample estimates:
+##    prop 1    prop 2 
+## 0.5949367 0.4226006
+```
+
+---
+
+# Assignment 6 Review
+
+### Can reject the null: p-value less than .05, null hypothesis value is not in confidence interval
+
+---
+
+# Significance and Association
+
+### Testing significance of *differences* of proportions works when we only have two levels
+
+--
+
+### Today: statistical significance of *distributions* of categorical variables with two or more levels
+
+---
+
+# Significance and Association
+
+### Using the `week_9.csv` file, make a table (including the sums) with `region` in the rows and `courts` in the columns
+
+
+
+---
+
+# Significance and Association
+
+
+```r
+addmargins(table(week9$region, week9$courts))
+```
+
+```
+##               
+##                About right Not harsh enough Too harsh  Sum
+##   Mid Atlantic         226              594       165  985
+##   Midwest              642             2296       556 3494
+##   New England           84              296        60  440
+##   Southeast            319             1110       286 1715
+##   West                 394             1130       358 1882
+##   Sum                 1665             5426      1425 8516
+```
+
+---
+
+# Significance and Association
+
+### Are variables dependent or independent?
+
+--
+
+- Dependent = Association. Knowing value of one variable helps predict value of the other variable
+- Independent = No association. Knowing value of one variable does not help predict value of the other variable
+
+--
+
+### Will also want to know if association is strong or weak
+- Often more important than only knowing about statistical significance
+
+---
+
+# Association and Chi-Squared Test
+### With means and proportions, used t- and z-distributions
+
+--
+
+### Difference based on sample size and degrees of freedom
+
+--
+
+### Assumed a normal distribution
+- CLT says distribution of sample means or sample proportions are normally distributed
+
+---
+
+# Association and Chi-Squared Test
+
+### Not the same when variables have more than two options
+- Political Party = Democrat, Independent, Republican
+- Race, Class, Religion, Region, Marital Status, Labor Force Status, etc.
+
+--
+
+### For today's tests, should use non-ordered variables
+
+--
+
+### If we do not use a mean or create a binary variable, how do we measure significance of distribution?
+
+---
+
+# Chi-Squared Test
+
+### Like previous tests, we will calculate a test statistic and convert it to a probability of getting a more extreme value
+
+--
+
+### Also like previous tests, we will see if that probability allows us to reject a null hypothesis
+
+--
+
+### `\(\large{H_0:}\)` Region of residence and beliefs about courts are independent (no association)
+
+--
+
+### `\(\large{H_A:}\)` Region of residence and beliefs about courts are dependent (association)
+
+--
+
+### Test Statistic Formula: `\(\Large{x^2 = \sum {\frac {(f_o- f_e)^2} {f_e}}}\)`
+
+---
+
+# Chi-Squared Test
+
+--
+
+### Two key points:
+- Use frequencies (counts) rather than proportions
+- Compare *observed* frequencies to *expected* frequencies
+
+--
+
+### Distribution is not normally distributed
+- No negative test statistics, so only consider the "right-tail"
+- Shape changes based on DF (but always skewed right)
+- DF = (rows - 1) * (columns - 1)
+
+--
+
+### Test-statistic not like z-score or t-score, but p-value similar to what we have seen
+
+--
+
+### Still need big sample size (expected&gt;5 *in each cell*)
+
+---
+
+# Chi-Squared Test - Example
+### Let's look at the table of observed frequencies:
+
+--
+
+
+```r
+addmargins(table(week9$region, week9$courts))
+```
+
+```
+##               
+##                About right Not harsh enough Too harsh  Sum
+##   Mid Atlantic         226              594       165  985
+##   Midwest              642             2296       556 3494
+##   New England           84              296        60  440
+##   Southeast            319             1110       286 1715
+##   West                 394             1130       358 1882
+##   Sum                 1665             5426      1425 8516
+```
+
+---
+
+# Chi-Squared Test - Example
+
+--
+
+### If distribution of beliefs about courts is equal across regions, expected value of each cell should be: 
+- (total in row * total in column) / (total in table)
+
+--
+
+### What is the expected value for the "Mid Atlantic, About right" cell?
+
+--
+
+
+```r
+(985 * 1665) / 8516
+```
+
+```
+## [1] 192.5816
+```
+
+--
+
+### For the test statistic, we need the expected values in every cell. For now, calculate them for the other two columns in the first row...
+
+---
+
+# Chi-Squared Test - Example
+
+
+```r
+# For Mid Atlantic, Not Harsh Enough:
+(985 * 5426) / 8516
+```
+
+```
+## [1] 627.5963
+```
+
+```r
+# For Mid Atlantic, Too Harsh:
+(985 * 1425) / 8516
+```
+
+```
+## [1] 164.8221
+```
+
+---
+
+# Chi-Squared Test - Example
+
+### Make a table of all the expected frequencies:
+
+--
+
+
+```r
+expected_ma &lt;- c(192.5816, 627.5963, 164.82210)
+expected_mw &lt;- c(683.1271, 2226.2147, 584.65829)
+expected_ne &lt;- c(86.0263, 280.3476, 73.62612)
+expected_se &lt;- c(335.3071, 1092.7184, 286.97452)
+expected_we &lt;- c(367.9580, 1199.1231, 314.91898)
+
+expected_table &lt;- rbind(expected_ma, expected_mw, 
+                  expected_ne, expected_se, expected_we)
+rownames(expected_table) &lt;- c("Mid Atlantic", "Midwest", 
+      "New England", "Southeast", "West")
+colnames(expected_table) &lt;- c("About right", 
+      "Not harsh enough", "Too harsh")
+```
+
+---
+
+# Chi-Squared Test - Example
+
+
+```r
+expected_table
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; About right &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Not harsh enough &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Too harsh &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mid Atlantic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 192.582 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 627.596 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 164.822 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Midwest &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 683.127 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2226.215 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 584.658 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New England &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 86.026 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 280.348 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 73.626 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southeast &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 335.307 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1092.718 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 286.975 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; West &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 367.958 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1199.123 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 314.919 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Chi-Squared Test - Example
+
+### And save the observed frequencies (without the marginals)
+
+
+```r
+observed_table &lt;- table(week9$region, week9$courts)
+```
+
+---
+
+# Chi-Squared Test - Example
+
+### The difference between each observed and expected value is the *residual*
+
+--
+
+
+```r
+residual_table &lt;- observed_table - expected_table
+```
+
+---
+
+# Chi-Squared Test - Example
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; About right &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Not harsh enough &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Too harsh &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mid Atlantic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 33.418 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -33.596 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.178 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Midwest &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -41.127 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 69.785 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -28.658 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New England &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -2.026 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 15.652 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -13.626 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southeast &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -16.307 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 17.282 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.975 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; West &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 26.042 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -69.123 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.081 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Chi-Squared Test - Example
+
+### Formula: `\(\large{x^2 = \sum {\frac {(f_o - f_e)^2} {f_e}}}\)`
+
+--
+
+### For each cell, square the residual and divide it by the expected frequency
+
+--
+
+### Squaring the difference always gives a positive value, which is why we are only working with the right-tail probabilities
+
+--
+
+
+```r
+chi2_table &lt;- (residual_table^2)/expected_table
+chi2_table
+```
+
+---
+
+# Chi-Squared Test - Example
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; About right &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Not harsh enough &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Too harsh &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mid Atlantic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.799 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.798 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Midwest &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.476 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.188 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.405 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New England &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.048 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.874 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.522 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southeast &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.793 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.273 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.003 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; West &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.843 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.985 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.893 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Chi-Squared Test - Example
+
+### Test statistic is the sum of all the values of `\(\large{\frac {(f_0 - f_e)^2} {f_e}}\)`
+
+--
+
+
+```r
+sum(chi2_table)
+```
+
+```
+## [1] 29.9
+```
+
+--
+
+### Degrees of Freedom = (#rows - 1)(#columns - 1)
+
+--
+
+
+```r
+(5-1)*(3-1)
+```
+
+```
+## [1] 8
+```
+
+---
+
+# Chi-Squared Test - Example
+
+### If test statistic is greater than our cutoff, we can reject the null hypothesis that the variables are independent
+
+--
+
+### To find the cutoff, use `qchisq()` with the degrees of freedom. Note that in the chi-squared test, we only use the area to the right, so for .05 we use .95 (not .975 like the two-tailed t-test):
+
+--
+
+
+```r
+qchisq(.95, df = 8)
+```
+
+```
+## [1] 15.50731
+```
+
+---
+
+# Chi-Squared Test - Example
+
+### With DF=8, need a chi-squared test statistic at least as big as 15.50731 to reject the null hypothesis.
+
+--
+
+### With our test statistic of 29.9, we can reject the null
+
+--
+
+### Can also convert to p-value
+
+--
+
+
+```r
+1 - pchisq(29.9, df = 8)
+```
+
+```
+## [1] 0.0002201563
+```
+
+--
+
+### There is a .0002 chance of getting a test statistic more extreme than our test statistic. That is less than .05 so we can reject the null hypothesis that the variables are independent.
+
+---
+
+# Chi-Squared Test - Example
+
+### Shortcut in `R`:
+
+--
+
+
+```r
+chisq.test(week9$region, week9$courts)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  week9$region and week9$courts
+## X-squared = 29.9, df = 8, p-value = 0.0002201
+```
+
+---
+
+# Chi-Squared Test - Example
+
+![:scale 125%](385_figures/chisq_region_courts.png)
+
+### Test statistic in red, degrees of freedom in blue, p-value in green
+
+---
+
+# Chi-Squared Test - Example
+
+### Try one more: Is there a significant association between `region` and `nateduc` ("Are we spending too much on education")?
+
+--
+
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; About right &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Too little &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Too much &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mid Atlantic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 126 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 415 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 36 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Midwest &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 412 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1319 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 119 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New England &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 50 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 167 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 18 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southeast &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 208 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 678 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; West &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 191 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 794 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 65 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Chi-Squared Test - Example
+
+
+```r
+chisq.test(week9$region, week9$nateduc)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  week9$region and week9$nateduc
+## X-squared = 9.087, df = 8, p-value = 0.335
+```
+
+--
+
+### Cannot reject the null hypothesis that the variables are independent. Need a test statistic of 15.51, but our test statistic is less than that. And our p-value is greater than .05.
+
+---
+
+# Real World Relevance!
+
+--
+
+![](385_figures/spouses.png)
+
+---
+
+# Chi-Squared Test - Exercises
+
+### Test a pair where you think there would be a significant association
+
+### Test a pair where you do not think there would be a significant association
+
+---
+
+# Stop Here On Monday
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
