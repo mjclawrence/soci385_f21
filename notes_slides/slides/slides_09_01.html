@@ -135,16 +135,16 @@ t.test(assignment_6$hrs1[assignment_6$class=="Lower" &amp;
 
 
 ```r
-# Start by making a binary value for excelent/good health 
+# Start by making a binary value for excellent/good health 
 #     vs fair/poor health
 # And filter for 2018 survey
 
 question_4 &lt;- assignment_6 |&gt; 
-  mutate(excellent_good_health = ifelse(health == "Excellent" | health == "Good", 1, 0)) |&gt; 
+  mutate(excellent_good_health = ifelse(health == "Excellent" | 
+                                          health == "Good", 1, 0)) |&gt; 
   filter(year == 2018)
 
 # Save frequency table
-
 health_sex_table &lt;- table(question_4$sex, question_4$excellent_good_health)
 ```
 
@@ -173,9 +173,7 @@ prop.test(health_sex_table)
 ## 0.2969871 0.2660550
 ```
 
----
-
-# Assignment 6 Review
+--
 
 ### Cannot reject: p-value greater than .05, null hypothesis value is in confidence interval
 
@@ -222,9 +220,7 @@ prop.test(year_health_table)
 ## 0.5949367 0.4226006
 ```
 
----
-
-# Assignment 6 Review
+--
 
 ### Can reject the null: p-value less than .05, null hypothesis value is not in confidence interval
 
