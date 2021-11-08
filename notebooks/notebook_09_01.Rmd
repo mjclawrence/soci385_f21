@@ -1,11 +1,3 @@
----
-title: "Tests of Association"
-date: "November 8, 2021"
-author: "Matt Lawrence"
-output:
-  pdf_document: default
----
-
 ## Setting Up
 
 We'll use the `week_9.csv` file today. Load it as a data frame called `week9` and load the usual packages:
@@ -13,7 +5,6 @@ We'll use the `week_9.csv` file today. Load it as a data frame called `week9` an
 ```{r, include = FALSE, warning = FALSE}
 week9 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/week_9.csv")
 library(tidyverse)
-library(pander)
 ```
 
 ## Introducing Association
@@ -23,10 +14,6 @@ Two variables have a *dependent association* if knowing value of one variable he
 We want to know if there is a statistically significant dependent association between geographic place and beliefs about whether courts deal too harshly or not harshly enough with criminals. Make a table (including the sums) with `region` in the rows and `courts` in the columns:
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-addmargins(table(week9$region, week9$courts))
-```
 
 
 We will use the chi-squared test of independence to test whether or not we can reject the null hypothesis that there is no association between the two variables. The test statistic is:
@@ -48,13 +35,6 @@ Calculate the expected values for the other two columns in the first row:
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-# For Mid Atlantic, Not Harsh Enough:
-(985 * 5426) / 8516
-
-# For Mid Atlantic, Too Harsh:
-(985 * 1425) / 8516
-```
 
 To do the chi-squared test by hand, we will need a table with all the expected frequencies. We just did the Mid Atlantic row; here are those frequencies saved as a vector, a separate vector for each additional region, and the code to make the table:
 
@@ -91,10 +71,6 @@ The difference between each observed and expected value is the *residual*. Save 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-residual_table <- observed_table - expected_table
-```
-
 For each cell, square the residual and divide it by its expected frequency:
 
 ```{r}
@@ -115,10 +91,6 @@ For this test, the degrees of freedom are calculated as:
 So in the regionsXcourts table, the degrees of freedom are...
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-(5-1) * (3-1)
-```
 
 To find the cutoff for the critical region, use `qchisq()` with the degrees of freedom:
 
@@ -149,32 +121,8 @@ Is there a significant association between `region` and `nateduc` (the variable 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-chisq.test(week9$region, week9$nateduc)
-```
-
 ## More practice...
 
 Test a pair of variables where you think there would be a significant association. Test a pair of variables where you do not think there would be a significant association.
 
-```{r}
-chisq.test(week9$sex, week9$abany)
-```
-
-```{r}
-chisq.test(week9$class, week9$nateduc)
-```
-
-```{r}
-qchisq(.95, df = 6)
-```
-
-```{r}
-library(vcdExtra)
-```
-
-```{r}
-gamma_table <- table(week9$class, week9$nateduc)
-GKgamma(gamma_table)
-```
 
