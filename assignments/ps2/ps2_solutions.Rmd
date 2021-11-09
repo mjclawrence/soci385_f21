@@ -1,0 +1,235 @@
+---
+title: "Problem Set 2 Solutions"
+output:
+  pdf_document: default
+---
+
+```{r, message = FALSE, warning = FALSE, include = FALSE}
+library(tidyverse)
+library(vcdExtra)
+library(broom)
+ps2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/ps2.csv")
+```
+
+**1. Without using any R shortcuts, find the 95% confidence interval for the mean of `eqwlth` in each of the following years: 2010, 2014, and 2018. Plot these intervals in a figure (with error bars), and use your figure to describe how the mean responses have changed over the survey years.**
+
+Students will probably do this separately for observations from each year. 
+
+For example, from 2010:
+
+```{r}
+year_2010 <- filter(ps2, year == 2010)
+mean_2010 <- mean(year_2010$eqwlth)
+se_2010 <- sd(year_2010$eqwlth) / sqrt(length(year_2010$eqwlth))
+ll_2010 <- mean_2010 - 1.96*se_2010
+ul_2010 <- mean_2010 + 1.96*se_2010
+ci_2010 <- c(ll_2010, mean_2010, ul_2010)
+ci_2010
+```
+
+And from 2014:
+```{r}
+year_2014 <- filter(ps2, year == 2014)
+mean_2014 <- mean(year_2014$eqwlth)
+se_2014 <- sd(year_2014$eqwlth) / sqrt(length(year_2014$eqwlth))
+ll_2014 <- mean_2014 - 1.96*se_2014
+ul_2014 <- mean_2014 + 1.96*se_2014
+ci_2014 <- c(ll_2014, mean_2014, ul_2014)
+ci_2014
+```
+
+And from 2018:
+```{r}
+year_2018 <- filter(ps2, year == 2018)
+mean_2018 <- mean(year_2018$eqwlth)
+se_2018 <- sd(year_2018$eqwlth) / sqrt(length(year_2018$eqwlth))
+ll_2018 <- mean_2018 - 1.96*se_2018
+ul_2018 <- mean_2018 + 1.96*se_2018
+ci_2018 <- c(ll_2018, mean_2018, ul_2018)
+ci_2018
+```
+
+Once you have a confidence interval for each year, combine them into a table:
+
+```{r}
+ci_years <- round(rbind(ci_2010, ci_2014, ci_2018),3)
+ci_years
+```
+
+Then clean up the table
+
+```{r}
+ci_years_rownames <- as.factor(c(2010, 2014, 2018))
+ci_years_df <- cbind.data.frame(ci_years_rownames, ci_years) 
+colnames(ci_years_df) <- c("Year", "LL", "Mean", "UL")
+ci_years_df
+```
+
+And use the new data frame for your plot
+
+```{r}
+years_plot <- ggplot(ci_years_df, aes(x = Year, y = Mean,
+                                      ymin = LL, ymax = UL))
+years_plot + geom_point() + geom_errorbar() +
+     labs(title = "Should Government Reduce Income Differences?",
+          subtitle = "General Social Survey (2010, 2014, 2018)",
+          caption = "Note: Lower values indicate more support for reducing income differences") + # not sure we have seen caption in class
+  theme(plot.caption = element_text(hjust = 0))
+```
+
+Here's a shortcut using group_by and summarize:
+
+```{r}
+
+q1 <- ps2 |> 
+  filter(year == 2010 | year == 2014 | year == 2018) |> 
+  group_by(year) %>% 
+     summarize(mean = mean(eqwlth),
+          sd = sd(eqwlth),
+          n = length(eqwlth),
+          se = sd / sqrt(n),
+          ll = mean - 1.96*se,
+          ul = mean + 1.96*se)
+q1
+```
+
+And the plot (note that with this approach you need to assert the `year` variable as a factor variable):
+
+```{r}
+plot_q1 <- ggplot(q1, aes(x = factor(year), y = mean,
+                          ymin = ll, ymax = ul))
+
+plot_q1 + geom_point() + geom_errorbar() +
+     labs(x = "Year", y = "Mean",
+          title = "Should Government Reduce Income Differences?",
+          subtitle = "General Social Survey (2010, 2014, 2018)",
+          caption = "Note: Lower values indicate more support for reducing income differences") + theme(plot.caption = element_text(hjust = 0))
+```
+
+
+**2. Create a new variable grouping the `age` variable into the following categories: 18-24, 25-39, 40-54, 55-64, 65+. Which (if any) age categories showed significant differences in mean `eqwlth` scores between the 2010 and 2018 surveys?**
+
+New variable using mutate and ifelse:
+
+```{r}
+ps2 <- ps2 %>%
+     mutate(agecat = 
+          ifelse(age %in% 18:24, 1,
+             ifelse(age %in% 25:39, 2,
+               ifelse(age %in% 40:54, 3,
+                 ifelse(age %in% 55:64, 4, 5)))))
+```
+
+Tests for each age category:
+
+```{r}
+t.test(ps2$eqwlth[ps2$agecat==1&ps2$year==2010],
+       ps2$eqwlth[ps2$agecat==1&ps2$year==2018])
+
+t.test(ps2$eqwlth[ps2$agecat==2&ps2$year==2010],
+       ps2$eqwlth[ps2$agecat==2&ps2$year==2018])
+
+t.test(ps2$eqwlth[ps2$agecat==3&ps2$year==2010],
+       ps2$eqwlth[ps2$agecat==3&ps2$year==2018])
+
+t.test(ps2$eqwlth[ps2$agecat==4&ps2$year==2010],
+       ps2$eqwlth[ps2$agecat==4&ps2$year==2018])
+
+t.test(ps2$eqwlth[ps2$agecat==5&ps2$year==2010],
+       ps2$eqwlth[ps2$agecat==5&ps2$year==2018])
+```
+
+Can see there are significant differences in means for groups 2, 3, and 5: p-values are less than .05, test statistics are more extreme than 1.96, and zero is not in the confidence intervals.
+
+We could also do this much more efficiently using group_by and summarise_each (but we have not seen how to do so in class so no expectation that you know how to do this).
+
+```{r}
+multiple_ttests <- ps2 |> 
+  group_by(agecat) |> 
+  filter(year == 2010 | year == 2018) %>%
+  summarise_each(list(~t.test(.[year == 2010], .[year == 2018])$statistic,
+                      ~t.test(.[year == 2010], .[year == 2018])$p.value,
+                      ~t.test(.[year == 2010], .[year == 2018])$estimate[[1]],
+                      ~t.test(.[year == 2010], .[year == 2018])$estimate[[2]],
+                      ~t.test(.[year == 2010], .[year == 2018])$conf.int[[1]],
+                      ~t.test(.[year == 2010], .[year == 2018])$conf.int[[2]]), 
+                 vars = eqwlth) |> 
+  mutate(difference = `vars_[[..3` - `vars_[[..4`) |> 
+  select(-c(4:5))
+round(multiple_ttests,3)
+```
+
+
+**3. Does the proportion of respondents with "Hardly any" confidence in congress differ between respondents at the lowest and highest extremes of the `eqwlth` scale?**
+
+```{r}
+# Create a binary variable
+q3 <- ps2 |>  
+  mutate(conf_hi = ifelse(conlegis == "Hardly any", 1, 0)) |> 
+  filter(eqwlth==1 | eqwlth==7)
+
+# Create a table
+q3_table <- table(q3$eqwlth, q3$conf_hi)
+round(prop.table(q3_table,1),3)
+
+# Run prop.test on the table
+prop.test(q3_table)
+```
+
+Yes, the proportions are significantly different. We can reject the null hypothesis that the difference is zero because the p-value is less than .05 and zero is not in the confidence interval. Don't look at the x-squared statistic for the proportion test.
+
+**4a. Is there an association between racehisp and eqwlth?**
+
+```{r}
+chisq.test(ps2$racehisp, ps2$eqwlth)
+```
+
+Use a chi-squared test here because both variables are categorical but at least one (racehisp) is not ordered. Yes, there is a significant association because we can reject the null hypothesis since the p-value is less than .05. That means the two variables are dependent.
+
+
+**4b. Among respondents with less than a high school diploma, is there an association between race/Hispanic status and eqwlth?**
+
+```{r}
+q4b <- filter(ps2, degree=="Less than HS")
+chisq.test(q4b$racehisp, q4b$eqwlth)
+```
+
+We get an error message, so let's see if the expected frequency in each cell is at least 5.
+
+```{r}
+chisq.test(q4b$racehisp, q4b$eqwlth)$expected
+```
+
+Some cells have fewer than five expected observations, so we need to use Fisher's Test
+
+```{r}
+fisher.test(q4b$racehisp, q4b$eqwlth, simulate.p.value = TRUE)
+```
+
+Cannot reject the null hypothesis because the p-value is greater than .05. That means there is not a significant association between these variables.
+
+
+**4c. Is there an association between age (use categories) and confidence in Congress?**
+
+These variables are ordered, so use the GK Gamma test
+
+```{r}
+library(vcdExtra)
+
+# Put conlegis in the right order
+ps2$conlegis <- factor(ps2$conlegis, 
+     levels = c("Hardly any", "Only some", "A great deal"))
+
+# Make a table
+q4c_table <- table(ps2$agecat, ps2$conlegis)
+
+# Run the test on the table
+GKgamma(q4c_table)
+```
+
+Then find the test statistic:
+```{r}
+-.215 / .015
+```
+
+There is a significant negative association: respondents in the youngest age categories tend to have more confidence in congress than respondents in the older age categories.

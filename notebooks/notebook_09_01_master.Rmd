@@ -178,3 +178,31 @@ gamma_table <- table(week9$class, week9$nateduc)
 GKgamma(gamma_table)
 ```
 
+
+```{r}
+round(prop.table(table(week9$born, week9$courts),1),3)
+```
+
+```{r}
+chisq.test(week9$born, week9$courts)
+qchisq(.95, df = 2)
+```
+
+```{r}
+round(prop.table(table(week9$born, week9$abany),1),3)
+```
+
+```{r}
+chisq.test(week9$born, week9$abany)
+qchisq(p = .95, 1)
+```
+
+```{r}
+round(prop.table(table(week9$sex, week9$region),1),3)
+```
+
+```{r}
+chisq.test(week9$sex, week9$region)
+qchisq(p = .95, df = 4)
+```
+
