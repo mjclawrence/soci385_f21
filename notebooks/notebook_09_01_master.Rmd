@@ -13,7 +13,6 @@ We'll use the `week_9.csv` file today. Load it as a data frame called `week9` an
 ```{r, include = FALSE, warning = FALSE}
 week9 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/week_9.csv")
 library(tidyverse)
-library(pander)
 ```
 
 ## Introducing Association

@@ -13,7 +13,6 @@ We'll use the `week_9.csv` file again today. Load it as a data frame called `wee
 ```{r, include = FALSE, warning = FALSE}
 week9 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/week_9.csv")
 library(tidyverse)
-library(pander)
 ```
 
 ## Reviewing Association
@@ -69,7 +68,7 @@ Are class and beliefs about abortion (the `abany` variable) associated?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 ```{r}
-pander(round(prop.table(table(week9$class ,week9$abany),1),3))
+round(prop.table(table(week9$class ,week9$abany),1),3)
 
 chisq.test(week9$class, week9$abany)
 
@@ -117,7 +116,7 @@ Use the chi-squared and Fisher's Exact tests when at least one of your categoric
 For an example, look at the cross-table of `year` and `courts`:
 
 ```{r}
-pander(table(week9$year, week9$courts))
+table(week9$year, week9$courts)
 ```
 
 These variables have a substantive ordering, but the levels for the courts variable are alphabetical. Let's put them in their actual order.

@@ -20,7 +20,8 @@ For example, from 2010:
 ```{r}
 year_2010 <- filter(ps2, year == 2010)
 mean_2010 <- mean(year_2010$eqwlth)
-se_2010 <- sd(year_2010$eqwlth) / sqrt(length(year_2010$eqwlth))
+se_2010 <- sd(year_2010$eqwlth) /
+  sqrt(length(year_2010$eqwlth))
 ll_2010 <- mean_2010 - 1.96*se_2010
 ul_2010 <- mean_2010 + 1.96*se_2010
 ci_2010 <- c(ll_2010, mean_2010, ul_2010)
@@ -31,7 +32,8 @@ And from 2014:
 ```{r}
 year_2014 <- filter(ps2, year == 2014)
 mean_2014 <- mean(year_2014$eqwlth)
-se_2014 <- sd(year_2014$eqwlth) / sqrt(length(year_2014$eqwlth))
+se_2014 <- sd(year_2014$eqwlth) /
+  sqrt(length(year_2014$eqwlth))
 ll_2014 <- mean_2014 - 1.96*se_2014
 ul_2014 <- mean_2014 + 1.96*se_2014
 ci_2014 <- c(ll_2014, mean_2014, ul_2014)
@@ -42,7 +44,8 @@ And from 2018:
 ```{r}
 year_2018 <- filter(ps2, year == 2018)
 mean_2018 <- mean(year_2018$eqwlth)
-se_2018 <- sd(year_2018$eqwlth) / sqrt(length(year_2018$eqwlth))
+se_2018 <- sd(year_2018$eqwlth) /
+  sqrt(length(year_2018$eqwlth))
 ll_2018 <- mean_2018 - 1.96*se_2018
 ul_2018 <- mean_2018 + 1.96*se_2018
 ci_2018 <- c(ll_2018, mean_2018, ul_2018)
