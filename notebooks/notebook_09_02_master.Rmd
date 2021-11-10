@@ -1,6 +1,6 @@
 ---
 title: "More Tests of Association, Wrapping Up Inference"
-date: "November 6, 2019"
+date: "November 10, 2021"
 author: "Matt Lawrence"
 output:
   pdf_document: default
