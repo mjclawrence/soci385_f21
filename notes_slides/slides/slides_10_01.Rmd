@@ -579,7 +579,7 @@ $\Large{s = \sqrt {\frac {\sum{(y - \hat{y})^2}}{n-2}}}$
 
 ```{r}
 hdi$predicted_life_expectancy <- 
-    fitted.values(schooling_life_model1)
+    schooling_life_model1$fitted.values
 ```
 
 ---
