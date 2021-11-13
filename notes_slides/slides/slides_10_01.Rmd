@@ -1,0 +1,780 @@
+---
+title: "Social Statistics"
+subtitle: "Introducing Regression"
+date: "November 15, 2021"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
+    nature:
+        highlightLines: true
+        highlightStyle: zenburn
+        highlightSpans: true
+        titleSlideClass: ["middle"]
+        beforeInit: "macros.js"
+---
+
+```{r setup, include=FALSE}
+# Change css [here](/notes_slides/slides/metropolis.css)
+
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+```
+
+
+
+```{r, include = FALSE}
+hdi <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data//hdi.csv")
+ps2 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/ps2.csv")
+library(tidyverse)
+library(pander)
+library(kableExtra)
+```
+
+# Quick PS2 Shortcuts
+
+### 1. Without using any R shortcuts, find the 95% confidence interval for the mean of `eqwlth` in each year.
+
+--
+
+```{r, eval = FALSE}
+
+q1 <- ps2 %>% group_by(year) %>% 
+     summarize(mean = mean(eqwlth),
+          sd = sd(eqwlth),
+          n = length(eqwlth),
+          se = sd / sqrt(n),
+          ll = mean - 1.96*se,
+          ul = mean + 1.96*se)
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+```{r, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
+
+q1 <- ps2 %>% group_by(year) %>% 
+     summarize(mean = mean(eqwlth),
+          sd = sd(eqwlth),
+          n = length(eqwlth),
+          se = sd / sqrt(n),
+          ll = mean - 1.96*se,
+          ul = mean + 1.96*se)
+
+kable(round(q1, 3), align = rep('c', 6))
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+```{r, eval = FALSE}
+plot_q1 <- ggplot(q1, aes(x = year, y = mean,
+                          ymin = ll, ymax = ul))
+
+plot_q1 + geom_point() + geom_errorbar() +
+labs(x = "Year",
+     y = "Mean",
+     title = "Should Government Reduce Income Differences?",
+     subtitle = "General Social Survey, 2010 - 2016",
+     caption = "Note: Lower values indicate more support for reducing income differences") + 
+     theme(plot.caption = element_text(hjust = 0))
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+plot_q1 <- ggplot(q1, aes(x = factor(year), y = mean,
+                          ymin = ll, ymax = ul))
+
+plot_q1 + geom_point() + geom_errorbar() +
+     labs(x = "Year",
+          y = "Mean",
+          title = "Should Government Reduce Income Differences?",
+          subtitle = "General Social Survey, 2010 - 2016",
+          caption = "Note: Lower values indicate more support for reducing income differences")+
+    theme(axis.title=element_text(size=20), axis.text=element_text(size=18),
+          plot.title=element_text(size=20), plot.subtitle=element_text(size=18),
+          plot.caption = element_text(size = 16, hjust = 0))
+```
+
+
+---
+
+# Quick PS2 Shortcuts
+
+### 2. Which (if any) age categories showed significant differences in mean `eqwlth` scores between the 2014 and 2016 surveys?
+
+--
+
+```{r, echo = FALSE}
+ps2 <- ps2 %>%
+     mutate(agecat = 
+          ifelse(age %in% 18:24, 1,
+             ifelse(age %in% 25:39, 2,
+               ifelse(age %in% 40:54, 3,
+                 ifelse(age %in% 55:64, 4, 5)))))
+```
+
+```{r}
+multiple_ttests <- ps2 %>%
+     group_by(agecat) %>%
+     filter(year == 2014 | year == 2016) %>%
+     summarise_each(list(~t.test(.[year == 2014],
+                                 .[year == 2016])$statistic,
+                         ~t.test(.[year == 2014],
+                                 .[year == 2016])$p.value), 
+                    vars = eqwlth)
+
+colnames(multiple_ttests) <- c("Age Category", "Test Statistic", 
+                               "P Value")
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+```{r, echo = FALSE}
+kable(round(multiple_ttests,3), align = rep('c', 3))
+```
+
+---
+
+# Where We've Been
+
+### Descriptive statistics gave us means, standard deviations
+- "What are the spreads and the shapes of our observed distributions?"
+
+--
+
+### Probability gave us ways to use our sample statistics to predict ranges of possible population parameters
+- "What is the likelihood of getting the values we observe?"
+
+--
+
+### Inference gave us tools to test significance
+- "What is the likelihood of getting a value more extreme than the values we observe?"
+- "How confident can we be that our observations differ from values of the null hypotheses?"
+
+---
+
+# Two Things We Still Want
+
+### 1. Better conclusions
+- Asssociations peaked with correlation
+- If correlation coefficient tells us that X and Y *tend to move together*, regression tells us *how much* they tend to move together
+
+--
+
+### 2. Explanations of variation
+- Inference offered us ways to know if X and Y are dependent or independent (Chi-squared Test, Fisher's Test, etc.)
+- Dependent associations may be influenced by *confounding*.
+- Regression allows us to *isolate the association* of interest by controlling for other variables and/or holding them constant.
+
+---
+
+# Start With Regression Basics
+### Basic assumption (for now): The relationship between X and Y is linear
+- HS Flashback: y = mx + b, where m is the slope and b is the intercept
+
+--
+
+### Linear relationship is regression equation: 
+### $\large{\hat{y_i} = \alpha + \beta X_i + \epsilon_i}$
+- Read as: *regress y on x*
+
+---
+
+# Start With Regression Basics
+
+--
+
+### $\large{\hat{y_i} = \alpha + \beta X_i + \epsilon_i}$
+- $\hat{y_i}$ = predicted outcome, the best guess
+- $\alpha$ = intercept or constant, where the line hits the y-axis when x is 0
+- $\beta$ = the slope, the multiplier for every X, known as the coefficient
+- $X_i$ = the observed value of X
+- $\epsilon_i$ = error (or residual), difference between observed and predicted values
+
+--
+
+### Example from UN Human Development Project
+
+---
+
+# Example - Schooling & Life Expectancy
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 <- ggplot(hdi, aes(
+     x = std_schooling_expectancy, y = life_expectancy))
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
+```
+
+---
+
+# Fitting The Regression Line
+### Recall that a *residual* is the difference between the observed value, $y$, and the predicted value on the line, $\hat{y}$
+
+--
+
+### We want a line that makes every residual as small as possible
+
+--
+
+### Every observation has a residual. How do we combine them?
+- Can't just add them up since negatives could cancel out positives
+- Absolute values are the usual fix, but they don't help as much this time since they offer little guide for where to start with $\alpha$ and $\beta$
+
+---
+
+# Fitting The Regression Line
+### Sum of the squared residuals gets us closest
+- $SSE = \sum{(y - \hat{y})^2}$
+- Line with the smallest sum has the *least squares*: why basic regression is called *Ordinary Least Squares*
+
+--
+
+### Squaring gives extra weight to biggest residuals (the observations that a given line does a particularly bad job at including)
+
+--
+
+### To find beta and alpha, we'll use basics we have seen: how the observed x's differ from the mean of x, how the observed y's differ from the mean of y, and how the distribution of x and y tend to move together
+
+---
+
+# Fitting Beta and Alpha
+### Let's try the example of regressing life expectancy in years on the standardized schooling expectancy
+
+--
+
+### Start with basic descriptives
+- What's the correlation between the two variables?
+- What are the mean and standard deviation of `std_schooling_expectancy`?
+- What are the mean and standard deviation of `life_expectancy`?
+
+---
+
+# Finding Beta and Alpha
+
+--
+
+```{r}
+# Correlation
+cor(hdi$std_schooling_expectancy, hdi$life_expectancy)
+```
+
+### Interpretation?
+
+---
+
+# Finding Beta and Alpha
+```{r}
+# Mean and Standard Deviation of X
+mean(hdi$std_schooling_expectancy)
+sd(hdi$std_schooling_expectancy)
+```
+
+<br\>
+
+```{r}
+# Mean and Standard Deviation of Y
+mean(hdi$life_expectancy)
+sd(hdi$life_expectancy)
+```
+
+---
+
+# Fitting The Regression Line
+
+### We have all we need to find beta: 
+
+--
+
+$\Large{\beta = cor_{xy} \frac {s_{y}}{s_{x}}}$
+
+
+--
+
+### And beta will be the missing piece to help us find alpha:
+
+--
+
+$\Large{\alpha = \bar{y} - \beta \bar{x}}$
+
+---
+
+# Finding Beta
+
+### $\large{\beta = cor_{xy} \frac {s_{y}}{s_{x}}}$
+
+--
+
+```{r}
+beta <- cor(hdi$std_schooling_expectancy,
+      hdi$life_expectancy) *
+     (sd(hdi$life_expectancy) / 
+      sd(hdi$std_schooling_expectancy))
+
+beta
+```
+
+---
+
+# Interpreting Beta
+
+--
+
+### Every one unit increase in the value of X is associated with an increase of beta in the predicted value of Y, on average
+- In this model, a one standard deviation increase in schooling expectancy is associated with an increase of 6.5826 years in life expectancy, on average
+
+--
+
+### And since we are working with linear regression, a one unit decrease in the value of X is associated with a decrease of beta in the predicted value of Y, on average
+- In this model, a one standard deviation decrease in schooling expectancy is associated with a decrease of 6.5826 years in life expectancy, on average
+
+---
+
+# Finding Alpha
+### $\large{\alpha = \bar{y} - \beta \bar{x}}$
+
+--
+
+```{r}
+alpha <- mean(hdi$life_expectancy) - 
+      beta*(mean(hdi$std_schooling_expectancy))
+
+alpha
+```
+
+--
+
+### When X is 0, our model predicts that Y should be 71.8371
+
+--
+
+### In this case (since x is standardized with a mean of 0), a country with a schooling expectancy at the average of the distribution would be predicted to have a life expectancy of 71.8371 years.
+
+---
+
+# Fitting The Regression Line
+### Now we have our line: y = 71.8371 + 6.5826X
+
+--
+
+### Let's add it to our plot using `geom_abline()`:
+
+--
+
+```{r, eval = FALSE, out.height="85%"}
+schooling_life_plot1 <- ggplot(hdi, aes(
+     x = std_schooling_expectancy, y = life_expectancy))
+
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826)
+```
+
+---
+
+# Fitting The Regression Line
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot_1 <- ggplot(hdi, aes(
+     x = std_schooling_expectancy, y = life_expectancy))
+
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+geom_abline(intercept = 71.8371, slope = 6.5826) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
+```
+
+---
+
+# Predicting Values of Y
+### If the line is correct, there should be a point on the line where X = 0 and Y = 71.8371
+
+--
+
+```{r, eval = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826) +
+     geom_point(x = 0, y = 71.8371, color = "Red", size = 3)
+```
+
+---
+
+# Predicting Values of Y
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826) +
+     geom_point(x = 0, y = 71.8371, color = "Red", size = 3) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
+```
+
+---
+
+# Predicting Values of Y
+
+### Digging Deeper: when $\large{x}$ increases by 1, $\large{\hat{y}}$ is expected to increase by 6.5826
+
+--
+
+### So if $\large{x}$ is 1 standard deviation above the mean, what is $\large{\hat{y}}$? And if $\large{x}$ is 1 standard deviation below the mean, what is $\large{\hat{y}}$?
+
+--
+
+### Prediction always has to start with value of $\large{\alpha}$!
+
+--
+
+```{r}
+predicted_y_plus1sd <- alpha + beta*1
+predicted_y_plus1sd
+
+predicted_y_minus1sd <- alpha + beta*-1
+predicted_y_minus1sd
+```
+
+---
+
+# Predicting Values of Y
+
+### Put these points on our plot...
+
+--
+
+```{r, eval = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+labs(x = "Standardized Schooling Expectancy", 
+y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+geom_abline(intercept = 71.8371, slope = 6.5826) +
+geom_point(x = 0, y = 71.8371, color = "Red", size = 3) +
+geom_point(x = 1, y = 78.4197, color = "Blue", size = 3) +
+geom_point(x = -1, y = 65.2545, color = "Forest Green", 
+  size = 3)
+```
+
+---
+
+# Predicting Values of Y
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826) +
+     geom_point(x = 0, y = 71.8371, color = "Red", size = 3) +
+     geom_point(x = 1, y = 78.4197, color = "Blue", size = 3) +
+     geom_point(x = -1, y = 65.2545, color = "Forest Green", size = 3) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
+```
+
+---
+
+# Regression in R
+### As always, R makes this easier. Meet the `lm()` command.
+
+--
+
+```{r}
+# Start by saving the model as an object:
+
+schooling_life_model1 <- 
+      lm(life_expectancy ~ std_schooling_expectancy, 
+        data = hdi)
+```
+
+--
+
+```{r, eval = FALSE}
+# Then look at the summary of the saved model:
+
+summary(schooling_life_model1)
+```
+
+---
+
+# Regression in R
+
+### Should look familiar: standard errors, t-stats, p-values!
+
+![:scale 90%](385_figures/lm_model_1.png)
+
+---
+
+# Regression in R
+
+### Red Box = Alpha; Blue Box = Beta
+
+![:scale 90%](385_figures/lm_model_2.png)
+
+---
+
+# R's Regression Output - Std Error
+### Std. Error = SE of the coefficient
+
+![:scale 90%](385_figures/lm_model_3.png)
+
+---
+
+# R's Regression Output - Std Error
+
+$\Large{se = \frac{s} {\sqrt{\sum{ (x - \bar{x})^2}}}}$
+
+#### and
+
+$\Large{s = \sqrt {\frac {\sum{(y - \hat{y})^2}}{n-2}}}$
+
+---
+
+# R's Regression Output - Std Error
+
+### The standard error formula uses the predicted values of y to calculate the residuals
+
+--
+
+### R makes it easy to save all the predicted values from a model:
+
+--
+
+```{r}
+hdi$predicted_life_expectancy <- 
+    fitted.values(schooling_life_model1)
+```
+
+---
+
+# R's Regression Output - Std Error
+
+### Now you can plug in the predicted values to the rest of the standard error equation:
+
+--
+
+```{r}
+se_numerator <- sqrt(sum((hdi$life_expectancy - 
+  hdi$predicted_life_expectancy)^2) / 
+    (length(hdi$life_expectancy) - 2))
+
+se_denominator <- sqrt(sum((hdi$std_schooling_expectancy - 
+  mean(hdi$std_schooling_expectancy))^2))
+
+se <- se_numerator / se_denominator
+
+se
+```
+
+---
+
+# R's Regression Output - Std Error
+
+![](385_figures/lm_model_3.png)
+
+---
+
+# R's Regression Output - T Value
+
+### t = test statistic for a t-test that coefficient differs from zero
+
+
+![:scale 90%](385_figures/lm_model_4.png)
+
+---
+
+# R's Regression Output - T Value
+
+### t = coefficient estimate / standard error
+
+--
+
+```{r}
+6.5826 / .3856
+```
+
+---
+
+# R's Regression Output - T Value
+
+![:scale 90%](385_figures/lm_model_4.png)
+
+---
+
+# R's Regression Output - P Value
+
+### P>|t| = p-value for two-tailed test
+
+
+![:scale 90%](385_figures/lm_model_5.png)
+
+---
+
+# R's Regression Output - P Value
+
+```{r}
+# Area in right tail:
+pr_tail <- 1 - pt(17.07, df = 157)
+
+# Area in both tails (what output gives):
+2 * pr_tail
+```
+
+--
+
+### Can we reject the null hypothesis that the coefficient for `std_schooling_expectancy` is different from 0?
+
+--
+
+### Yes, because `Pr(>|t|)` is less than .05
+
+--
+
+### Note the stars!
+
+---
+
+# R's Regression Output - P Value
+
+![:scale 90%](385_figures/lm_model_5.png)
+
+---
+
+# Plotting Regressions
+
+### More common to use `geom_smooth(method = lm)` than `geom_abline()`:
+
+--
+
+```{r, eval = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+          y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+      geom_smooth(method = lm)
+```
+
+---
+
+# Plotting Regressions
+
+```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+          y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+      geom_smooth(method = lm) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
+```
+
+---
+
+# Exercise 1
+
+### Regress the gender inequality index on the percentage of members of parliament who are female
+
+--
+
+```{r}
+inequality_parliament_model <- 
+      lm(gender_inequality_index ~ female_parliament_pct,
+            data = hdi)
+```
+
+--
+
+```{r, eval = FALSE}
+summary(inequality_parliament_model)
+```
+
+---
+
+# Exercise 1
+
+```{r, echo = FALSE}
+summary(inequality_parliament_model)
+```
+
+---
+
+
+# Exercise 1
+### Gender Inequality Index = 
+### 48.18 + (-0.5728 $\times$ Female Parliament Pct)
+
+--
+
+### An increase of one point in the percentage of parliament members who are women is associated with a decrease in the gender inequality index of .573, on average.
+
+--
+
+### In the US, the percentage of parliament members who are female is 19.48. What is the US' predicted value on the gender inequality index?
+
+--
+
+```{r}
+48.18 + (-.5728*19.48)
+```
+
+---
+
+# Exercise 2
+
+### Regress the maternal mortality ratio on the percent of females with some secondary education
+
+--
+
+```{r}
+mortality_education_model <- 
+      lm(maternal_mortality_ratio ~ female_secondary_educ,
+            data = hdi)
+```
+
+--
+
+```{r, eval = FALSE}
+summary(mortality_education_model)
+```
+
+---
+
+# Exercise 2
+
+```{r, echo = FALSE}
+summary(mortality_education_model)
+```
+
+---
+
+# Exercise 2
+
+### An increase of one point in the percentage of females with some secondary education is associated with a decrease in the maternal mortality ratio of 5.25.
