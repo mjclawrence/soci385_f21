@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-11-15" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Introducing Regression
+### November 15, 2021
+
+---
+
+
+
+
+
+
+
+
+# Quick PS2 Shortcuts
+
+### 1. Without using any R shortcuts, find the 95% confidence interval for the mean of `eqwlth` in 2010, 2014, and 2018.
+
+--
+
+
+```r
+q1 &lt;- ps2 |&gt; 
+  filter(year == 2010 | year == 2014 | year == 2018) |&gt; 
+  group_by(year) |&gt; 
+  summarize(mean = mean(eqwlth),
+            sd = sd(eqwlth),
+            n = length(eqwlth),
+            se = sd / sqrt(n),
+            ll = mean - 1.96*se,
+            ul = mean + 1.96*se)
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sd &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; se &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; ll &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; ul &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.942 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.008 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1355 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.055 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.835 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.049 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.734 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.057 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1666 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.635 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.833 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.564 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.960 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1529 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.466 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.663 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Quick PS2 Shortcuts
+
+
+```r
+plot_q1 &lt;- ggplot(q1, aes(x = year, y = mean,
+                          ymin = ll, ymax = ul))
+
+plot_q1 + geom_point() + geom_errorbar() +
+labs(x = "Year",
+     y = "Mean",
+     title = "Should Government Reduce Income Differences?",
+     subtitle = "General Social Survey (2010, 2014, 2018)",
+     caption = "Note: Lower values indicate more support for reducing income differences") + 
+     theme(plot.caption = element_text(hjust = 0))
+```
+
+---
+
+# Quick PS2 Shortcuts
+
+![](slides_10_01_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Quick PS2 Shortcuts
+
+### 2. Which (if any) age categories showed significant differences in mean `eqwlth` scores between the 2010 and 2018 surveys?
+
+--
+
+
+
+
+```r
+multiple_ttests &lt;- ps2 |&gt;
+     group_by(agecat) |&gt;
+     filter(year == 2010 | year == 2018) |&gt;
+    summarise(across(eqwlth,
+                    list( # To capture multiple values from tests
+                      (~t.test(.[year == 2010],
+                             .[year == 2018])$statistic),
+                     ~t.test(.[year == 2010],
+                             .[year == 2018])$p.value
+                     ) # Close list
+                    ) # Close across
+              ) # Close summarise
+
+colnames(multiple_ttests) &lt;- c("Age Category", "Test Statistic", 
+                               "P Value")
+```
+
+list(mean = mean, sd = sd))
+
+
+---
+
+# Quick PS2 Shortcuts
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Age Category &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Test Statistic &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; P Value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.267 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.206 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.760 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.006 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.928 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.414 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.158 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.886 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Where We've Been
+
+### Descriptive statistics gave us means, standard deviations
+- "What are the spreads and the shapes of our observed distributions?"
+
+--
+
+### Probability gave us ways to use our sample statistics to predict ranges of possible population parameters
+- "What is the likelihood of getting the values we observe?"
+
+--
+
+### Inference gave us tools to test significance
+- "What is the likelihood of getting a value more extreme than the values we observe?"
+- "How confident can we be that our observations differ from values of the null hypotheses?"
+
+---
+
+# Two Things We Still Want
+
+### 1. Better conclusions
+- Asssociations peaked with correlation
+- If correlation coefficient tells us that X and Y *tend to move together*, regression tells us *how much* they tend to move together
+
+--
+
+### 2. Explanations of variation
+- Inference offered us ways to know if X and Y are dependent or independent (Chi-squared Test, Fisher's Test, etc.)
+- Dependent associations may be influenced by *confounding*.
+- Regression allows us to *isolate the association* of interest by controlling for other variables and/or holding them constant.
+
+---
+
+# Start With Regression Basics
+### Basic assumption (for now): The relationship between X and Y is linear
+- HS Flashback: y = mx + b, where m is the slope and b is the intercept
+
+--
+
+### Linear relationship is regression equation: 
+### `\(\large{\hat{y_i} = \alpha + \beta X_i + \epsilon_i}\)`
+- Read as: *regress y on x*
+
+---
+
+# Start With Regression Basics
+
+--
+
+### `\(\large{\hat{y_i} = \alpha + \beta X_i + \epsilon_i}\)`
+- `\(\hat{y_i}\)` = predicted outcome, the best guess
+- `\(\alpha\)` = intercept or constant, where the line hits the y-axis when x is 0
+- `\(\beta\)` = the slope, the multiplier for every X, known as the coefficient
+- `\(X_i\)` = the observed value of X
+- `\(\epsilon_i\)` = error (or residual), difference between observed and predicted values
+
+--
+
+### Example from UN Human Development Project
+
+---
+
+# Example - Schooling &amp; Life Expectancy
+
+![](slides_10_01_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# Fitting The Regression Line
+### Recall that a *residual* is the difference between the observed value, `\(y\)`, and the predicted value on the line, `\(\hat{y}\)`
+
+--
+
+### We want a line that makes every residual as small as possible
+
+--
+
+### Every observation has a residual. How do we combine them?
+- Can't just add them up since negatives could cancel out positives
+- Absolute values are the usual fix, but they don't help as much this time since they offer little guide for where to start with `\(\alpha\)` and `\(\beta\)`
+
+---
+
+# Fitting The Regression Line
+### Sum of the squared residuals gets us closest
+- `\(SSE = \sum{(y - \hat{y})^2}\)`
+- Line with the smallest sum has the *least squares*: why basic regression is called *Ordinary Least Squares*
+
+--
+
+### Squaring gives extra weight to biggest residuals (the observations that a given line does a particularly bad job at including)
+
+--
+
+### To find beta and alpha, we'll use basics we have seen: how the observed x's differ from the mean of x, how the observed y's differ from the mean of y, and how the distribution of x and y tend to move together
+
+---
+
+# Fitting Beta and Alpha
+### Let's try the example of regressing life expectancy in years on the standardized schooling expectancy
+
+--
+
+### Start with basic descriptives
+- What's the correlation between the two variables?
+- What are the mean and standard deviation of `std_schooling_expectancy`?
+- What are the mean and standard deviation of `life_expectancy`?
+
+---
+
+# Finding Beta and Alpha
+
+--
+
+
+```r
+# Correlation
+cor(hdi$std_schooling_expectancy, hdi$life_expectancy)
+```
+
+```
+## [1] 0.8061841
+```
+
+### Interpretation?
+
+---
+
+# Finding Beta and Alpha
+
+```r
+# Mean and Standard Deviation of X
+mean(hdi$std_schooling_expectancy)
+```
+
+```
+## [1] -5.031447e-11
+```
+
+```r
+sd(hdi$std_schooling_expectancy)
+```
+
+```
+## [1] 1
+```
+
+&lt;br\&gt;
+
+
+```r
+# Mean and Standard Deviation of Y
+mean(hdi$life_expectancy)
+```
+
+```
+## [1] 71.83705
+```
+
+```r
+sd(hdi$life_expectancy)
+```
+
+```
+## [1] 8.165182
+```
+
+---
+
+# Fitting The Regression Line
+
+### We have all we need to find beta: 
+
+--
+
+`\(\Large{\beta = cor_{xy} \frac {s_{y}}{s_{x}}}\)`
+
+
+--
+
+### And beta will be the missing piece to help us find alpha:
+
+--
+
+`\(\Large{\alpha = \bar{y} - \beta \bar{x}}\)`
+
+---
+
+# Finding Beta
+
+### `\(\large{\beta = cor_{xy} \frac {s_{y}}{s_{x}}}\)`
+
+--
+
+
+```r
+beta &lt;- cor(hdi$std_schooling_expectancy,
+      hdi$life_expectancy) *
+     (sd(hdi$life_expectancy) / 
+      sd(hdi$std_schooling_expectancy))
+
+beta
+```
+
+```
+## [1] 6.58264
+```
+
+---
+
+# Interpreting Beta
+
+--
+
+### Every one unit increase in the value of X is associated with an increase of beta in the predicted value of Y, on average
+- In this model, a one standard deviation increase in schooling expectancy is associated with an increase of 6.5826 years in life expectancy, on average
+
+--
+
+### And since we are working with linear regression, a one unit decrease in the value of X is associated with a decrease of beta in the predicted value of Y, on average
+- In this model, a one standard deviation decrease in schooling expectancy is associated with a decrease of 6.5826 years in life expectancy, on average
+
+---
+
+# Finding Alpha
+### `\(\large{\alpha = \bar{y} - \beta \bar{x}}\)`
+
+--
+
+
+```r
+alpha &lt;- mean(hdi$life_expectancy) - 
+      beta*(mean(hdi$std_schooling_expectancy))
+
+alpha
+```
+
+```
+## [1] 71.83705
+```
+
+--
+
+### When X is 0, our model predicts that Y should be 71.8371
+
+--
+
+### In this case (since x is standardized with a mean of 0), a country with a schooling expectancy at the average of the distribution would be predicted to have a life expectancy of 71.8371 years.
+
+---
+
+# Fitting The Regression Line
+### Now we have our line: y = 71.8371 + 6.5826X
+
+--
+
+### Let's add it to our plot using `geom_abline()`:
+
+--
+
+
+```r
+schooling_life_plot1 &lt;- ggplot(hdi, aes(
+     x = std_schooling_expectancy, y = life_expectancy))
+
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826)
+```
+
+---
+
+# Fitting The Regression Line
+
+![](slides_10_01_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+---
+
+# Predicting Values of Y
+### If the line is correct, there should be a point on the line where X = 0 and Y = 71.8371
+
+--
+
+
+```r
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+      y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+     geom_abline(intercept = 71.8371, slope = 6.5826) +
+     geom_point(x = 0, y = 71.8371, color = "Red", size = 3)
+```
+
+---
+
+# Predicting Values of Y
+
+![](slides_10_01_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+
+---
+
+# Predicting Values of Y
+
+### Digging Deeper: when `\(\large{x}\)` increases by 1, `\(\large{\hat{y}}\)` is expected to increase by 6.5826
+
+--
+
+### So if `\(\large{x}\)` is 1 standard deviation above the mean, what is `\(\large{\hat{y}}\)`? And if `\(\large{x}\)` is 1 standard deviation below the mean, what is `\(\large{\hat{y}}\)`?
+
+--
+
+### Prediction always has to start with value of `\(\large{\alpha}\)`!
+
+--
+
+
+```r
+predicted_y_plus1sd &lt;- alpha + beta*1
+predicted_y_plus1sd
+```
+
+```
+## [1] 78.41969
+```
+
+```r
+predicted_y_minus1sd &lt;- alpha + beta*-1
+predicted_y_minus1sd
+```
+
+```
+## [1] 65.25441
+```
+
+---
+
+# Predicting Values of Y
+
+### Put these points on our plot...
+
+--
+
+
+```r
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+labs(x = "Standardized Schooling Expectancy", 
+y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+geom_abline(intercept = 71.8371, slope = 6.5826) +
+geom_point(x = 0, y = 71.8371, color = "Red", size = 3) +
+geom_point(x = 1, y = 78.4197, color = "Blue", size = 3) +
+geom_point(x = -1, y = 65.2545, color = "Forest Green", 
+  size = 3)
+```
+
+---
+
+# Predicting Values of Y
+
+![](slides_10_01_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+---
+
+# Regression in R
+### As always, R makes this easier. Meet the `lm()` command.
+
+--
+
+
+```r
+# Start by saving the model as an object:
+
+schooling_life_model1 &lt;- 
+      lm(life_expectancy ~ std_schooling_expectancy, 
+        data = hdi)
+```
+
+--
+
+
+```r
+# Then look at the summary of the saved model:
+
+summary(schooling_life_model1)
+```
+
+---
+
+# Regression in R
+
+### Should look familiar: standard errors, t-stats, p-values!
+
+![:scale 90%](385_figures/lm_model_1.png)
+
+---
+
+# Regression in R
+
+### Red Box = Alpha; Blue Box = Beta
+
+![:scale 90%](385_figures/lm_model_2.png)
+
+---
+
+# R's Regression Output - Std Error
+### Std. Error = SE of the coefficient
+
+![:scale 90%](385_figures/lm_model_3.png)
+
+---
+
+# R's Regression Output - Std Error
+
+`\(\Large{se = \frac{s} {\sqrt{\sum{ (x - \bar{x})^2}}}}\)`
+
+#### and
+
+`\(\Large{s = \sqrt {\frac {\sum{(y - \hat{y})^2}}{n-2}}}\)`
+
+---
+
+# R's Regression Output - Std Error
+
+### The standard error formula uses the predicted values of y to calculate the residuals
+
+--
+
+### R makes it easy to save all the predicted values from a model:
+
+--
+
+
+```r
+hdi$predicted_life_expectancy &lt;- 
+    fitted.values(schooling_life_model1)
+```
+
+---
+
+# R's Regression Output - Std Error
+
+### Now you can plug in the predicted values to the rest of the standard error equation:
+
+--
+
+
+```r
+se_numerator &lt;- sqrt(sum((hdi$life_expectancy - 
+  hdi$predicted_life_expectancy)^2) / 
+    (length(hdi$life_expectancy) - 2))
+
+se_denominator &lt;- sqrt(sum((hdi$std_schooling_expectancy - 
+  mean(hdi$std_schooling_expectancy))^2))
+
+se &lt;- se_numerator / se_denominator
+
+se
+```
+
+```
+## [1] 0.3855599
+```
+
+---
+
+# R's Regression Output - Std Error
+
+![](385_figures/lm_model_3.png)
+
+---
+
+# R's Regression Output - T Value
+
+### t = test statistic for a t-test that coefficient differs from zero
+
+
+![:scale 90%](385_figures/lm_model_4.png)
+
+---
+
+# R's Regression Output - T Value
+
+### t = coefficient estimate / standard error
+
+--
+
+
+```r
+6.5826 / .3856
+```
+
+```
+## [1] 17.07106
+```
+
+---
+
+# R's Regression Output - T Value
+
+![:scale 90%](385_figures/lm_model_4.png)
+
+---
+
+# R's Regression Output - P Value
+
+### P&gt;|t| = p-value for two-tailed test
+
+
+![:scale 90%](385_figures/lm_model_5.png)
+
+---
+
+# R's Regression Output - P Value
+
+
+```r
+# Area in right tail:
+pr_tail &lt;- 1 - pt(17.07, df = 157)
+
+# Area in both tails (what output gives):
+2 * pr_tail
+```
+
+```
+## [1] 0
+```
+
+--
+
+### Can we reject the null hypothesis that the coefficient for `std_schooling_expectancy` is different from 0?
+
+--
+
+### Yes, because `Pr(&gt;|t|)` is less than .05
+
+--
+
+### Note the stars!
+
+---
+
+# R's Regression Output - P Value
+
+![:scale 90%](385_figures/lm_model_5.png)
+
+---
+
+# Plotting Regressions
+
+### More common to use `geom_smooth(method = lm)` than `geom_abline()`:
+
+--
+
+
+```r
+schooling_life_plot1 + geom_point(color = "Dark Gray") +
+     labs(x = "Standardized Schooling Expectancy", 
+          y = "Life Expectancy",
+      title = "Schooling and Life Expectancies",
+      subtitle = "(UNHDP, 2016)") +
+      geom_smooth(method = lm)
+```
+
+---
+
+# Plotting Regressions
+
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+![](slides_10_01_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+
+---
+
+# Exercise 1
+
+### Regress the gender inequality index on the percentage of members of parliament who are female
+
+--
+
+
+```r
+inequality_parliament_model &lt;- 
+      lm(gender_inequality_index ~ female_parliament_pct,
+            data = hdi)
+```
+
+--
+
+
+```r
+summary(inequality_parliament_model)
+```
+
+---
+
+# Exercise 1
+
+
+```
+## 
+## Call:
+## lm(formula = gender_inequality_index ~ female_parliament_pct, 
+##     data = hdi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -32.165 -16.654  -0.566  14.986  34.203 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            48.1833     2.9745  16.199  &lt; 2e-16 ***
+## female_parliament_pct  -0.5728     0.1228  -4.665 6.56e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 17.77 on 157 degrees of freedom
+## Multiple R-squared:  0.1217,	Adjusted R-squared:  0.1161 
+## F-statistic: 21.76 on 1 and 157 DF,  p-value: 6.563e-06
+```
+
+---
+
+
+# Exercise 1
+### Gender Inequality Index = 
+### 48.18 + (-0.5728 `\(\times\)` Female Parliament Pct)
+
+--
+
+### An increase of one point in the percentage of parliament members who are women is associated with a decrease in the gender inequality index of .573, on average.
+
+--
+
+### In the US, the percentage of parliament members who are female is 19.48. What is the US' predicted value on the gender inequality index?
+
+--
+
+
+```r
+48.18 + (-.5728*19.48)
+```
+
+```
+## [1] 37.02186
+```
+
+---
+
+# Exercise 2
+
+### Regress the maternal mortality ratio on the percent of females with some secondary education
+
+--
+
+
+```r
+mortality_education_model &lt;- 
+      lm(maternal_mortality_ratio ~ female_secondary_educ,
+            data = hdi)
+```
+
+--
+
+
+```r
+summary(mortality_education_model)
+```
+
+---
+
+# Exercise 2
+
+
+```
+## 
+## Call:
+## lm(formula = maternal_mortality_ratio ~ female_secondary_educ, 
+##     data = hdi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -284.94  -97.71   -1.70   60.28  984.57 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           463.5736    27.1497   17.07   &lt;2e-16 ***
+## female_secondary_educ  -5.2496     0.4075  -12.88   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 155.4 on 157 degrees of freedom
+## Multiple R-squared:  0.5139,	Adjusted R-squared:  0.5108 
+## F-statistic:   166 on 1 and 157 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Exercise 2
+
+### An increase of one point in the percentage of females with some secondary education is associated with a decrease in the maternal mortality ratio of 5.25.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
