@@ -23,7 +23,13 @@ class: middle, title-slide
 
 
 
-
+&lt;style type="text/css"&gt;
+pre {
+  max-width: 100%;
+  overflow-x: auto; # to scroll long code chunk
+  #overflow-x: scoll; # requires hover to see scroll bar
+}
+&lt;/style&gt;
 
 
 
@@ -115,7 +121,7 @@ labs(x = "Year",
 
 # Quick PS2 Shortcuts
 
-![](slides_10_01_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -131,9 +137,8 @@ labs(x = "Year",
 
 ```r
 multiple_ttests &lt;- ps2 |&gt;
-     group_by(agecat) |&gt;
-     filter(year == 2010 | year == 2018) |&gt;
-    summarise(across(eqwlth,
+  group_by(agecat) |&gt;
+  summarise(across(eqwlth,
                     list( # To capture multiple values from tests
                       (~t.test(.[year == 2010],
                              .[year == 2018])$statistic),
@@ -146,8 +151,6 @@ multiple_ttests &lt;- ps2 |&gt;
 colnames(multiple_ttests) &lt;- c("Age Category", "Test Statistic", 
                                "P Value")
 ```
-
-list(mean = mean, sd = sd))
 
 
 ---
@@ -257,7 +260,7 @@ list(mean = mean, sd = sd))
 
 # Example - Schooling &amp; Life Expectancy
 
-![](slides_10_01_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -470,7 +473,7 @@ schooling_life_plot1 + geom_point(color = "Dark Gray") +
 
 # Fitting The Regression Line
 
-![](slides_10_01_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -494,7 +497,7 @@ schooling_life_plot1 + geom_point(color = "Dark Gray") +
 
 # Predicting Values of Y
 
-![](slides_10_01_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -557,7 +560,7 @@ geom_point(x = -1, y = 65.2545, color = "Forest Green",
 
 # Predicting Values of Y
 
-![](slides_10_01_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -632,7 +635,7 @@ summary(schooling_life_model1)
 
 ```r
 hdi$predicted_life_expectancy &lt;- 
-    fitted.values(schooling_life_model1)
+    schooling_life_model1$fitted.values
 ```
 
 ---
@@ -765,12 +768,7 @@ schooling_life_plot1 + geom_point(color = "Dark Gray") +
 
 # Plotting Regressions
 
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-![](slides_10_01_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+![](slides_10_01_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
 
 ---
 

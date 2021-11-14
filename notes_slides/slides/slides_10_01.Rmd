@@ -21,7 +21,13 @@ options(htmltools.dir.version = FALSE)
 library(xaringanthemer)
 ```
 
-
+```{css, echo=FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: auto; # to scroll long code chunk
+  #overflow-x: scoll; # requires hover to see scroll bar
+}
+```
 
 ```{r, include = FALSE}
 hdi <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data//hdi.csv")
@@ -125,9 +131,8 @@ ps2 <- ps2 |>
 
 ```{r}
 multiple_ttests <- ps2 |>
-     group_by(agecat) |>
-     filter(year == 2010 | year == 2018) |>
-    summarise(across(eqwlth,
+  group_by(agecat) |>
+  summarise(across(eqwlth,
                     list( # To capture multiple values from tests
                       (~t.test(.[year == 2010],
                              .[year == 2018])$statistic),
@@ -140,8 +145,6 @@ multiple_ttests <- ps2 |>
 colnames(multiple_ttests) <- c("Age Category", "Test Statistic", 
                                "P Value")
 ```
-
-list(mean = mean, sd = sd))
 
 
 ---
@@ -696,7 +699,7 @@ schooling_life_plot1 + geom_point(color = "Dark Gray") +
 
 # Plotting Regressions
 
-```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, fig.width = 12, fig.height = 8}
 schooling_life_plot1 + geom_point(color = "Dark Gray") +
      labs(x = "Standardized Schooling Expectancy", 
           y = "Life Expectancy",
