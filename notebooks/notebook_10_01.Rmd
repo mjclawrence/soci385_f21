@@ -1,12 +1,3 @@
----
-title: "Introducing Regression"
-date: "November 15, 2021"
-author: "Matt Lawrence"
-output:
-  pdf_document: default
-  html_notebook: default
----
-
 ## Setting Up
 
 We'll use the `hdi.csv` file on Canvas today. Load it as a data frame called `hdi` and load the usual packages:
@@ -107,37 +98,18 @@ Knowing alpha and beta will allow us to predict the value of Y for any value of 
 
 If x is 1 standard deviation above the mean, what is the predicted value of y?
 
-### REPLACE THIS LINE WITH YOUR COD
+### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-predicted_y_plus1sd <- alpha + beta*1
-predicted_y_plus1sd
-```
 
 If x is 1 standard deviation below the mean, what is the predicted value of y?
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-predicted_y_minus1sd <- alpha + beta*-1
-predicted_y_minus1sd
-```
 
 Now add these two points to the plot:
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-schooling_life_plot1 + geom_point(color = "Dark Gray") +
-labs(x = "Standardized Schooling Expectancy", 
-y = "Life Expectancy",
-title = "Schooling and Life Expectancies", 
-subtitle = "UNHDP, 2016") +
-geom_abline(intercept = 71.8371, slope = 6.5826) +
-geom_point(x = 0, y = 71.8371, color = "Red", size = 3) +
-geom_point(x = 1, y = 78.4197, color = "Blue", size = 3) +
-geom_point(x = -1, y = 65.2545, color = "Forest Green", size = 3)
-```
 
 
 ## Regression in R
@@ -233,58 +205,11 @@ schooling_life_plot1 + geom_point(color = "Dark Gray") +
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-inequality_parliament_model <- 
-     lm(gender_inequality_index ~
-          female_parliament_pct,
-        data = hdi)
-
-summary(inequality_parliament_model)
-```
-
-```{r}
-inequality_parliament_plot <- ggplot(hdi, 
-                                     aes(x = female_parliament_pct, y = gender_inequality_index))
-inequality_parliament_plot + geom_point() + geom_smooth(method = lm) +
-     labs(x = "Percentage of Parliament Members who are Female",
-          y = "Gender Inequality Index")
-```
-
 
 2. What would you expect about the relationship between income and life expectancy in countries? Try a plot first (with `gross_national_income` as the x and `life_expectancy` as the y. 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-income_life_expectancy_plot <- ggplot(hdi, aes(x = gross_national_income,
-                                 y = life_expectancy)) + geom_point() +
-  geom_smooth(method = lm)
-
-income_life_expectancy_plot
-```
-
-```{r}
-income_log_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
-                                 y = life_expectancy)) + geom_point() +
-  geom_smooth(method = lm)
-
-income_log_life_expectancy_plot
-```
-
-Now run the regression model on the transformed income variable.
-
-```{r}
-income_life_expectancy_model <- 
-      lm(life_expectancy ~ log_gross_national_income,
-            data = hdi)
-
-summary(income_life_expectancy_model)
-```
-
 What is the predicted life expectancy for the United States?
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
-```{r}
-hdi$log_gross_national_income[hdi$country=="United States"]
-19.5244 + (5.6811*10.88266)
-```
