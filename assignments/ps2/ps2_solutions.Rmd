@@ -115,9 +115,9 @@ plot_q1 + geom_point() + geom_errorbar() +
 New variable using mutate and ifelse:
 
 ```{r}
-ps2 <- ps2 %>%
+ps2 <- ps2 |> 
      mutate(agecat = 
-          ifelse(age %in% 18:24, 1,
+          ifelse(age <= 24, 1,
              ifelse(age %in% 25:39, 2,
                ifelse(age %in% 40:54, 3,
                  ifelse(age %in% 55:64, 4, 5)))))
