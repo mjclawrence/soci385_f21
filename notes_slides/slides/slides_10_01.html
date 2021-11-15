@@ -849,22 +849,60 @@ summary(inequality_parliament_model)
 
 # Exercise 2
 
-### Regress the maternal mortality ratio on the percent of females with some secondary education
+### What would you expect about the relationship between `gross_national_income` and `life_expectancy`?
 
 --
 
 
 ```r
-mortality_education_model &lt;- 
-      lm(maternal_mortality_ratio ~ female_secondary_educ,
-            data = hdi)
+income_life_expectancy_plot &lt;- ggplot(hdi, aes(x = gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
 ```
 
+---
+
+# Exercise 2
+
+![](slides_10_01_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+
+---
+
+# Exercise 2
+
+
+```r
+income_life_expectancy_plot &lt;- ggplot(hdi, 
+                                aes(x = log_gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
+```
+
+---
+
+# Exercise 2
+
+![](slides_10_01_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+
+---
+
+# Exercise 2
+
+### Try the regression model using `life_expectancy` and `log_gross_national_income`...
+
 --
 
 
 ```r
-summary(mortality_education_model)
+income_life_expectancy_model &lt;- 
+      lm(life_expectancy ~ log_gross_national_income,
+            data = hdi)
+
+summary(income_life_expectancy_model)
 ```
 
 ---
@@ -875,30 +913,33 @@ summary(mortality_education_model)
 ```
 ## 
 ## Call:
-## lm(formula = maternal_mortality_ratio ~ female_secondary_educ, 
-##     data = hdi)
+## lm(formula = life_expectancy ~ log_gross_national_income, data = hdi)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -284.94  -97.71   -1.70   60.28  984.57 
+##      Min       1Q   Median       3Q      Max 
+## -21.2884  -2.1655   0.8118   3.1150   9.3923 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)           463.5736    27.1497   17.07   &lt;2e-16 ***
-## female_secondary_educ  -5.2496     0.4075  -12.88   &lt;2e-16 ***
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                19.5244     2.9684   6.577 6.75e-10 ***
+## log_gross_national_income   5.6811     0.3198  17.765  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 155.4 on 157 degrees of freedom
-## Multiple R-squared:  0.5139,	Adjusted R-squared:  0.5108 
-## F-statistic:   166 on 1 and 157 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 4.721 on 157 degrees of freedom
+## Multiple R-squared:  0.6678,	Adjusted R-squared:  0.6657 
+## F-statistic: 315.6 on 1 and 157 DF,  p-value: &lt; 2.2e-16
 ```
 
 ---
 
 # Exercise 2
 
-### An increase of one point in the percentage of females with some secondary education is associated with a decrease in the maternal mortality ratio of 5.25.
+### An increase in one unit of log gross national income is associated with an increase of 5.6811 years in life expectancy, on average. 
+
+--
+
+### A ten percent increase in gross national income is associated with an increase of 5.6811 years in life expectancy, on average. 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

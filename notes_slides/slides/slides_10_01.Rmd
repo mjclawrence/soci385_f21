@@ -779,10 +779,13 @@ income_life_expectancy_plot
 
 # Exercise 2
 
-```{r, echo = FALSE}
-income_life_expectancy_plot <- ggplot(hdi, aes(x = gross_national_income,
+```{r, echo = FALSE, message = FALSE, fig.width = 12, fig.height = 8}
+income_life_expectancy_plot <- ggplot(hdi, 
+                                aes(x = gross_national_income,
                                  y = life_expectancy)) + geom_point() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
 
 income_life_expectancy_plot
 ```
@@ -792,7 +795,8 @@ income_life_expectancy_plot
 # Exercise 2
 
 ```{r, eval = FALSE}
-income_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
+income_life_expectancy_plot <- ggplot(hdi, 
+                                aes(x = log_gross_national_income,
                                  y = life_expectancy)) + geom_point() +
   geom_smooth(method = lm)
 
@@ -803,10 +807,13 @@ income_life_expectancy_plot
 
 # Exercise 2
 
-```{r, echo = FALSE}
-income_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
+```{r, echo = FALSE, message = FALSE, fig.width = 12, fig.height = 8}
+income_life_expectancy_plot <- ggplot(hdi, 
+                                aes(x = log_gross_national_income,
                                  y = life_expectancy)) + geom_point() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm) +
+     theme(axis.title=element_text(size=18), axis.text=element_text(size=16),
+      plot.title=element_text(size=18), plot.subtitle=element_text(size=16))
 
 income_life_expectancy_plot
 ```
@@ -815,7 +822,7 @@ income_life_expectancy_plot
 
 # Exercise 2
 
-Try the regression model using `log_gross_national_income`...
+### Try the regression model using `life_expectancy` and `log_gross_national_income`...
 
 --
 
@@ -839,7 +846,9 @@ income_life_expectancy_model <-
 summary(income_life_expectancy_model)
 ```
 
---
+---
+
+# Exercise 2
 
 ### An increase in one unit of log gross national income is associated with an increase of 5.6811 years in life expectancy, on average. 
 
