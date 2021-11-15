@@ -137,6 +137,7 @@ labs(x = "Year",
 
 ```r
 multiple_ttests &lt;- ps2 |&gt;
+  filter(!is.na(agecat)) |&gt; 
   group_by(agecat) |&gt;
   summarise(across(eqwlth,
                     list( # To capture multiple values from tests
@@ -188,8 +189,8 @@ colnames(multiple_ttests) &lt;- c("Age Category", "Test Statistic",
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 2.886 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.004 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.792 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.005 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

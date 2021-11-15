@@ -123,7 +123,7 @@ plot_q1 + geom_point() + geom_errorbar() +
 ```{r, echo = FALSE}
 ps2 <- ps2 |>
      mutate(agecat = 
-          ifelse(age %in% 18:24, 1,
+          ifelse(age <= 24, 1,
              ifelse(age %in% 25:39, 2,
                ifelse(age %in% 40:54, 3,
                  ifelse(age %in% 55:64, 4, 5)))))
@@ -131,6 +131,7 @@ ps2 <- ps2 |>
 
 ```{r}
 multiple_ttests <- ps2 |>
+  filter(!is.na(agecat)) |> 
   group_by(agecat) |>
   summarise(across(eqwlth,
                     list( # To capture multiple values from tests
