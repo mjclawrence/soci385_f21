@@ -763,20 +763,16 @@ summary(inequality_parliament_model)
 
 # Exercise 2
 
-### Regress the maternal mortality ratio on the percent of females with some secondary education
-
---
-
-```{r}
-mortality_education_model <- 
-      lm(maternal_mortality_ratio ~ female_secondary_educ,
-            data = hdi)
-```
+### What would you expect about the relationship between `gross_national_income` and `life_expectancy`?
 
 --
 
 ```{r, eval = FALSE}
-summary(mortality_education_model)
+income_life_expectancy_plot <- ggplot(hdi, aes(x = gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
 ```
 
 ---
@@ -784,11 +780,69 @@ summary(mortality_education_model)
 # Exercise 2
 
 ```{r, echo = FALSE}
-summary(mortality_education_model)
+income_life_expectancy_plot <- ggplot(hdi, aes(x = gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
 ```
 
 ---
 
 # Exercise 2
 
-### An increase of one point in the percentage of females with some secondary education is associated with a decrease in the maternal mortality ratio of 5.25.
+```{r, eval = FALSE}
+income_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
+```
+
+---
+
+# Exercise 2
+
+```{r, echo = FALSE}
+income_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
+
+income_life_expectancy_plot
+```
+
+---
+
+# Exercise 2
+
+Try the regression model using `log_gross_national_income`...
+
+--
+
+```{r, eval = FALSE}
+income_life_expectancy_model <- 
+      lm(life_expectancy ~ log_gross_national_income,
+            data = hdi)
+
+summary(income_life_expectancy_model)
+```
+
+---
+
+# Exercise 2
+
+```{r, echo = FALSE}
+income_life_expectancy_model <- 
+      lm(life_expectancy ~ log_gross_national_income,
+            data = hdi)
+
+summary(income_life_expectancy_model)
+```
+
+--
+
+### An increase in one unit of log gross national income is associated with an increase of 5.6811 years in life expectancy, on average. 
+
+--
+
+### A ten percent increase in gross national income is associated with an increase of 5.6811 years in life expectancy, on average. 

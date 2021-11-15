@@ -53,7 +53,7 @@ $\Large{\beta = cor_{xy} \frac {s_{y}}{s_{x}}}$
 ```{r}
 # Finding Beta
 beta <- cor(hdi$std_schooling_expectancy,
-             hdi$life_expectancy) *
+            hdi$life_expectancy) *
      (sd(hdi$life_expectancy) / sd(hdi$std_schooling_expectancy))
 
 beta
@@ -169,7 +169,7 @@ with
 
 $\Large{s = \sqrt {\frac {\sum{(y - \hat{y})^2}}{n-2}}}$
 
-The part of this equation that is important to learn is how to save predicted values of y based on the model. You do so with the `fitted.values()` function:
+The part of this equation that is important to learn is how to save predicted values of y based on the model. You do so by thinking of the model as a data frame and `fitted.values` as the variable:
 
 ```{r}
 hdi$predicted_life_expectancy <- schooling_life_model1$fitted.values
@@ -203,7 +203,7 @@ The `t value` column is the test statistic for a t-test that the coefficient is 
 6.5826 / 0.3856
 ```
 
-The `Pr(>|t|)` column is the p value for a two-tailed test of the test statistic. It is calcualted using tools we know:
+The `Pr(>|t|)` column is the p value for a two-tailed test of the test statistic. It is calculated using tools we know:
 
 ```{r}
 # Area in right tail:
@@ -251,32 +251,40 @@ inequality_parliament_plot + geom_point() + geom_smooth(method = lm) +
 ```
 
 
-
-
-Regress the maternal mortality ratio (`maternal_mortality_ratio`) on the percentage of females with some secondary education (`female_secondary_educ`). The `maternal mortality ratio` is the number of female deaths for every 100,000 live births in a given year.
+What would you expect about the relationship between income and life expectancy in countries? Try a plot first (with `gross_national_income` as the x and `life_expectancy` as the y. 
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r}
-mortality_education_model <- 
-      lm(maternal_mortality_ratio ~ female_secondary_educ,
-            data = hdi)
-
-summary(mortality_education_model)
-```
-
-
-```{r}
-hdi$female_secondary_educ[hdi$country=="United States"]
-463.5736 - (5.2496*95.42986)
-```
-
-```{r}
-maternal_plot <- ggplot(hdi, aes(x = female_secondary_educ,
-                                 y = maternal_mortality_ratio)) + geom_point() +
+income_life_expectancy_plot <- ggplot(hdi, aes(x = gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
   geom_smooth(method = lm)
 
-maternal_plot
+income_life_expectancy_plot
 ```
 
+```{r}
+income_log_life_expectancy_plot <- ggplot(hdi, aes(x = log_gross_national_income,
+                                 y = life_expectancy)) + geom_point() +
+  geom_smooth(method = lm)
 
+income_log_life_expectancy_plot
+```
+
+Now run the regression model on the transformed income variable.
+
+```{r}
+income_life_expectancy_model <- 
+      lm(life_expectancy ~ log_gross_national_income,
+            data = hdi)
+
+summary(income_life_expectancy_model)
+```
+
+What is the predicted life expectancy for the United States?
+
+### REPLACE THIS LINE WITH YOUR CODE ###
+```{r}
+hdi$log_gross_national_income[hdi$country=="United States"]
+19.5244 + (5.6811*10.88266)
+```
