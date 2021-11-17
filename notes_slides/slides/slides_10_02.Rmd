@@ -1,23 +1,30 @@
 ---
 title: "Social Statistics"
 subtitle: "Regression With Categorical Variables"
-date: "November 13, 2019"
+date: "November 17, 2021"
 output:
-     xaringan::moon_reader:
-          lib_dir: libs
-          css: [default, metropolis, metropolis-fonts, monofont.css]
-          center: true
-          nature:
-               highlightLines: true
-               highlightStyle: zenburn
-               highlightSpans: true
-               remark-slide-number: false
-               titleSlideClass: ["middle"]
-               beforeInit: "macros.js"
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
+    nature:
+        highlightLines: true
+        highlightStyle: zenburn
+        highlightSpans: true
+        titleSlideClass: ["middle"]
+        beforeInit: "macros.js"
 ---
 
+```{r setup, include=FALSE}
+# Change css [here](/notes_slides/slides/metropolis.css)
+
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+```
+
+
+
 ```{r, include = FALSE, warning = FALSE}
-hdi <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/hdi.csv")
+hdi <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/hdi.csv")
 library(tidyverse)
 library(pander)
 library(kableExtra)
@@ -58,7 +65,7 @@ summary(birthrate_seceduc_model)
 
 # Warm Up - Model
 
-```{r, echo = FALSE, fig.width = 12, fig.height = 8}
+```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, fig.width = 12, fig.height = 8}
 birthrate_seceduc_plot <- ggplot(hdi, aes(x = female_secondary_educ,
   y = adolescent_birth_rate))
 birthrate_seceduc_plot + geom_point() + geom_smooth(method = lm) +
@@ -87,7 +94,7 @@ theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
 
 # Warm Up - Plotting Prediction
 
-```{r, echo = FALSE, fig.width = 12, fig.height = 8, comment = NA}
+```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, fig.width = 12, fig.height = 8, comment = NA}
 birthrate_seceduc_plot <- ggplot(hdi, aes(x = female_secondary_educ,
   y = adolescent_birth_rate))
 birthrate_seceduc_plot + geom_point() + geom_smooth(method = lm) +
@@ -134,8 +141,8 @@ mean(hdi$adolescent_birth_rate[hdi$hdi_rank_hi==1])
 ### May be more efficient to use `group_by()` and `summarize()`:
 
 ```{r}
-birthrates <- hdi %>%
-  group_by(hdi_rank_hi) %>%
+birthrates <- hdi  |> 
+  group_by(hdi_rank_hi) |>
   summarize(mean_birthrate = mean(adolescent_birth_rate))
 
 birthrates
@@ -258,9 +265,9 @@ summary(birthrate_rankhi_model)
 --
 
 ```{r, warning = FALSE, comment = NA}
-hdi <- mutate(hdi, female_more_schl =
-ifelse(female_secondary_educ>
-      male_secondary_educ,1,0))
+hdi <- hdi |> 
+  mutate(female_more_schl =
+           ifelse(female_secondary_educ > male_secondary_educ,1,0))
 ```
 
 ---
@@ -417,8 +424,15 @@ summary(birthrate_hdicat_model2)
 # In Words
 
 - The mean adolescent birth rate for countries in the reference group (category 1) is 12.9. This mean is significantly different from zero (p-value = 0.001).
+
 - The mean adolescent birth rate for countries in category 2 is 22.41 points higher than the mean for countries in category 1. This difference is significant (p-value < 0.001).
+
+---
+
+# In Words
+
 - The mean adolescent birth rate for countries in category 3 is 48.02 points higher than the mean for countries in category 1. This difference is significant (p-value < 0.001).
+
 - The mean adolescent birth rate for countries in category 4 is 83.27 points higher than the mean for countries in category 1. This difference is significant (p-value < 0.001).
 
 ---
@@ -675,7 +689,7 @@ summary(femalemore_hdi_model2)
 
 # Final Project
 
-### Find a continuous dependent variable on the GSS website: [https://gssdataexplorer.norc.org]( https://gssdataexplorer.norc.org)
+### Find a continuous dependent variable using the `gssr` package or the GSS website: [https://gssdataexplorer.norc.org]( https://gssdataexplorer.norc.org)
 - Could be a scale
 - The variable should be included in at least one of the 2010-2018 surveys
-- This weekend's assignment is to find your variable and come up with a research question.
+- Your next assignment is to find your variable and come up with a research question.

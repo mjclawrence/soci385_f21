@@ -285,6 +285,7 @@ What is the predicted life expectancy for the United States?
 
 ### REPLACE THIS LINE WITH YOUR CODE ###
 ```{r}
-hdi$log_gross_national_income[hdi$country=="United States"]
-19.5244 + (5.6811*10.88266)
+exp(hdi$log_gross_national_income[hdi$country=="United Kingdom"])
+hdi$log_gross_national_income[hdi$country=="United Kingdom"]
+19.5244 + (5.6811*10.54352)
 ```
