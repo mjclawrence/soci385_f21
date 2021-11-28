@@ -22,8 +22,6 @@ library(xaringanthemer)
 ```
 
 
-
-
 ```{r, include = FALSE, warning = FALSE}
 gss_week11 <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/gss_week_11.csv")
 library(tidyverse)
@@ -31,9 +29,6 @@ library(pander)
 library(kableExtra)
 ```
 
-## [Fertility Visualiztion](https://twitter.com/toddrjones/status/1195476826728128514)
-
----
 
 # Warm Up In Groups
 ### Regress age at first birth (`agekdbrn`) on years of education (`educ`)
@@ -94,7 +89,7 @@ gss_week11 <- mutate(gss_week11, degree = factor(degree,
       "Some College", "College Degree",
       "Grad/Prof Degree")))
 
-gss_week11$degree <- relevel(gss_week11$degree, 
+gss_week11$degree <- relevel(factor(gss_week11$degree), 
   ref = "College Degree")
 
 warmup2 <- lm(agekdbrn ~ degree, data = gss_week11)
@@ -112,8 +107,8 @@ gss_week11 <- mutate(gss_week11, degree = factor(degree,
       "Some College", "College Degree",
       "Grad/Prof Degree")))
 
-gss_week11$degree <- relevel(gss_week11$degree, 
-  ref = "College Degree")
+gss_week11$degree <- relevel(factor(gss_week11$degree), 
+                             ref = "College Degree")
 
 warmup2 <- lm(agekdbrn ~ degree, data = gss_week11)
 
@@ -140,8 +135,8 @@ summary(warmup2)
 --
 
 ```{r, eval = FALSE}
-gss_week11$religion <- 
-relevel(gss_week11$religion, ref = "Protestant")
+gss_week11$religion <- relevel(factor(gss_week11$religion), 
+                               ref="Protestant") 
 
 warmup3 <- lm(agekdbrn_30plus ~ religion, data = gss_week11)
 
@@ -153,8 +148,7 @@ summary(warmup3)
 # Warm Up 3
 
 ```{r, echo = FALSE}
-gss_week11$religion <- 
-relevel(gss_week11$religion, ref = "Protestant")
+gss_week11$religion <- relevel(factor(gss_week11$religion), ref="Protestant") 
 
 warmup3 <- lm(agekdbrn_30plus ~ religion, data = gss_week11)
 
@@ -483,8 +477,7 @@ memnum_educ_model <- lm(memnum ~ educ, data = gss_week11)
 ```
 
 ```{r}
-gss_week11$pred_memnum <- 
-fitted(memnum_educ_model)
+gss_week11$pred_memnum <- memnum_educ_model$fitted.values
 
 gss_week11$res_memnum <- 
 (gss_week11$memnum - gss_week11$pred_memnum)^2
