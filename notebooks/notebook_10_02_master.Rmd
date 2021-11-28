@@ -190,6 +190,7 @@ summary(femalemore_schooling_model1)
 We'll wrap up with a model that has categorical dependent and independent variables. Regress `female_more_schl` on `hdi_rank_cat`:
 
 ### REPLACE THIS LINE WITH YOUR CODE
+
 ```{r}
 femalemore_hdi_model2 <- 
 lm(female_more_schl ~ 
@@ -197,4 +198,14 @@ lm(female_more_schl ~
       data = hdi)
 
 summary(femalemore_hdi_model2)
+```
+
+This would be a good time to reassert the levels and make "Very High" the reference category to see if the differences between that category and "High" and "Medium" are significant.
+
+
+```{r}
+hdi <- hdi |> 
+  mutate(hdi_rank_cat = factor(hdi_rank_cat,
+                               levels = c("Very High", "High",
+                                          "Medium", "Low")))
 ```
