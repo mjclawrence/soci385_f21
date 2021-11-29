@@ -472,7 +472,7 @@ summary(agekd_educ_religion_race_model)
 
 --
 
-### Net of education and religion, there is no significant difference in the age at first birth between black women and women in the other race category, on average. 
+### Net of education and religion, there is no significant difference in the age at first birth between Black women and women in the other race category, on average. 
 
 --
 
@@ -583,8 +583,7 @@ summary(memnum_educ_model)
 
 
 ```r
-gss_week11$pred_memnum &lt;- 
-fitted(memnum_educ_model)
+gss_week11$pred_memnum &lt;- memnum_educ_model$fitted.values
 
 gss_week11$res_memnum &lt;- 
 (gss_week11$memnum - gss_week11$pred_memnum)^2
