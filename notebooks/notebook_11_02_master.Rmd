@@ -4,21 +4,17 @@ author: "Matt Lawrence"
 date: "December 1, 2021"
 output:
   pdf_document: default
-header-includes:
-  - \usepackage{xcolor}
-  - \usepackage{booktabs}
-  - \usepackage{siunitx}
-  - \newcolumntype{d}{S[input-symbols = ()]}
 ---
+
 
 ## Setting Up
 
 We'll use the `midd_survey.csv` file on Canvas. These are selected responses to a survey of Middlebury students conducted by Professor Peggy Nelson and her research methods class in Fall 2011. Load it as a data frame called `midd_survey` and load the usual packages.
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
-library(tidyverse)
 library(kableExtra)
-library(modelsummary)
+library(tidyverse)
+#library(huxtable)
 midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
@@ -29,13 +25,8 @@ midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
+```{r, results = "asis"}
 gpa_sibs_model <- lm(gpa ~ siblings, data = midd_survey)
-cap <- "GPA and Siblings"
-msummary(gpa_sibs_model, 
-                 stars = TRUE,
-                 title = cap, gof_omit = 'IC|Log|Adj',
-         align="lddddd")
 ```
 
 **Warm Up 1:** Add control for gender to original model
@@ -264,8 +255,8 @@ Want a nice table? Use `kbl()` with the object you just created.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-kbl(lookrel_predictions,
+```{r, echo = FALSE}
+kable(lookrel_predictions,
       booktabs = TRUE,
     align = rep("c", 2))
 ```
