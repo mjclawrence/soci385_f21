@@ -1,34 +1,34 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-12-01" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Interactions
+### December 1, 2021
+
 ---
-title: "Social Statistics"
-subtitle: "Interactions"
-date: "December 1, 2021"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
-    nature:
-        highlightLines: true
-        highlightStyle: zenburn
-        highlightSpans: true
-        titleSlideClass: ["middle"]
-        beforeInit: "macros.js"
----
-
-```{r setup, include=FALSE}
-# Change css [here](/notes_slides/slides/metropolis.css)
-
-options(htmltools.dir.version = FALSE)
-library(xaringanthemer)
-```
 
 
 
 
-```{r, include = FALSE, warning = FALSE}
-midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
-library(tidyverse)
-library(kableExtra)
-```
+
+
+
+
 
 # Warm Up: midd_survey.csv
 ### Everyone: regress gpa on number of siblings 
@@ -50,8 +50,9 @@ library(kableExtra)
 
 --
 
-```{r, eval = FALSE}
-gpa_sibs_model <- lm(gpa ~ siblings, 
+
+```r
+gpa_sibs_model &lt;- lm(gpa ~ siblings, 
   data = midd_survey)
 
 summary(gpa_sibs_model)
@@ -67,14 +68,7 @@ summary(gpa_sibs_model)
 
 # Warm Up - Original Model
 
-```{r, echo = FALSE, out.height = "75%"}
-gpa_sibs_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa))
-gpa_sibs_plot + geom_point() + geom_abline(intercept = 3.558767,
-                                           slope = -0.031819) +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-3-1.png" height="75%" /&gt;
 
 ---
 
@@ -84,8 +78,9 @@ gpa_sibs_plot + geom_point() + geom_abline(intercept = 3.558767,
 
 --
 
-```{r, eval = FALSE}
-gpa_sibs_gender_model <- lm(gpa ~ siblings + gender, 
+
+```r
+gpa_sibs_gender_model &lt;- lm(gpa ~ siblings + gender, 
       data = midd_survey)
 
 summary(gpa_sibs_gender_model)
@@ -104,34 +99,33 @@ summary(gpa_sibs_gender_model)
 
 --
 
-```{r}
+
+```r
 # For Men With 3 Siblings:
 3.531540 - .031269*3
 ```
 
+```
+## [1] 3.437733
+```
+
 --
 
-```{r}
+
+```r
 # For Women With 4 Siblings:
 3.531540 - .031269*4 + .045629
+```
+
+```
+## [1] 3.452093
 ```
 
 ---
 
 # Warm Up 1
 
-```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
-gpa_sibs_plot + geom_point(color = "Light Gray") + 
-     geom_abline(intercept = 3.531540, slope = -0.031269, color = "Red") +
-     geom_abline(intercept = 3.531540-0.058342, slope = -0.031269, color = "Purple") +
-     geom_abline(intercept = 3.531540+0.045629, slope = -0.031269, color = "Forest Green") +
-     geom_text(x = 2.5, y = 3.875, label = "Women", color = "Forest Green", size = 10) +
-     geom_text(x = 2.5, y = 3.75, label = "Men", color = "Red", size = 10) +
-     geom_text(x = 2.5, y = 3.625, label = "Other", color = "Purple", size = 10) +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-7-1.png" height="75%" /&gt;
 
 ---
 
@@ -141,8 +135,9 @@ gpa_sibs_plot + geom_point(color = "Light Gray") +
 
 --
 
-```{r, eval = FALSE}
-gpa_sibs_class_model <- lm(gpa ~ siblings + class, 
+
+```r
+gpa_sibs_class_model &lt;- lm(gpa ~ siblings + class, 
   data = midd_survey)
 
 summary(gpa_sibs_class_model)
@@ -161,36 +156,33 @@ summary(gpa_sibs_class_model)
 
 --
 
-```{r}
+
+```r
 # For middle class student with 2 siblings:
 3.405229 - .026787*2 + .130127
 ```
 
+```
+## [1] 3.481782
+```
+
 --
 
-```{r}
+
+```r
 # For upper middle class student with 1 sibling:
 3.405229 -  .026787*1 + .191764
+```
+
+```
+## [1] 3.570206
 ```
 
 ---
 
 # Warm Up 2
 
-```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
-gpa_sibs_plot + geom_point(color = "Light Gray") + 
-     geom_abline(intercept = 3.405229, slope = -0.026787, color = "Red") +
-     geom_abline(intercept = 3.405229+0.130127, slope = -0.026787, color = "Forest Green") +
-     geom_abline(intercept = 3.405229+0.158991, slope = -0.026787, color = "Deep Sky Blue") +
-     geom_abline(intercept = 3.405229+0.191764, slope = -0.026787, color = "Purple") +
-     geom_text(x = 2.5, y = 4, label = "Upper Middle", color = "Purple", size = 10) +
-     geom_text(x = 2.5, y = 3.875, label = "Upper", color = "Deep Sky Blue", size = 10) +
-     geom_text(x = 2.5, y = 3.75, label = "Middle", color = "Forest Green", size = 10) +
-     geom_text(x = 2.5, y = 3.625, label = "Lower", color = "Red", size = 10) +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-11-1.png" height="75%" /&gt;
 
 ---
 
@@ -200,8 +192,9 @@ gpa_sibs_plot + geom_point(color = "Light Gray") +
 
 --
 
-```{r, eval = FALSE}
-gpa_sibs_class_gender_model <- 
+
+```r
+gpa_sibs_class_gender_model &lt;- 
 lm(gpa ~ siblings + class + gender, data = midd_survey)
 
 summary(gpa_sibs_class_gender_model)
@@ -221,8 +214,13 @@ summary(gpa_sibs_class_gender_model)
 
 --
 
-```{r}
+
+```r
 3.368622
+```
+
+```
+## [1] 3.368622
 ```
 
 ---
@@ -247,35 +245,13 @@ summary(gpa_sibs_class_gender_model)
 
 # We Are About To Move From This...
 
-```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
-gpa_sibs_plot + geom_point(color = "Light Gray") + 
-     geom_abline(intercept = 3.405229, slope = -0.026787, color = "Red") +
-     geom_abline(intercept = 3.405229+0.130127, slope = -0.026787, color = "Forest Green") +
-     geom_abline(intercept = 3.405229+0.158991, slope = -0.026787, color = "Deep Sky Blue") +
-     geom_abline(intercept = 3.405229+0.191764, slope = -0.026787, color = "Purple") +
-     geom_text(x = 2.5, y = 4, label = "Upper Middle", color = "Purple", size = 10) +
-     geom_text(x = 2.5, y = 3.875, label = "Upper", color = "Deep Sky Blue", size = 10) +
-     geom_text(x = 2.5, y = 3.75, label = "Middle", color = "Forest Green", size = 10) +
-     geom_text(x = 2.5, y = 3.625, label = "Lower", color = "Red", size = 10) +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-14-1.png" height="75%" /&gt;
 
 ---
 
 # To This...
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE, error = FALSE, out.height = "75%"}
-gpa_sibs_class_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa, color = class))
-
-gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
-     geom_smooth(method = "lm") +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(legend.position = "bottom",
-      axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-15-1.png" height="75%" /&gt;
 
 ---
 
@@ -287,8 +263,9 @@ gpa_sibs_class_plot + geom_point(color = "Light Gray") +
 
 --
 
-```{r, eval = FALSE}
-gpa_sibs_class_model <- lm(gpa ~ siblings + class, 
+
+```r
+gpa_sibs_class_model &lt;- lm(gpa ~ siblings + class, 
       data = midd_survey)
 ```
 
@@ -298,8 +275,9 @@ gpa_sibs_class_model <- lm(gpa ~ siblings + class,
 
 --
 
-```{r, eval = FALSE}
-gpa_sibsXclass_model <- 
+
+```r
+gpa_sibsXclass_model &lt;- 
 lm(gpa ~ siblings * class, 
       data = midd_survey)
 
@@ -353,7 +331,8 @@ summary(gpa_sibsXclass_model)
 
 --
 
-```{r, eval = FALSE}
+
+```r
 3.52009 - 0.09065*(siblings) - 0.02612*(middle class) + 
 0.01418*(upper class) +0.05007*(upper middle class) + 
 0.09276*(siblings*middle class) +
@@ -365,9 +344,14 @@ summary(gpa_sibsXclass_model)
 
 ### This still makes the intercept the predicted gpa for a lower class student with zero siblings:
 
-```{r}
+
+```r
 3.52009 - 0.09065*(0) - 0.02612*(0) + 0.01418*(0) +
 0.05007*(0) + 0.09276*(0) + 0.08201*(0) + 0.08165*(0)
+```
+
+```
+## [1] 3.52009
 ```
 
 ---
@@ -380,9 +364,14 @@ summary(gpa_sibsXclass_model)
 
 --
 
-```{r}
+
+```r
 3.52009 - 0.09065*(2) - 0.02612*(1) + 0.01418*(0) +
 0.05007*(0) + 0.09276*(2*1) + 0.08201*(0) + 0.08165*(0)
+```
+
+```
+## [1] 3.49819
 ```
 
 ---
@@ -393,8 +382,9 @@ summary(gpa_sibsXclass_model)
 
 --
 
-```{r, eval = FALSE, message = FALSE, out.height = "75%"}
-gpa_sibs_class_plot <- ggplot(midd_survey, 
+
+```r
+gpa_sibs_class_plot &lt;- ggplot(midd_survey, 
       aes(x = siblings, y = gpa, color = class))
 
 gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
@@ -409,16 +399,7 @@ gpa_sibs_class_plot + geom_point(color = "Light Gray") +
 ---
 
 # Plotting Interactions
-```{r, echo = FALSE, message = FALSE, out.height = "75%"}
-gpa_sibs_class_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa, color = class))
-
-gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
-     geom_smooth(method = lm) +
-     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
-     theme(legend.position = "bottom",
-      axis.title = element_text(size = 18), axis.text = element_text(size = 16),
-      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
-```
+&lt;img src="slides_11_02_files/figure-html/unnamed-chunk-22-1.png" height="75%" /&gt;
 
 ---
 
@@ -451,9 +432,10 @@ gpa_sibs_class_plot + geom_point(color = "Light Gray") +
 
 --
 
-```{r}
+
+```r
 # Let's order year before we continue...
-midd_survey <- mutate(midd_survey, year = factor(year,
+midd_survey &lt;- mutate(midd_survey, year = factor(year,
      levels = c("First Year", "Sophomore", 
       "Junior", "Senior")))
 ```
@@ -466,9 +448,9 @@ midd_survey <- mutate(midd_survey, year = factor(year,
 
 --
 
-```{r, eval = FALSE}
 
-lookrel_gender_model <- 
+```r
+lookrel_gender_model &lt;- 
      lm(midd_lookingfor_relationship ~ gender, 
       data = midd_survey)
 
@@ -497,8 +479,9 @@ summary(lookrel_gender_model)
 
 --
 
-```{r, eval = FALSE}
-lookrel_gender_year_model <- 
+
+```r
+lookrel_gender_year_model &lt;- 
 lm(midd_lookingfor_relationship ~ gender + year, 
       data = midd_survey)
 
@@ -527,19 +510,16 @@ summary(lookrel_gender_year_model)
 
 --
 
-```{r, eval = FALSE}
-lookrel_genderXyear_model <- 
+
+```r
+lookrel_genderXyear_model &lt;- 
 lm(midd_lookingfor_relationship ~ gender * year, 
 data = midd_survey)
 
 summary(lookrel_genderXyear_model)
 ```
 
-```{r, echo = FALSE}
-lookrel_genderXyear_model <- 
-lm(midd_lookingfor_relationship ~ gender * year, 
-data = midd_survey)
-```
+
 
 ---
 
@@ -567,8 +547,9 @@ data = midd_survey)
 
 --
 
-```{r}
-midd_survey$pred_lookrel <- 
+
+```r
+midd_survey$pred_lookrel &lt;- 
   lookrel_genderXyear_model$fitted.values
 ```
 
@@ -580,9 +561,10 @@ midd_survey$pred_lookrel <-
 
 --
 
-```{r, warnings = FALSE, message = FALSE, comment = FALSE}
-lookrel_predictions <- midd_survey %>%
-     group_by(gender, year) %>%
+
+```r
+lookrel_predictions &lt;- midd_survey %&gt;%
+     group_by(gender, year) %&gt;%
      summarize(agree_look_rel = round(mean(pred_lookrel),3))
 ```
 
@@ -590,7 +572,8 @@ lookrel_predictions <- midd_survey %>%
 
 ### You can Kable the saved object for a nice table:
 
-```{r, eval = FALSE}
+
+```r
 kbl(lookrel_predictions,
     booktabs = TRUE,
     align = rep("c", 2))
@@ -600,12 +583,77 @@ kbl(lookrel_predictions,
 
 # Summarizing Predictions
 
-```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-library(kableExtra)
-kbl(lookrel_predictions,
-    booktabs = TRUE,
-    align = rep("c", 2))
-```
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; agree_look_rel &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; First Year &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.950 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sophomore &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.020 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Junior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.988 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Senior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.971 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; First Year &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.667 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sophomore &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Junior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.333 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Senior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.833 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; First Year &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.922 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sophomore &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.927 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Junior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.921 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Senior &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.459 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 ---
 
@@ -615,8 +663,9 @@ kbl(lookrel_predictions,
 
 --
 
-```{r, eval = FALSE}
-newpeople_raceXclass_model <- 
+
+```r
+newpeople_raceXclass_model &lt;- 
 lm(midd_opps_newpeople ~ race * class, 
       data = midd_survey)
 
@@ -642,3 +691,127 @@ summary(newpeople_raceXclass_model)
 # Another Example
 
 ![](385_figures/newpeople_plot.png)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

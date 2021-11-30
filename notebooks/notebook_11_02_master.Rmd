@@ -1,11 +1,14 @@
 ---
 title: "Interactions"
 author: "Matt Lawrence"
-date: "November 20, 2019"
+date: "December 1, 2021"
 output:
   pdf_document: default
-  html_notebook: default
-  html_document: default
+header-includes:
+  - \usepackage{xcolor}
+  - \usepackage{booktabs}
+  - \usepackage{siunitx}
+  - \newcolumntype{d}{S[input-symbols = ()]}
 ---
 
 ## Setting Up
@@ -14,8 +17,9 @@ We'll use the `midd_survey.csv` file on Canvas. These are selected responses to 
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(pander)
-midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/midd_survey.csv")
+library(kableExtra)
+library(modelsummary)
+midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
 
@@ -27,7 +31,11 @@ midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/m
 
 ```{r}
 gpa_sibs_model <- lm(gpa ~ siblings, data = midd_survey)
-summary(gpa_sibs_model)
+cap <- "GPA and Siblings"
+msummary(gpa_sibs_model, 
+                 stars = TRUE,
+                 title = cap, gof_omit = 'IC|Log|Adj',
+         align="lddddd")
 ```
 
 **Warm Up 1:** Add control for gender to original model
@@ -238,11 +246,10 @@ summary(lookrel_genderXyear_model)
 
 ## Summarizing Interactions
 
-When interpreting or plotting interactions becomes messy, summarize predicted values. To calculate the predictions, use the `fitted()` function and save them as a new variable.
+When interpreting or plotting interactions becomes messy, summarize predicted values. To calculate the predictions, use the `fitted.values` function and save them as a new variable.
 
 ```{r}
-midd_survey$pred_lookrel <- 
-fitted(lookrel_genderXyear_model)
+midd_survey$pred_lookrel <- lookrel_genderXyear_model$fitted.values
 ```
 
 Then use `group_by()` and `summarize()` to describe the predictions for each combination of the variables you are interacting.
@@ -253,12 +260,14 @@ lookrel_predictions <- midd_survey %>%
      summarize(agree_look_rel = round(mean(pred_lookrel),3))
 ```
 
-Want a nice table? Use `pander()` with the object you just created.
+Want a nice table? Use `kbl()` with the object you just created.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
 ```{r}
-pander(lookrel_predictions)
+kbl(lookrel_predictions,
+      booktabs = TRUE,
+    align = rep("c", 2))
 ```
 
 
