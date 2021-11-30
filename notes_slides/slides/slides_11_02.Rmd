@@ -27,7 +27,7 @@ library(xaringanthemer)
 ```{r, include = FALSE, warning = FALSE}
 midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/midd_survey.csv")
 library(tidyverse)
-library(pander)
+library(kableExtra)
 ```
 
 # Warm Up: midd_survey.csv
