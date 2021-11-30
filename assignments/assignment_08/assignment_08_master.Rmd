@@ -1,0 +1,95 @@
+---
+title: "Assignment 8"
+author: "Matt Lawrence"
+date: "11/21/2019"
+output: pdf_document
+---
+
+```{r, error = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(pander)
+midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/midd_survey.csv")
+```
+
+1. Create a new binary variable identifying respondents who think they are most likely to find a marriage or long-term partner at Middlebury with a 1 and everyone else with a 0. What is the mean of this new variable, and what does that value represent?
+
+```{r, header = FALSE}
+midd_survey <- mutate(midd_survey, 
+                      find_partner_midd =
+                           ifelse(find_partner=="Middlebury",1,0))
+```
+
+```{r}
+mean(midd_survey$find_partner_midd)
+``` 
+
+```{r}
+table(midd_survey$find_partner, midd_survey$gender)
+```
+
+The mean of this binary variable is the proportion of respondents who think they are most likely to find a marriage or long-term partner at Middlebury.
+
+How does this vary by gender?
+
+```{r}
+prop.table(table(midd_survey$gender, midd_survey$find_partner_midd),1)
+```
+
+No respondents in the "Other" gender category think they will find their partner at Middlebury. Let's take them out of the dataset so the rest of the models are easier to interpret.
+
+```{r}
+midd_survey <- midd_survey %>%
+     filter(gender!="Other") %>%
+     droplevels()
+```
+
+
+2. Regress the binary variable you created in #1 on gender, and interpret the coefficients.
+
+```{r}
+model1 <- 
+      lm(find_partner_midd ~ gender, 
+      data = midd_survey)
+
+summary(model1)
+```
+
+On average, women are 3.5 percentage points less likely than men to think they will find a partner at Middlebury. This difference is significant.
+
+3. Add type of housing as a control variable to the model, and 
+interpret the coefficients. 
+
+```{r}
+model2 <- 
+      lm(find_partner_midd ~ gender + housing, 
+      data = midd_survey)
+
+summary(model2)
+```
+
+Controlling for housing type, there is still a significant difference of 3.5 percentage points between men and women on average. Or, controlling for gender, students living in dorms, in houses and off campus are equally likely to expect to find a partner at Midd, on average.
+
+4. Add an interaction between gender and type of housing to the model, and interpret the coefficients.
+
+```{r}
+model3 <- 
+      lm(find_partner_midd ~ gender * housing, 
+      data = midd_survey)
+
+summary(model3)
+```
+
+The differences between men and women vary across types of housing. The average differences between men and women are significantly larger for those who live in houses rather than dorms and for those who live off campus rather than in dorms. 
+
+5. Save the predicted values from the model in #4. Create a table with `group_by()` and `summarize()` showing how the predicted values differ by gender and housing type. Interpret any interesting results.
+
+```{r}
+midd_survey$pred_find_partner <- fitted(model3)
+
+find_partner_predictions <- midd_survey %>%
+     group_by(gender, housing) %>%
+     summarize(prob_find_partner = 
+      round(mean(pred_find_partner, na.rm=TRUE),3))
+
+pander(find_partner_predictions)
+```

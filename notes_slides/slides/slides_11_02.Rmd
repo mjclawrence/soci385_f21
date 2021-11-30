@@ -1,0 +1,640 @@
+---
+title: "Social Statistics"
+subtitle: "Interactions"
+date: "December 1, 2021"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "metropolis.css", metropolis-fonts, monofont.css]
+    nature:
+        highlightLines: true
+        highlightStyle: zenburn
+        highlightSpans: true
+        titleSlideClass: ["middle"]
+        beforeInit: "macros.js"
+---
+
+```{r setup, include=FALSE}
+# Change css [here](/notes_slides/slides/metropolis.css)
+
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+```
+
+
+
+
+```{r, include = FALSE, warning = FALSE}
+midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/midd_survey.csv")
+library(tidyverse)
+library(pander)
+```
+
+# Warm Up: midd_survey.csv
+### Everyone: regress gpa on number of siblings 
+
+### Group 1: Add control for gender to original model
+- Predict gpa for men with 3 siblings and women with 4 siblings
+
+### Group 2: Add control for class to original model
+- Predict gpa for middle class student with 2 siblings and upper middle class student with 1 sibling
+
+### Group 3: Add controls for gender and class to original model
+- Predict gpa for lower class men with 0 siblings
+
+---
+
+# Warm Up - Original Model
+
+### Regress gpa on number of siblings
+
+--
+
+```{r, eval = FALSE}
+gpa_sibs_model <- lm(gpa ~ siblings, 
+  data = midd_survey)
+
+summary(gpa_sibs_model)
+```
+
+---
+
+# Warm Up - Original Model
+
+![](385_figures/gpa_sibs_model.png)
+
+---
+
+# Warm Up - Original Model
+
+```{r, echo = FALSE, out.height = "75%"}
+gpa_sibs_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa))
+gpa_sibs_plot + geom_point() + geom_abline(intercept = 3.558767,
+                                           slope = -0.031819) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# Warm Up 1
+
+### Regress gpa on number of siblings, controlling for gender
+
+--
+
+```{r, eval = FALSE}
+gpa_sibs_gender_model <- lm(gpa ~ siblings + gender, 
+      data = midd_survey)
+
+summary(gpa_sibs_gender_model)
+```
+
+---
+
+# Warm Up 1
+
+![](385_figures/gpa_sibs_gender_model.png)
+
+---
+
+# Warm Up 1
+### Predict gpa for men with 3 siblings and women with 4 siblings
+
+--
+
+```{r}
+# For Men With 3 Siblings:
+3.531540 - .031269*3
+```
+
+--
+
+```{r}
+# For Women With 4 Siblings:
+3.531540 - .031269*4 + .045629
+```
+
+---
+
+# Warm Up 1
+
+```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
+gpa_sibs_plot + geom_point(color = "Light Gray") + 
+     geom_abline(intercept = 3.531540, slope = -0.031269, color = "Red") +
+     geom_abline(intercept = 3.531540-0.058342, slope = -0.031269, color = "Purple") +
+     geom_abline(intercept = 3.531540+0.045629, slope = -0.031269, color = "Forest Green") +
+     geom_text(x = 2.5, y = 3.875, label = "Women", color = "Forest Green", size = 10) +
+     geom_text(x = 2.5, y = 3.75, label = "Men", color = "Red", size = 10) +
+     geom_text(x = 2.5, y = 3.625, label = "Other", color = "Purple", size = 10) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# Warm Up 2
+
+### Regress gpa on number of siblings, controlling for class.
+
+--
+
+```{r, eval = FALSE}
+gpa_sibs_class_model <- lm(gpa ~ siblings + class, 
+  data = midd_survey)
+
+summary(gpa_sibs_class_model)
+```
+
+---
+
+# Warm Up 2
+
+![](385_figures/gpa_sibs_class_model.png)
+
+---
+
+# Warm Up 2
+### Predict gpa for middle class student with 2 siblings and upper middle class student with 1 sibling
+
+--
+
+```{r}
+# For middle class student with 2 siblings:
+3.405229 - .026787*2 + .130127
+```
+
+--
+
+```{r}
+# For upper middle class student with 1 sibling:
+3.405229 -  .026787*1 + .191764
+```
+
+---
+
+# Warm Up 2
+
+```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
+gpa_sibs_plot + geom_point(color = "Light Gray") + 
+     geom_abline(intercept = 3.405229, slope = -0.026787, color = "Red") +
+     geom_abline(intercept = 3.405229+0.130127, slope = -0.026787, color = "Forest Green") +
+     geom_abline(intercept = 3.405229+0.158991, slope = -0.026787, color = "Deep Sky Blue") +
+     geom_abline(intercept = 3.405229+0.191764, slope = -0.026787, color = "Purple") +
+     geom_text(x = 2.5, y = 4, label = "Upper Middle", color = "Purple", size = 10) +
+     geom_text(x = 2.5, y = 3.875, label = "Upper", color = "Deep Sky Blue", size = 10) +
+     geom_text(x = 2.5, y = 3.75, label = "Middle", color = "Forest Green", size = 10) +
+     geom_text(x = 2.5, y = 3.625, label = "Lower", color = "Red", size = 10) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# Warm Up 3
+
+### Group 3: Add controls for gender and class to original model
+
+--
+
+```{r, eval = FALSE}
+gpa_sibs_class_gender_model <- 
+lm(gpa ~ siblings + class + gender, data = midd_survey)
+
+summary(gpa_sibs_class_gender_model)
+```
+
+---
+
+# Warm Up 3
+
+![](385_figures/gpa_sibs_class_gender_model.png)
+
+---
+
+# Warm Up 3
+
+### Predict gpa for lower class men with 0 siblings
+
+--
+
+```{r}
+3.368622
+```
+
+---
+
+# Where We Are Now
+
+### We know lines can have different starting points. That means there can be different alphas, or intercepts.
+
+### We know the predicted values on the lines can be different from the observed values. Those differences are the residuals.
+
+---
+
+# Where We Are Now
+
+### One reason we might have big residuals is because we assume that the change for each increase in our X variable is the same for all values of our control variable(s).
+
+### If that is not true, we need a way to let the slopes of our lines vary too.
+
+### More formally, we want to know if the average change in Y for a change in X changes as the value of our control variable changes
+
+---
+
+# We Are About To Move From This...
+
+```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
+gpa_sibs_plot + geom_point(color = "Light Gray") + 
+     geom_abline(intercept = 3.405229, slope = -0.026787, color = "Red") +
+     geom_abline(intercept = 3.405229+0.130127, slope = -0.026787, color = "Forest Green") +
+     geom_abline(intercept = 3.405229+0.158991, slope = -0.026787, color = "Deep Sky Blue") +
+     geom_abline(intercept = 3.405229+0.191764, slope = -0.026787, color = "Purple") +
+     geom_text(x = 2.5, y = 4, label = "Upper Middle", color = "Purple", size = 10) +
+     geom_text(x = 2.5, y = 3.875, label = "Upper", color = "Deep Sky Blue", size = 10) +
+     geom_text(x = 2.5, y = 3.75, label = "Middle", color = "Forest Green", size = 10) +
+     geom_text(x = 2.5, y = 3.625, label = "Lower", color = "Red", size = 10) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# To This...
+
+```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
+gpa_sibs_class_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa, color = class))
+
+gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
+     geom_smooth(method = lm) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(legend.position = "bottom",
+      axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# Introducing Interactions
+
+### An interaction is the product of two (or more) variables.
+
+### When we wanted to add another control variable, we used a plus sign:
+
+--
+
+```{r, eval = FALSE}
+gpa_sibs_class_model <- lm(gpa ~ siblings + class, 
+      data = midd_survey)
+```
+
+--
+
+### When we want to include the product of two variables, we use a star:
+
+--
+
+```{r, eval = FALSE}
+gpa_sibsXclass_model <- 
+lm(gpa ~ siblings * class, 
+      data = midd_survey)
+
+summary(gpa_sibsXclass_model)
+```
+
+---
+
+# Introducing Interactions
+
+![](385_figures/gpa_sibsXclass_model.png)
+
+---
+
+# Introducing Interactions
+
+### This model has *main effects*: Siblings, Middle Class, Upper Class, Upper Middle Class
+
+### And it has *interaction effects*: Siblings X Middle Class, Siblings X Upper Class, and Siblings X Upper Middle Class
+
+### The interaction term tells us how the slope varies for each value of the other variable.
+
+### The slope for our reference group (Lower Class) is the coefficient for siblings: -0.09065
+
+---
+
+# Introducing Interactions
+
+![](385_figures/gpa_sibsXclass_model.png)
+
+---
+
+# Introducing Interactions
+
+### The slope for our other groups is the coefficient for siblings plus the respective interaction term
+
+### For Middle Class:
+- -0.09065 + 0.09276 = 0.00211
+
+### For Upper Class:
+- -0.09065 + 0.08201 =  -0.00864
+
+### For Upper Middle Class:
+- -0.09065 + 0.08165 = -0.009
+
+---
+
+# Interactions and Predictions
+
+### For predictions, use the full equation
+
+--
+
+```{r, eval = FALSE}
+3.52009 - 0.09065*(siblings) - 0.02612*(middle class) + 
+0.01418*(upper class) +0.05007*(upper middle class) + 
+0.09276*(siblings*middle class) +
+0.08201*(siblings*upper class) + 
+0.08165*(siblings*upper middle class)
+```
+
+--
+
+### This still makes the intercept the predicted gpa for a lower class student with zero siblings:
+
+```{r}
+3.52009 - 0.09065*(0) - 0.02612*(0) + 0.01418*(0) +
+0.05007*(0) + 0.09276*(0) + 0.08201*(0) + 0.08165*(0)
+```
+
+---
+
+# Interactions and Predictions
+
+### Without interactions, we estimated the predicted gpa for a middle class student with 2 siblings to be 3.481782.
+
+### What is the prediction with interactions?
+
+--
+
+```{r}
+3.52009 - 0.09065*(2) - 0.02612*(1) + 0.01418*(0) +
+0.05007*(0) + 0.09276*(2*1) + 0.08201*(0) + 0.08165*(0)
+```
+
+---
+
+# Plotting Interactions
+
+### Add your control variable to the aesthetics map. The regular `geom_smooth(method = lm)` function includes interactions by default.
+
+--
+
+```{r, eval = FALSE, out.height = "75%"}
+gpa_sibs_class_plot <- ggplot(midd_survey, 
+      aes(x = siblings, y = gpa, color = class))
+
+gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
+     geom_smooth(method = lm) +
+     labs(x = "Number of Siblings", y = "GPA", 
+      title = "GPA and Number of Siblings", 
+      subtitle = "Professor Peggy Nelson's Middlebury Survey, 
+            Fall 2011") + 
+     theme(legend.position = "bottom")
+```
+
+---
+
+# Plotting Interactions
+```{r, echo = FALSE, warning = FALSE, out.height = "75%"}
+gpa_sibs_class_plot <- ggplot(midd_survey, aes(x = siblings, y = gpa, color = class))
+
+gpa_sibs_class_plot + geom_point(color = "Light Gray") + 
+     geom_smooth(method = lm) +
+     labs(x = "Number of Siblings", y = "GPA", title = "GPA and Number of Siblings", subtitle = "Professor Peggy Nelson's Middlebury Survey, Fall 2011") + 
+     theme(legend.position = "bottom",
+      axis.title = element_text(size = 18), axis.text = element_text(size = 16),
+      plot.title = element_text(size = 18), plot.subtitle = element_text(size = 14))
+```
+
+---
+
+# Understanding Interactions
+
+### Interactions are not always significant! If *none* are significant, do not use that model (usually).
+
+### Have to include the *main effects* when you have an interaction. R does this automatically; other programs do not.
+
+### If the main effects are not significant when you add the interactions but the interactions are significant, that's okay.
+
+### With lots of interactions, can be hard to imagine a plot...much easier to calculate predictions when you have interactions. (We'll get to this.)
+
+
+---
+
+# Understanding Interactions
+
+### Key takeaway is that a significant interaction effect tells you that the change for a one unit change in X is different for at least one value of another variable. That means the slope varies.
+
+---
+
+# Interactions - Example 2
+
+### Our questions before interactions: On a scale from 1-5, would you expect students to disagree or agree that they are actively looking to start a relationship at Middlebury (`midd_lookingfor_relationship`)? 
+
+### Will the average responses vary across genders? Would school year explain that variation?
+
+### Our question with interactions: Would you expect any differences across genders to vary by school year?
+
+--
+
+```{r}
+# Let's order year before we continue...
+midd_survey <- mutate(midd_survey, year = factor(year,
+     levels = c("First Year", "Sophomore", 
+      "Junior", "Senior")))
+```
+
+---
+
+# Example 2 - The Basic Model
+
+### Start with the bivariate relationship
+
+--
+
+```{r, eval = FALSE}
+
+lookrel_gender_model <- 
+     lm(midd_lookingfor_relationship ~ gender, 
+      data = midd_survey)
+
+summary(lookrel_gender_model)
+```
+
+---
+
+# Example 2 - Basic Model
+
+![](385_figures/relationship_model1.png)
+
+---
+
+# Example 2 - Basic Model
+
+### On average, women's responses tend to be lower than men's responses, meaning women are less likely than men to say they are looking to start a relationship at Middlebury. This difference is significant.
+
+### Students in the other gender category also tend to have lower responses than men, on average. But this difference is not significant.
+
+---
+
+# Example 2 - Control Variable
+
+### Control for year
+
+--
+
+```{r, eval = FALSE}
+lookrel_gender_year_model <- 
+lm(midd_lookingfor_relationship ~ gender + year, 
+      data = midd_survey)
+
+summary(lookrel_gender_year_model)
+```
+
+---
+
+# Example 2 - Control Variable
+
+![](385_figures/relationship_model2.png)
+
+---
+
+# Example 2 - Control Variable
+
+### Controlling for school year, average scores for women are still significantly lower than average scores for men.
+
+### Holding gender constant, average scores for seniors are significantly lower than average sores for first year students.
+
+---
+
+# Interactions - Example 2 - Full Model
+
+### Add interaction between gender and year
+
+--
+
+```{r, eval = FALSE}
+lookrel_genderXyear_model <- 
+lm(midd_lookingfor_relationship ~ gender * year, 
+data = midd_survey)
+
+summary(lookrel_genderXyear_model)
+```
+
+```{r, echo = FALSE}
+lookrel_genderXyear_model <- 
+lm(midd_lookingfor_relationship ~ gender * year, 
+data = midd_survey)
+```
+
+---
+
+# Interactions - Example 2 - Full Model
+
+![](385_figures/relationship_model3.png)
+
+---
+
+# Interpreting - Example 2 - Full Model
+
+### The difference between seniors and first years is .48 points lower for women than it is for men, on average. This difference is significant.
+
+### Among sophomores, average scores for students in the other gender category are 3.26 points higher than the average scores for men. This difference is significant.
+
+---
+
+# Summarizing Interactions
+
+### With lots of variables, interpreting and plotting interactions can get messy.
+
+### Easier to predict values from your full model and describe them.
+
+### Remember the `fitted()` function can calculate predictions and save them as a new variable:
+
+--
+
+```{r}
+midd_survey$pred_lookrel <- 
+fitted(lookrel_genderXyear_model)
+```
+
+---
+
+# Summarizing Interactions
+
+### Then use `group_by()` and `summarize()` to describe the predictions for each combination of the variables you are interacting:
+
+--
+
+```{r, warnings = FALSE, message = FALSE, comment = FALSE}
+lookrel_predictions <- midd_survey %>%
+     group_by(gender, year) %>%
+     summarize(agree_look_rel = round(mean(pred_lookrel),3))
+```
+
+--
+
+### You can pander the saved object for a nice table:
+
+```{r, eval = FALSE}
+pander(lookrel_predictions)
+```
+
+---
+
+# Summarizing Predictions
+
+```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+library(kableExtra)
+kable(lookrel_predictions)
+```
+
+---
+
+# Another Example
+
+### Think about answers to the question: are you satisfied with opportunities at Middlebury to meet new people? Would answers differ by race or by class? Would those racial differences vary by class?
+
+--
+
+```{r, eval = FALSE}
+newpeople_raceXclass_model <- 
+lm(midd_opps_newpeople ~ race * class, 
+      data = midd_survey)
+
+summary(newpeople_raceXclass_model)
+```
+
+---
+
+# Another Example
+
+![](385_figures/newpeople_model.png)
+
+---
+
+# Another Example
+
+### If you have good theoretical reasons to include interactions even if they are not significant, that can be okay.
+
+### Possibility that non-significant interactions are because of sample size. That does not necessarily mean hypothesis is wrong, but it does mean the null hypothesis cannot be rejected.
+
+---
+
+# Another Example
+
+![](385_figures/newpeople_plot.png)
