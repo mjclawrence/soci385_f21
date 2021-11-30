@@ -581,19 +581,9 @@ midd_survey$pred_lookrel <-
 --
 
 ```{r, warnings = FALSE, message = FALSE, comment = FALSE}
-lookrel_predictions <- midd_survey %>%
-     group_by(gender, year) %>%
+lookrel_predictions <- midd_survey |>
+     group_by(gender, year) |>
      summarize(agree_look_rel = round(mean(pred_lookrel),3))
-```
-
---
-
-### You can Kable the saved object for a nice table:
-
-```{r, eval = FALSE}
-kbl(lookrel_predictions,
-    booktabs = TRUE,
-    align = rep("c", 2))
 ```
 
 ---

@@ -2,19 +2,15 @@
 title: "Interactions"
 author: "Matt Lawrence"
 date: "December 1, 2021"
-output:
-  pdf_document: default
+output: pdf_document
 ---
-
 
 ## Setting Up
 
 We'll use the `midd_survey.csv` file on Canvas. These are selected responses to a survey of Middlebury students conducted by Professor Peggy Nelson and her research methods class in Fall 2011. Load it as a data frame called `midd_survey` and load the usual packages.
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
-library(kableExtra)
 library(tidyverse)
-#library(huxtable)
 midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
@@ -61,7 +57,7 @@ Predict gpa for men with 3 siblings and women with 4 siblings
 
 ```{r}
 # Reorder class
-midd_survey <- midd_survey %>%
+midd_survey <- midd_survey |>
      mutate(class = factor(class,
                            levels = c("Lower Class",
                                       "Middle Class",
@@ -246,21 +242,10 @@ midd_survey$pred_lookrel <- lookrel_genderXyear_model$fitted.values
 Then use `group_by()` and `summarize()` to describe the predictions for each combination of the variables you are interacting.
 
 ```{r}
-lookrel_predictions <- midd_survey %>%
-     group_by(gender, year) %>%
+lookrel_predictions <- midd_survey |>
+     group_by(gender, year) |>
      summarize(agree_look_rel = round(mean(pred_lookrel),3))
 ```
-
-Want a nice table? Use `kbl()` with the object you just created.
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r, echo = FALSE}
-kable(lookrel_predictions,
-      booktabs = TRUE,
-    align = rep("c", 2))
-```
-
 
 
 ## Another Example
@@ -281,8 +266,8 @@ Earlier we saw how to estimate the predicted values. Here's that code again:
 ```{r}
 midd_survey$pred_newpeople <- fitted(newpeople_raceXclass_model)
 
-new_people_predictions <- midd_survey %>%
-     group_by(race, class) %>%
+new_people_predictions <- midd_survey |>
+     group_by(race, class) |>
      summarize(agree_opps_newpeople = round(mean(pred_newpeople),2))
 ```
 

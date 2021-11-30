@@ -7,10 +7,10 @@ output: pdf_document
 ---
 
 ## SOCI 385 - Social Statistics
-## Fall 2019
+## Fall 2021
 ## Assignment 8
 
-***This assignment is due via Canvas by 12:00 PM on Monday, December 2, 2019.***
+***This assignment is due via Canvas by 10:00 AM on Monday, December 6, 2021.***
 
 ***Please show all your code and write your responses in complete sentences as appropriate. Submit your knitted pdf and the R Markdown (.Rmd) file for your notebook. Remember to include your name in the header.***
 

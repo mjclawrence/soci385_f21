@@ -6,10 +6,10 @@ header-includes:
      - \usepackage{nopageno}
 ---
 
-## SOCI 385 - Fall 2019
+## SOCI 385 - Fall 2021
 ## Final Assignment
 
-This assignment is due by 11:59 pm on Friday, December 13, 2019. Submit a pdf file of your report and a copy of your full Rmd file via Canvas.
+This assignment is due by 11:59 pm on Friday, December 17, 2021. Submit a pdf file of your report and a copy of your full Rmd file via Canvas.
 
 For this project, you will prepare a written report related to the research question that you proposed. Write in complete sentences and paragraphs and include a header for each new section of your report.
 
@@ -19,13 +19,13 @@ For this project, you will prepare a written report related to the research ques
 
 - Clearly label any figures you include. This means all figures should have titles for axes, plots, and legends as appropriate.
 
-- When possible, summarize your results so they can be interpreted by someone who is familiar with statistics but is not familiar with R output. Format your results in clean tables using `pander()` and `stargazer()` rather than dumping raw R output into your report. (Note: we will spend time during the last class going over how to present results.)
+- When possible, summarize your results so they can be interpreted by someone who is familiar with statistics but is not familiar with R output. Format your results in clean tables rather than dumping raw R output into your report. (Note: we will spend time during the last class going over how to present results.)
 
 - There is no time limit (other than the submission deadline).
 
 - You are free to consult your textbook, lecture slides, notes, and previous homework assignments and problem sets.
 
-- Late assignments will not be accepted.
+- Late assignments will not be accepted without prior approval.
 
 ## OUTLINE OF REPORT
 
