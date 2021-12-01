@@ -11,6 +11,7 @@ We'll use the `midd_survey.csv` file on Canvas. These are selected responses to 
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
+library(huxtable)
 midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
@@ -21,8 +22,17 @@ midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r, results = "asis"}
+```{r, results = 'asis'}
 gpa_sibs_model <- lm(gpa ~ siblings, data = midd_survey)
+gpa_sibs_model2 <- lm(gpa ~ siblings + class, data = midd_survey)
+
+huxreg(list("Model 1" = gpa_sibs_model, "Model 2" = gpa_sibs_model2),
+       statistics = c("N. obs." = "nobs"),
+       coefs = c("Siblings" = "siblings", 
+                 "Middle Class" = "classMiddle Class",
+                 "Upper Middle Class" = "classUpper Middle Class",
+                 "Upper Class" = "classUpper Class")) |> 
+  theme_article()
 ```
 
 **Warm Up 1:** Add control for gender to original model
@@ -243,8 +253,15 @@ Then use `group_by()` and `summarize()` to describe the predictions for each com
 
 ```{r}
 lookrel_predictions <- midd_survey |>
-     group_by(gender, year) |>
-     summarize(agree_look_rel = round(mean(pred_lookrel),3))
+  group_by(gender, year) |>
+  summarize(agree_look_rel = round(mean(pred_lookrel),2))
+```
+
+```{r}
+huxtable(lookrel_predictions) |> 
+  set_contents(1, 1:3, c("Gender", "Year", "Agree Looking For Relationship")) |> 
+  set_align(everywhere, 2:3, "center") |> 
+  theme_article()
 ```
 
 
