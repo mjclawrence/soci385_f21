@@ -1,17 +1,9 @@
----
-title: "Interactions"
-author: "Matt Lawrence"
-date: "December 1, 2021"
-output: pdf_document
----
-
 ## Setting Up
 
 We'll use the `midd_survey.csv` file on Canvas. These are selected responses to a survey of Middlebury students conducted by Professor Peggy Nelson and her research methods class in Fall 2011. Load it as a data frame called `midd_survey` and load the usual packages.
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(huxtable)
 midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
@@ -22,95 +14,21 @@ midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r, results = 'asis'}
-gpa_sibs_model <- lm(gpa ~ siblings, data = midd_survey)
-gpa_sibs_model2 <- lm(gpa ~ siblings + class, data = midd_survey)
-
-huxreg(list("Model 1" = gpa_sibs_model, "Model 2" = gpa_sibs_model2),
-       statistics = c("N. obs." = "nobs"),
-       coefs = c("Siblings" = "siblings", 
-                 "Middle Class" = "classMiddle Class",
-                 "Upper Middle Class" = "classUpper Middle Class",
-                 "Upper Class" = "classUpper Class")) |> 
-  theme_article()
-```
-
 **Warm Up 1:** Add control for gender to original model
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-gpa_sibs_gender_model <- lm(gpa ~ siblings + gender, 
-      data = midd_survey)
-
-summary(gpa_sibs_gender_model)
-```
 
 Predict gpa for men with 3 siblings and women with 4 siblings
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-# For Men With 3 Siblings:
-3.531540 - .031269*3
-```
-
-```{r}
-# For Women With 4 Siblings:
-3.531540 - .031269*4 + .045629
-```
-
-
 **Warm Up 2:** Regress gpa on number of siblings, controlling for class.
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-# Reorder class
-midd_survey <- midd_survey |>
-     mutate(class = factor(class,
-                           levels = c("Lower Class",
-                                      "Middle Class",
-                                      "Upper Middle Class",
-                                      "Upper Class")))
-
-gpa_sibs_class_model <- lm(gpa ~ siblings + class, 
-  data = midd_survey)
-
-summary(gpa_sibs_class_model)
-```
 
 Predict gpa for middle class student with 2 siblings and upper middle class student with 1 sibling.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-# For middle class student with 2 siblings:
-3.405229 - .026787*2 + .130127
-```
-
-```{r}
-# For upper middle class student with 1 sibling:
-3.405229 - .026787*1 + .191764
-```
-
-
 **Warm Up 3:** Add controls for gender and class to original model
 
-```{r}
-gpa_sibs_class_gender_model <- 
-lm(gpa ~ siblings + class + gender, data = midd_survey)
-
-summary(gpa_sibs_class_gender_model)
-```
-
 Predict gpa for lower class men with 0 siblings.
-
-### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-3.368622
-```
 
 
 
@@ -122,7 +40,7 @@ Since an interaction is a product of two variables, we use the multiplication sy
 
 ```{r}
 gpa_sibsXclass_model <- 
-lm(gpa ~ siblings * class, 
+  lm(gpa ~ siblings * class, 
       data = midd_survey)
 
 summary(gpa_sibsXclass_model)
@@ -142,20 +60,20 @@ Writing out the full equation might make it easier to understand how interaction
 
 ```{r, eval = FALSE}
 3.52009 - 0.09065*(siblings) - 0.02612*(middle class) + 
-0.05007*(upper middle class) + 0.01418*(upper class) + 
-0.09276*(siblings*middle class) +
-0.08201*(siblings*upper class) + 
-0.08165*(siblings*upper middle class)
+  0.05007*(upper middle class) + 0.01418*(upper class) + 
+  0.09276*(siblings*middle class) +
+  0.08201*(siblings*upper class) + 
+  0.08165*(siblings*upper middle class)
 ```
 
 To estimate a predicted gpa for our reference group, every term inside the parentheses becomes a zero:
 
 ```{r}
 3.52009 - 0.09065*(0) - 0.02612*(0) + 
-0.05007*(0) + 0.01418*(0) + 
-0.09276*(0) + 
-0.08201*(0) + 
-0.08165*(0)
+  0.05007*(0) + 0.01418*(0) + 
+  0.09276*(0) + 
+  0.08201*(0) + 
+  0.08165*(0)
 ```
 
 For any other group, replace every "siblings" with the number of siblings and replace the class variables with a 1 (if you are predicting for that group) or 0 (if you are not predicting for that group). Don't forget the interaction terms!
@@ -164,19 +82,10 @@ Try to estimate the predicted gpa for a middle class student with 2 siblings:
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-3.52009 - 0.09065*(2) - 0.02612*(1) + 
-0.05007*(0) + 0.01418*(0) +
-0.09276*(2*1) + 
-0.08201*(0) + 
-0.08165*(0)
-```
-
 
 ## Plotting Interactions
 
 When we were simply controlling for variables, we used `geom_abline()` to manually add lines with different alphas. Plotting interaction terms is easier. Just add your control variable to the aesthetics map (as a `color` term if you want to change colors; `linetype` is another option). The regular `geom_smooth(method = lm)` function includes interactions by default.
-
 
 ```{r}
 gpa_sibs_class_plot <- ggplot(midd_survey, 
@@ -208,38 +117,13 @@ Start by regressing `midd_lookingfor_relationship` on `gender`.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-
-lookrel_gender_model <- 
-     lm(midd_lookingfor_relationship ~ gender, 
-      data = midd_survey)
-
-summary(lookrel_gender_model)
-```
-
 Now add `year` as a control variable.
 
 ### REPLACE THIS LINE WITH YOUR CODE
 
-```{r}
-lookrel_gender_year_model <- 
-lm(midd_lookingfor_relationship ~ gender + year, 
-      data = midd_survey)
-
-summary(lookrel_gender_year_model)
-```
-
 Finally add an interaction between `gender` and `year`.
 
 ### REPLACE THIS LINE WITH YOUR CODE
-
-```{r}
-lookrel_genderXyear_model <- 
-lm(midd_lookingfor_relationship ~ gender * year, 
-data = midd_survey)
-
-summary(lookrel_genderXyear_model)
-```
 
 ## Summarizing Interactions
 
@@ -263,7 +147,6 @@ huxtable(lookrel_predictions) |>
   set_align(everywhere, 2:3, "center") |> 
   theme_article()
 ```
-
 
 ## Another Example
 
@@ -292,6 +175,7 @@ This time we'll plot the predictions rather than display them in a table.
 
 ```{r}
 plot3 <- ggplot(new_people_predictions, aes(x = class, y = agree_opps_newpeople, fill = race))
+
 plot3 + geom_col() + facet_wrap(~race) + guides(fill = "none") + 
      labs(x = "", y = "Disagree - Agree",
           title = "Satisfaction With Opportunities to Meet New People", 
