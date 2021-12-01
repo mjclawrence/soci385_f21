@@ -7,7 +7,7 @@ output: pdf_document
 
 ## Setting Up
 
-We'll use the `midd_survey.csv` file on Canvas. These are selected responses to a survey of Middlebury students conducted by Professor Peggy Nelson and her research methods class in Fall 2011. Load it as a data frame called `midd_survey` and load the usual packages.
+We'll use the `midd_survey.csv` file today. These are selected responses to a survey of Middlebury students conducted by Professor Peggy Nelson and her research methods class in Fall 2011. Load it as a data frame called `midd_survey` and load the usual packages.
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
