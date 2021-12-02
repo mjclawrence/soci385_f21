@@ -1,14 +1,16 @@
 ---
 title: "Assignment 8"
 author: "Matt Lawrence"
-date: "11/21/2019"
+date: "12/2/21"
 output: pdf_document
+margins: 0.5in
+fontsize: 11pt
 ---
 
 ```{r, error = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(pander)
-midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385/master/data/midd_survey.csv")
+library(huxtable)
+midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
 ```
 
 1. Create a new binary variable identifying respondents who think they are most likely to find a marriage or long-term partner at Middlebury with a 1 and everyone else with a 0. What is the mean of this new variable, and what does that value represent?
@@ -38,8 +40,8 @@ prop.table(table(midd_survey$gender, midd_survey$find_partner_midd),1)
 No respondents in the "Other" gender category think they will find their partner at Middlebury. Let's take them out of the dataset so the rest of the models are easier to interpret.
 
 ```{r}
-midd_survey <- midd_survey %>%
-     filter(gender!="Other") %>%
+midd_survey <- midd_survey |>
+     filter(gender!="Other") |>
      droplevels()
 ```
 
@@ -83,13 +85,13 @@ The differences between men and women vary across types of housing. The average 
 
 5. Save the predicted values from the model in #4. Create a table with `group_by()` and `summarize()` showing how the predicted values differ by gender and housing type. Interpret any interesting results.
 
-```{r}
+```{r, error = FALSE, warning = FALSE, message = FALSE}
 midd_survey$pred_find_partner <- fitted(model3)
 
-find_partner_predictions <- midd_survey %>%
-     group_by(gender, housing) %>%
+find_partner_predictions <- midd_survey |>
+     group_by(gender, housing) |>
      summarize(prob_find_partner = 
       round(mean(pred_find_partner, na.rm=TRUE),3))
 
-pander(find_partner_predictions)
+huxtable(find_partner_predictions)
 ```
