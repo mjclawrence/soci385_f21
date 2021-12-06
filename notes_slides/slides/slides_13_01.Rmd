@@ -224,9 +224,29 @@ Consider the difference in the proportions between men in dorms (.058) and women
 
 If there were no significant interaction terms, the drop of -.011 between men and women in dorms is what we would also expect as the drop between men and women in houses and between men and women in off campus housing. But the predicted differences in those housing types are much greater. That's because the interaction term tells us to add a certain amount to the predicted difference between men and women in those housing types.
 
-For houses, start with .011 and add .113. That explains the .124 difference between men in houses (.135) and women in houses (.011).
+For houses, start with .011 and add .113 (the coefficient for the womanXhouse interaction). That explains the .124 difference between men in houses (.135) and women in houses (.011).
 
-For off campus, start with .011 and add .120. That explains the .131 difference between men off campus (.130) and women off campus (.000)...with some minor rounding errors.
+For off campus, start with .011 and add .120 (the coefficient for the womanXoff campus interaction). That explains the .131 difference between men off campus (.130) and women off campus (.000)...with some minor rounding errors.
+
+The results above are when we think of gender differences in the same type of housing. We could also think of housing differences within the same gender categories...
+
+---
+
+# What are the interactions doing?
+
+Consider the differences between men in dorms (.058), men in houses (.135), and men off campus (.13). Those differences simply represent the intercept (.058), the intercept plus the coefficient for houses (.058 + .077 = .135), and the intercept plus the coefficient for off campus (.058 + .073 = .131 rounded). 
+
+For women, the predictions need the interaction terms. In class, we said that among women, those in houses are 11 percentage points less likely than those in dorms to say they will find their partner at Middlebury. That's based on the interaction term alone. The actual difference across housing types will be the interaction term plus the associated coefficient for housing type.
+
+So women in dorms have a .047 probability of saying they expect to find their partner at Middlebury. That is .036 percentage points higher than women in houses. That difference is explained by adding the coefficient for house (.077) and the interaction term for women in houses (-.113). More completely, .077 - .113 = .036.
+
+Women in dorms have a predicted probability that is .047 higher than women off campus. That difference is explained by adding the coefficient for off campus (.073) and the interaction term for women off campus (-.120). More completely, .073 - .120 = .047.
+
+---
+
+# Remember...
+
+## Interpreting the coefficients of a model with significant interaction terms is tricky. Predict from that model and then try to make sense of the predictions themselves.
 
 ---
 

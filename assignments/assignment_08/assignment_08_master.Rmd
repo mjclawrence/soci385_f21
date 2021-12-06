@@ -95,3 +95,15 @@ find_partner_predictions <- midd_survey |>
 
 huxtable(find_partner_predictions)
 ```
+
+Versus...
+
+```{r}
+find_partner_predictions2 <- midd_survey |>
+     group_by(housing, gender) |>
+     summarize(prob_find_partner = 
+      round(mean(pred_find_partner, na.rm=TRUE),3))
+
+huxtable(find_partner_predictions2)
+```
+
