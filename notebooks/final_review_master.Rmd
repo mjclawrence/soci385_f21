@@ -170,7 +170,7 @@ huxtable(space_summary) |>
   set_header_rows(1:2, TRUE) |> 
   set_contents(2, 1:5, c("Religion", "Confidence in Science", 
                          "None", "Moderate", "Very")) |> 
-  set_align(everywhere, 2:5, "center") |> 
+  set_align(everywhere, 3:5, "center") |> 
   theme_compact()
 ```
 
@@ -297,7 +297,7 @@ If you want to run the code chunk so you can see the output in your notebook but
 mean(review$age, na.rm=TRUE)
 ```
 
-I would probably recommend starting with `include = FALSE` for your final project, so you can see all your output but then selectively choose what to include and what not to include in your knitted report.
+***I recommend starting with `include = FALSE` for your final project, so you can see all your output but then selectively choose what to include and what not to include in your knitted report.***
 
 If for some reason you want to show the code but not the output, use `eval = FALSE`.
 
@@ -361,7 +361,7 @@ We have seen `huxtable()` and `huxreg()` a lot. They are great. Use them.
 
 Here's another example of how to use `huxtable()` in combination with `group_by()` and `summarize()` to make a nice summary table. Let's start with the code for getting means and standard deviations of the `age` and `educ` variables for each `religion` group:
 
-```{r, echo = FALSE}
+```{r}
 summary_table <- review |> 
      filter(!is.na(religion)) |>
      group_by(religion) |> 
@@ -373,7 +373,7 @@ summary_table <- review |>
 
 If we huxtable this table, we'll have the religion categories in the rows and the means and standard deviations in the columns:
 
-```{r, echo = FALSE}
+```{r}
 huxtable(summary_table) |>
   insert_row("", "Age", "", "Education", "", after = 0) |> 
   merge_cells(1, 2:3) |> 
@@ -387,18 +387,18 @@ huxtable(summary_table) |>
 
 Note that `huxtable()` also works well with `t.test()` after asserting that the results should be in tidy format (by wrapping the `t.test()` function in `tidy()`)... 
 
-```{r, echo = FALSE}
+```{r}
 tidy(t.test(review$age[review$religion=="Jewish"],
                 review$age[review$religion=="Eastern"])) |> 
   huxtable() |> 
-  select(-method) |> # Drop the method column from the table; its output is too long
+  select(-c(method, parameter)) |> # Drop the method and parameter columns from the table; their output is too long
   set_caption("T Test: Difference in Mean Age between Jewish and Eastern Respondents") |> 
   theme_compact()
 ```
 
 ...and `prop.test()`...
 
-```{r, echo = FALSE}
+```{r}
 space_religion <- review |>
      filter(religion=="Protestant" | religion=="None") |>
      select(religion, space_very_interested) |>
@@ -409,24 +409,24 @@ space_religion_table <- table(space_religion$religion,
 
 tidy((prop.test(space_religion_table))) |> 
   huxtable() |> 
-  select(-method) |> 
+  select(-c(method, parameter)) |>
   set_caption("Proportion Test: Protestant vs No Religion and Very Interested in Space") |> 
   theme_compact()
 ```
 
 ...and `chisq.test()`...
 
-```{r, echo = FALSE}
+```{r}
 tidy(chisq.test(review$sex, review$consci)) |> 
   huxtable() |>
-  select(-method) |> 
+  select(-c(method, parameter)) |> 
   set_caption("Chi-square Test: Sex and Confidence in Science") |> 
   theme_compact()
 ```
 
 ...and `fisher.test()`...
 
-```{r, echo = FALSE}
+```{r}
 
 educ_11_years_only <- review |>
      filter(educ==11) |>
@@ -437,7 +437,7 @@ chisq.test(educ_11_years_only$religion, educ_11_years_only$space)$expected
 tidy(fisher.test(educ_11_years_only$religion, educ_11_years_only$space, 
                    simulate.p.value = TRUE)) |> 
   huxtable() |> 
-  select(-method) |> 
+  select(-c(method)) |> # Just drop method here; fisher.test output does not include parameter
   set_caption("Fisher Test: Religion and Interest in Space") |> 
   theme_compact()
 ```

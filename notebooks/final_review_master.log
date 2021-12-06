@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.11.30)  6 DEC 2021 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.11.30)  6 DEC 2021 18:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -892,29 +892,35 @@ Package pdftex.def Info: final_review_master_files/figure-latex/unnamed-chunk-1
 
 LaTeX Warning: Float too large for page by 21.86485pt on input line 1253.
 
-[10] [11]
+[10]
+
+LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 1305.
+
+
+[11]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 354.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [12]
-Overfull \hbox (24.24522pt too wide) in paragraph at lines 1673--1673
+) [12] [13]
+Overfull \hbox (24.24522pt too wide) in paragraph at lines 1742--1742
 []\T1/lmtt/m/n/12 ## Warning in chisq.test(educ_11_years_only$religion, educ_11
 _years_only$space):[] 
  []
 
-[13] [14] [15] (./final_review_master.aux)
+[14] [15] [16] [17] (./final_review_master.aux)
 Package rerunfilecheck Info: File `final_review_master.out' has not changed.
 (rerunfilecheck)             Checksum: 99C3643482F8E4530D1BFD87AFF7B730;2099.
  ) 
 Here is how much of TeX's memory you used:
- 16123 strings out of 480313
- 301476 string characters out of 5896366
- 621401 words of memory out of 5000000
- 33673 multiletter control sequences out of 15000+600000
- 443964 words of font info for 57 fonts, out of 8000000 for 9000
+ 16128 strings out of 480313
+ 301531 string characters out of 5896366
+ 620401 words of memory out of 5000000
+ 33675 multiletter control sequences out of 15000+600000
+ 444284 words of font info for 58 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 68i,13n,77p,344b,893s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,13n,77p,413b,893s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}
 {/Users/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/Use
 rs/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</Users/law
@@ -924,12 +930,13 @@ ce/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/lawrence
 /Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/lawrence/Li
 brary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/lawrence/Libr
 ary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/lawrence/Librar
-y/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/lawrence/Library/
-TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on final_review_master.pdf (15 pages, 186880 bytes).
+y/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/lawrence/Library
+/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/lawrence/Library/T
+inyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on final_review_master.pdf (17 pages, 222609 bytes).
 PDF statistics:
- 228 PDF objects out of 1000 (max. 8388607)
- 189 compressed objects within 2 object streams
- 64 named destinations out of 1000 (max. 500000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 198 compressed objects within 2 object streams
+ 66 named destinations out of 1000 (max. 500000)
  110 words of extra memory for PDF output out of 10000 (max. 10000000)
 
