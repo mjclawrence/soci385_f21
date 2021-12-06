@@ -8,22 +8,22 @@ header-includes:
 
 ## Getting Started
 
-Load the usual packages (which should now include huxtable!).
+Load the usual packages (which should now include huxtable!). Remember to include `warning = FALSE, header = FALSE, message = FALSE` to suppress the loading output.
 
 ```{r, warning = FALSE, header = FALSE, message = FALSE}
 library(tidyverse)
 library(huxtable)
 ```
 
-We will be using the gss dataset for this review. Load the `gssr` package, the gss_doc documentation, and the gss_all dataframe.
+We will be using the gss dataset for this review. Load the `gssr` package, the `gss_doc` documentation, and the `gss_all` dataframe.
 
-```{r}
+```{r, warning = FALSE, error = FALSE, message = FALSE}
 library(gssr)
 data(gss_doc)
 data(gss_all)
 ```
 
-Create a new dataframe called review. Filter the gss_all dataframe to keep only those observations from the 2010 waves and after. Select the variables we want.
+Create a new dataframe called `review`. Filter the `gss_all` dataframe to keep only those observations from the 2010 waves and after. Select the variables we want.
 
 ```{r}
 review <- gss_all |> 
@@ -32,23 +32,38 @@ review <- gss_all |>
          sex, educ, age, id)
 ```
 
+If you will be pulling the same variables in multiple chunks, it might make sense to store their names in a vector so you don't have to type them all every time.
+
+```{r}
+my_variables <- c("year", "intspace", "consci", "relig16", "race",
+                  "hispanic", "sex", "educ", "age", "id")
+```
+
+If you did this before the previous chunk, you could use the object name `my_variables` in the select function (note that you will get a warning if you don't assert you are using `all_of` the variables):
+
+```{r}
+review <- gss_all |> 
+  filter(year>=2010) |> 
+  select(all_of(my_variables))
+```
+
+
 ## Clean Up
 
-The big thing to do before starting analyses is to confirm that all missing values as NA. Run a summary of the review dataframe to make sure NAs have been captured.
+The big thing to do before starting analyses is to confirm that all missing values have been coded as NA. Run a summary of the `review` dataframe to make sure NAs have been captured.
 
 ```{r}
 summary(review)
 ```
 
-Recall that you can use the `gss_get_marginals()` function with `gss_doc` to see the labels for specific variables.
+Recall that you can use the `gss_get_marginals()` function with `gss_doc` to see the labels for specific variables. This is a nice place to use the `my_variables` vector. If you save the output of this function, you will be able to easily refer to it later. I recommend opening the spreadsheet view of `my_codebook` (in the top right pane) after running the chunk below.
 
 ```{r}
-gss_get_marginals(varnames = c("intspace", "consci", "relig16", "race", "hispanic", 
-                               "sex", "educ", "age"), data = gss_doc) |> 
+my_codebook <- gss_get_marginals(varnames = my_variables, data = gss_doc) |> 
   select(id, percent, n, value, label)
 ```
 
-Let's combine values from the `race` and `hispanic` variables to make a new variable called `racehisp`. The easiest way to do this is to first make a binary variable distinguishing those who are not Hispanic from those who are.
+Let's combine values from the `race` and `hispanic` variables to make a new variable called `racehisp`. The easiest way to do this is to first make a binary variable distinguishing those who are not Hispanic from those who are. The value of 1 for the hispanic variable is for respondents who are not Hispanic. We can use that in the ifelse function to create our binary variable.
 
 ```{r}
 review <- review |>
@@ -146,12 +161,15 @@ space_summary <- review |>
 space_summary
 ```
 
-You can clean up the column names of this table and pander it before you knit. Note that you can also add a table caption in the pander function.
+You can clean up the column names of this table and wrap it in huxtable before you knit. The new part of the code below is how to create a grouping row to use the "Interest in Space" header across the three levels of that variable. The idea is to first insert a new row, then merge it across columns 3:5, and finally assert that there are two rows (1:2) that should be treated as the table's header.
 
 ```{r, echo = FALSE}
 huxtable(space_summary) |> 
-  set_contents(1, 1:5, c("Religion", "Confidence in Science", 
-                         "Space Interest = None", "Space Interest = Moderate", "Space Interest = Very")) |> 
+  insert_row("", "", "Interest in Space", "", "", after = 0) |> 
+  merge_cells(1, 3:5) |>
+  set_header_rows(1:2, TRUE) |> 
+  set_contents(2, 1:5, c("Religion", "Confidence in Science", 
+                         "None", "Moderate", "Very")) |> 
   set_align(everywhere, 2:5, "center") |> 
   theme_compact()
 ```
@@ -188,7 +206,7 @@ plot + geom_bar() +
 
 Remember to change the axis labels and add a title to the figure above!
 
-Basic linear models also know to drop NAs. The notes section of the summary informs you how many cases have been deleted from the estimates (in the example below, 4210 observations are deleted due to missingness).
+Basic linear models also know to drop NAs. The notes section of the summary informs you how many cases have been deleted from the estimates (in the example below, 4249 observations are deleted due to missingness).
 
 ***This is new: notice how we are redefining the science factor variable to have a numeric scale in the chunk below. Each of the three factor levels will be assigned a number from 1-3. Since we asserted that the order of levels is "Hardly any" / "Only some" / "A great deal", now higher scores tell us that respondents have more confidence in scientific institutions. (This is a neat trick, but in general be careful with this approach. It only works if you can assume that the distance between each level is even.)***
 
@@ -203,11 +221,11 @@ Use huxreg with this model for your final knitted version:
 
 huxreg(model,
        statistics = c("N. obs." = "nobs")) |> 
-  set_caption("What is the title?") |> 
+  set_caption("Add A Title Here") |> 
   theme_compact()
 ```
 
-By default, the `fitted.values()` function will not work if there are NAs in your model. If you want to save predicted values from a model with missing values, add `na.action = na.exclude` to your `lm()` code. Now when you run the `fitted.values` function any observations not included in your model will have NA as their predicted value.
+By default, the `fitted.values` function will not work if there are NAs in your model. If you have missing values in your model, it is better to use `fitted()` and add `na.action = na.exclude` to your `lm()` code. Now when you run the `fitted()` function any observations not included in your model will have NA as their predicted value.
 
 ```{r}
 model <- lm(as.numeric(science) ~ educ, 
@@ -218,22 +236,6 @@ review$predicted_science <- fitted(model)
 
 summary(review$predicted_science)
 ```
-
-
-## More Thoughts On Plotting
-
-Always remember to label your axes and plots!
-
-```{r, warning = FALSE}
-plot <- ggplot(review, aes(x = educ, y = predicted_science))
-plot + geom_point() +
-     labs(x = "Years of Education",
-          y = "Predicted Score on Scale of \nConfidence in Science",
-          title = "Confidence in Scientific Community by Years of Education",
-          subtitle = "GSS, 2010-2018")
-```
-
-
 
 # Using Markdown For Reports
 
@@ -259,7 +261,7 @@ The mean of age is `r round(mean(review$age, na.rm=TRUE),2)`.
 
 If you want to run the code chunk so you can see the output in your notebook but with neither the code nor the output showing up in your knitted file, use `include = FALSE`.
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 mean(review$age, na.rm=TRUE)
 ```
 
@@ -325,7 +327,7 @@ This should be the start of a new page!
 
 We have seen `huxtable()` and `huxreg()` a lot. They are great. Use them. 
 
-One additional way to use `huxtable()` is to combine it with `group_by()` and `summarize()` to make a nice summary table. Let's start with the code for getting means and standard deviations of the `age` and `educ` variables for each `religion` group:
+Here's another example of how to use `huxtable()` in combination with `group_by()` and `summarize()` to make a nice summary table. Let's start with the code for getting means and standard deviations of the `age` and `educ` variables for each `religion` group:
 
 ```{r, echo = FALSE}
 summary_table <- review |> 
@@ -341,19 +343,23 @@ If we huxtable this table, we'll have the religion categories in the rows and th
 
 ```{r, echo = FALSE}
 huxtable(summary_table) |>
-  set_contents(1, 1:5, c("Religion", "Age Mean", "Age SD", "Education Mean", "Education SD")) |> 
+  insert_row("", "Age", "", "Education", "", after = 0) |> 
+  merge_cells(1, 2:3) |> 
+  merge_cells(1, 4:5) |> 
+  set_contents(2, 1:5, c("Religion", "Mean", "SD", "Mean", "SD")) |> 
+  set_header_rows(1:2, TRUE) |> 
   set_caption("Summary Table: Age and Education by Religion") |> 
   set_align(everywhere, 2:5, "center") |> 
   theme_compact()
 ```
 
-Note that `huxtable()` also works well with `t.test()` after asserting that the results should be in tidy format... 
+Note that `huxtable()` also works well with `t.test()` after asserting that the results should be in tidy format (by wrapping the `t.test()` function in `tidy()`)... 
 
 ```{r, echo = FALSE}
 tidy(t.test(review$age[review$religion=="Jewish"],
                 review$age[review$religion=="Eastern"])) |> 
   huxtable() |> 
-  select(-method) |> 
+  select(-method) |> # Drop the method column from the table; its output is too long
   set_caption("T Test: Difference in Mean Age between Jewish and Eastern Respondents") |> 
   theme_compact()
 ```

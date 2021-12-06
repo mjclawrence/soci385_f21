@@ -218,6 +218,18 @@ kable(find_partner_predictions, align = rep("c", 2))
 
 ---
 
+# What are the interactions doing?
+
+Consider the difference in the proportions between men in dorms (.058) and women in dorms (.047). That drop of .011 from men to women reflects the coefficient for women (-.011).
+
+If there were no significant interaction terms, the drop of -.011 between men and women in dorms is what we would also expect as the drop between men and women in houses and between men and women in off campus housing. But the predicted differences in those housing types are much greater. That's because the interaction term tells us to add a certain amount to the predicted difference between men and women in those housing types.
+
+For houses, start with .011 and add .113. That explains the .124 difference between men in houses (.135) and women in houses (.011).
+
+For off campus, start with .011 and add .120. That explains the .131 difference between men off campus (.130) and women off campus (.000)...with some minor rounding errors.
+
+---
+
 # Getting Output Out Of R
 
 ### Final project's report should not have R output. Will discuss formatting more on Wednesday
