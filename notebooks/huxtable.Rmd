@@ -42,6 +42,7 @@ Now wrap the table in `huxtable()`
 huxtable(gpa_table)
 ```
 
+
 \pagebreak
 
 We can clean up the table by changing the column labels, adjusting the row alignment, adding a title, and changing the theme.
