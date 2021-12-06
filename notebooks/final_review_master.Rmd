@@ -163,7 +163,7 @@ space_summary
 
 You can clean up the column names of this table and wrap it in huxtable before you knit. The new part of the code below is how to create a grouping row to use the "Interest in Space" header across the three levels of that variable. The idea is to first insert a new row, then merge it across columns 3:5, and finally assert that there are two rows (1:2) that should be treated as the table's header.
 
-```{r, echo = FALSE}
+```{r}
 huxtable(space_summary) |> 
   insert_row("", "", "Interest in Space", "", "", after = 0) |> 
   merge_cells(1, 3:5) |>
@@ -206,36 +206,68 @@ plot + geom_bar() +
 
 Remember to change the axis labels and add a title to the figure above!
 
-Basic linear models also know to drop NAs. The notes section of the summary informs you how many cases have been deleted from the estimates (in the example below, 4249 observations are deleted due to missingness).
+Basic linear models also know to drop NAs. The notes section of the summary informs you how many cases have been deleted from the estimates (in the example below, 6315 observations are deleted due to missingness).
 
-***This is new: notice how we are redefining the science factor variable to have a numeric scale in the chunk below. Each of the three factor levels will be assigned a number from 1-3. Since we asserted that the order of levels is "Hardly any" / "Only some" / "A great deal", now higher scores tell us that respondents have more confidence in scientific institutions. (This is a neat trick, but in general be careful with this approach. It only works if you can assume that the distance between each level is even.)***
+***This is new: notice how we are redefining the space factor variable to have a numeric scale in the chunk below. Each of the three factor levels will be assigned a number from 1-3. Since we asserted that the order of levels is "Not at all interested" / "Moderately interested" / "Very interested", now higher scores tell us that respondents are more interested in space. (This is a neat trick, but in general be careful with this approach. It only works if you can assume that the distance between each level is even.)***
 
 ```{r}
-model <- lm(as.numeric(science) ~ religion * educ, data = review)
-summary(model)
-```
-
-Use huxreg with this model for your final knitted version:
-
-```{r, echo = FALSE, warning = FALSE}
-
-huxreg(model,
-       statistics = c("N. obs." = "nobs")) |> 
-  set_caption("Add A Title Here") |> 
-  theme_compact()
+model1 <- lm(as.numeric(space) ~ religion, data = review)
+summary(model1)
 ```
 
 By default, the `fitted.values` function will not work if there are NAs in your model. If you have missing values in your model, it is better to use `fitted()` and add `na.action = na.exclude` to your `lm()` code. Now when you run the `fitted()` function any observations not included in your model will have NA as their predicted value.
 
 ```{r}
-model <- lm(as.numeric(science) ~ educ, 
-            data = review,
-            na.action=na.exclude) # Add to predict NA if observation has NAs
+model1 <- lm(as.numeric(space) ~ religion, data = review,
+             na.action = na.exclude)
 
-review$predicted_science <- fitted(model)
+review$predicted_space <- fitted(model1)
 
-summary(review$predicted_science)
+summary(review$predicted_space)
 ```
+
+Let's add a model with a control variable and an interactive model.
+
+```{r}
+model2 <- lm(as.numeric(space) ~ religion + science, 
+             data = review,
+             na.action = na.exclude)
+
+model3 <- lm(as.numeric(space) ~ religion * science, 
+             data = review,
+             na.action = na.exclude)
+```
+
+
+Use huxreg to combine all three models into your final table:
+
+```{r, warning = FALSE}
+
+huxreg(model1, model2, model3,
+       statistics = c("Number of Observations" = "nobs"),
+       coefs = c("(Intercept)" = "(Intercept)",
+                 "Religion = Catholic" = "religionCatholic",
+                 "Religion = Jewish" = "religionJewish",
+                 "Religion = Eastern" = "religionEastern",
+                 "Religion = Other" = "religionOther",
+                 "Religion = None" = "religionNone",
+                 "Science Confidence = Only Some" = "scienceOnly some",
+                 "Science Confidence = A Great Deal" = "scienceA great deal",
+                 "Catholic X Only Some" = "religionCatholic:scienceOnly some",
+                 "Jewish X Only Some" = "religionJewish:scienceOnly some",
+                 "Eastern X Only Some" = "religionEastern:scienceOnly some",
+                 "Other X Only Some" = "religionOther:scienceOnly some",
+                 "None X Only Some" = "religionNone:scienceOnly some",
+                 "Catholic X A Great Deal" = "religionCatholic:scienceA great deal",
+                 "Jewish X A Great Deal" = "religionJewish:scienceA great deal",
+                 "Eastern X A Great Deal" = "religionEastern:scienceA great deal",
+                 "Other X A Great Deal" = "religionOther:scienceA great deal",
+                 "None X A Great Deal" = "religionNone:scienceA great deal")) |>
+  set_caption("Add A Title Here") |> 
+  theme_compact()
+```
+
+\pagebreak
 
 # Using Markdown For Reports
 
