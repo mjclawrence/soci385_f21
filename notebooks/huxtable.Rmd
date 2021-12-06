@@ -1,0 +1,126 @@
+---
+title: "Introducing Huxtable"
+author: "Matt Lawrence"
+date: "Dcember 6, 2021"
+output:
+  pdf_document: default
+---
+
+## Setting Up
+
+We'll use the `midd_survey` data for this example. Load it and the usual packages.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+
+midd_survey <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/midd_survey.csv")
+```
+
+# Introducing The Huxtable Package
+
+The raw output of summary tables and regression output can be messy in knitted files. We have previously seen how to use `kable` to format some tables. It works well for simple tables but not as well for regression output. Fortunately, there is a different package - `huxtable` - that works well for simple tables and regression output. The package is highly customizable; we'll go over just a few options today. For more details about the package, click [here](https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html). 
+
+Install `huxtable` using the package manager in the bottom right pane of R Studio. Then load it using `library()`.
+
+```{r, error = FALSE, warning = FALSE, message = FALSE}
+library(huxtable)
+```
+
+## Formatting Summary Tables With `huxtable()`
+
+Summary tables use the `huxtable()` function from the `huxtable` package. Let's make a simple three-variable table summarizing GPA by gender and number of siblings.
+
+```{r, error = FALSE, warning = FALSE, message = FALSE}
+gpa_table <- midd_survey |> 
+  group_by(gender, siblings) |> 
+  summarise(mean_gpa = mean(gpa, na.rm = TRUE))
+```
+
+Now wrap the table in `huxtable()`
+
+```{r}
+huxtable(gpa_table)
+```
+
+\pagebreak
+
+We can clean up the table by changing the column labels, adjusting the row alignment, adding a title, and changing the theme.
+
+- The easiest way to change the column titles without altering the underlying data is to use the `set_contents()` option. The syntax here follows the pattern of (row numbers, column numbers, c(column titles)).
+- Change the alignment with the `set_align()` option. The possible positions are left, center, right, and decimal. The syntax follows a similar pattern as above (row numbers, column numbers, position). If you want the change to affect all rows, use `everywhere` as the row number.
+- Change the title with `set_caption()`. Note that all tables titled with this function will be numbered consecutively in the final report.
+- The huxtable package has several different themes. The `theme_article()` and `theme_compact()` are the two I use the most. Try `theme_article()` first; it should work well with short tables. If your table is too long for a single page (or single slide), switch to `theme_compact()`.
+
+```{r}
+huxtable(gpa_table) |> 
+  set_contents(1, 1:3, c("Gender", "Siblings", "Mean GPA")) |> 
+  set_align(everywhere, 2:3, "center") |> 
+  set_caption("Mean GPA by Gender and Number of Siblings") |> 
+  theme_article()
+```
+
+\pagebreak
+
+## Formatting Regression Tables With `huxreg()`
+
+Summaries of linear regression models have a lot of information and can be messy in knitted files. One option to clean them up is to use the `huxreg()`  function in the `huxtable` package.
+
+To see how huxreg compares to the output we are used to, use the `midd_survey` data to regress `gpa` on `gender`, save the model as `model1`, and look at the summary (remember `echo = FALSE` suppresses the code in the knitted file):
+
+```{r, echo = FALSE}
+model1 <- lm(gpa ~ siblings, data = midd_survey)
+
+summary(model1)
+```
+
+Now that you are comfortable interpreting summary outputs, you should continue using the traditional summary outputs to get a sense of your models. But replace `summary()` with `huxreg()` when you want to knit your file. 
+
+```{r}
+huxreg(model1)
+```
+
+\pagebreak
+
+We already know how to set the title and the theme. There are a couple other options that are good to add to regression tables:
+
+- We don't need all the model statistics at the bottom of the table. Let's keep the number of observations only which we can do with the `statistics = c()` option. The package saves the number of observations as an object called `nobs`; we'll rename it `N. obs.` in the table.
+- We can also rename the coefficient names using the `coefs = c()` option. Each coefficient in the model (including the Intercept) needs to be listed here or else it will be omitted in the table.
+
+Here's the full code chunk with all the edits. Knit the file to see the formatted regression table on page 5. 
+
+```{r}
+huxreg(model1,
+       statistics = c("Number of Observations" = "nobs"),
+       coefs = c("(Intercept)" = "(Intercept)",
+                 "Number of Siblings" = "siblings")) |> 
+  set_caption("A Better Title") |> 
+  theme_article()
+```
+
+
+\pagebreak
+
+We can include more than one model in a table too. Let's save a model with a control variable and a model with an interaction.
+
+```{r, include = FALSE}
+model2 <- lm(gpa ~ siblings + gender, data = midd_survey)
+model3 <- lm(gpa ~ siblings * gender, data = midd_survey)
+```
+
+And then include our three models in a huxreg function that also includes several of the changes described above.
+
+```{r}
+huxreg(model1, model2, model3,
+       statistics = c("Number of Observations" = "nobs"),
+       coefs = c("(Intercept)" = "(Intercept)",
+                 "Number of Siblings" = "siblings",
+                 "Gender = Other" = "genderOther",
+                 "Gender = Woman" = "genderWoman",
+                 "Siblings X Other" = "siblings:genderOther",
+                 "Siblings X Woman" = "siblings:genderWoman")) |> 
+  set_caption("GPA on Siblings and Gender") |> 
+  theme_compact()
+```
+
+
+

@@ -8,85 +8,66 @@ header-includes:
 
 ## Getting Started
 
-Load the csv file created from the GSS.R file. Save it as a data frame called `review` and load the usual packages.
+Load the usual packages (which should now include huxtable!).
 
 ```{r, warning = FALSE, header = FALSE, message = FALSE}
-review <- read.csv("https://raw.githubusercontent.com/mjclawrence/soci385_f21/main/data/final_review.csv")
 library(tidyverse)
 library(huxtable)
 ```
 
+We will be using the gss dataset for this review. Load the `gssr` package, the gss_doc documentation, and the gss_all dataframe.
+
+```{r}
+library(gssr)
+data(gss_doc)
+data(gss_all)
+```
+
+Create a new dataframe called review. Filter the gss_all dataframe to keep only those observations from the 2010 waves and after. Select the variables we want.
+
+```{r}
+review <- gss_all |> 
+  filter(year>=2010) |> 
+  select(year, intspace, consci, relig16, race, hispanic,
+         sex, educ, age, id)
+```
+
 ## Clean Up
 
-Start by making all the variable names lower case:
+The big thing to do before starting analyses is to confirm that all missing values as NA. Run a summary of the review dataframe to make sure NAs have been captured.
 
 ```{r}
-names(review) <- tolower(names(review))
+summary(review)
 ```
 
-The big thing to do before starting analyses is to code all missing values as NA. Look to the do file or the excel file downloaded from the GSS website to see how missing values are coded for each variable. 
+Recall that you can use the `gss_get_marginals()` function with `gss_doc` to see the labels for specific variables.
 
-You can find the codes for missing values of the `age` variable here: https://gssdataexplorer.norc.org/variables/53/vshow. Create a table of the `age` variable to see if there are missing values:
-
-## REPLACE THIS LINE WITH YOUR CODE ##
 ```{r}
-table(review$age)
+gss_get_marginals(varnames = c("intspace", "consci", "relig16", "race", "hispanic", 
+                               "sex", "educ", "age"), data = gss_doc) |> 
+  select(id, percent, n, value, label)
 ```
 
-There are 34 observations with a missing value code for age. Here's how we can make them NAs using `na_if` (which is efficient if there is only one missing value):
+Let's combine values from the `race` and `hispanic` variables to make a new variable called `racehisp`. The easiest way to do this is to first make a binary variable distinguishing those who are not Hispanic from those who are.
 
 ```{r}
-review <- review %>%
-     mutate(age = na_if(age, 99))
-```
-
-Now those values should be removed from the table.
-
-```{r}
-table(review$age)
-```
-
-Here are examples of how to replace missing values using `ifelse` (which is efficient if there are multiple missing values):
-
-```{r}
-review <- review %>%
-     mutate(educ = ifelse(educ==0 | educ>=98, NA, educ),
-            consci = ifelse(consci==0 | consci>=8, NA, consci),
-            intspace = ifelse(intspace == 0 | intspace>=8, 
-                              NA, intspace))
-```
-
-Try replacing the missing values for the `hispanic` variable.
-
-### REPLACE THIS LINE WITH YOUR CODE ###
-
-```{r}
-review <- review %>%
-     mutate(hispanic = ifelse(hispanic==0 | hispanic>=98, 
-                              NA, hispanic))
-```
-
-Let's combine values from the `race` and `hispanic` variables to make a new variable called `racehisp`. The easiest way to do this is to first make a binary variable distinguishing those who are in any hispanic category from those who are not.
-
-```{r}
-review <- review %>%
-     mutate(anyhispanic = ifelse(hispanic>1, 1, 0))
+review <- review |>
+     mutate(anyhispanic = ifelse(hispanic==1, 0, 1))
 ```
 
 Now we can combine values from this new `anyhispanic` variable and the race variable to create the racehisp categories:
 
 ```{r}
-review <- review %>%
-     mutate(racehisp = ifelse(anyhispanic==1, "Hispanic", race),
+review <- review |>
+     mutate(racehisp = ifelse(anyhispanic==1, 4, race),
             racehisp = factor(racehisp,
-                              labels = c("White", "Black", 
-                                         "Other", "Hispanic")))
+                              labels = c("White", "Black", "Other", "Hispanic")))
 ```
 
 Sometimes it's easier to create new variables instead of changing the values and labels of existing variables. Here we'll create new variables called `science` (taking the values of `consci`) and `space` (taking the values of `intspace`).
 
 ```{r}
-review <- review %>%
+review <- review |>
      mutate(science = factor(consci,
                              levels = c(3, 2, 1),
                              labels = c("Hardly any", "Only some", 
@@ -104,17 +85,10 @@ We can also collapse existing categories into bigger categories. We'll use the `
 table(review$relig16)
 ```
 
-First let's replace the missing values!
-
-```{r}
-review <- review %>%
-     mutate(relig16 = ifelse(relig16>=98, NA, relig16))
-```
-
 Here we'll put all the respondents with values of 6-9 in the "Eastern" category, and those who are not Eastern, Protestant, Catholic, Jewish, or None in "Other":
 
 ```{r}
-review <- review %>%
+review <- review |>
      mutate(religion = ifelse(relig16 == 1, "Protestant",
           ifelse(relig16 == 2, "Catholic",
           ifelse(relig16 == 3, "Jewish",
@@ -131,7 +105,7 @@ review <- review %>%
 For each religious category, we want to know the proportion with each level of confidence in science who are in each category of interest in space. One way to do this is with `group_by()` and `summarize()`. For that approach, we would need binary variables for each of the `space` categories. This might seem tedious, but in the long run it is more efficient since it will allow you to manipulate the variables for other purposes later.
 
 ```{r}
-review <- review %>%
+review <- review |>
      mutate(space_not_interested = 
                  ifelse(space=="Not interested",1,0),
             space_moderately_interested = 
@@ -143,8 +117,8 @@ review <- review %>%
 For each combination of `religion` and `science`, we can now summarize the means of each space binary variable (which represent the proportion of respondents in the related category of space interest):
 
 ```{r}
-space_summary <- review %>%
-     group_by(religion, science) %>%
+space_summary <- review |>
+     group_by(religion, science) |>
      summarize(not_interested = 
                     round(mean(space_not_interested, na.rm=TRUE),3),
                moderately_interested = 
@@ -158,10 +132,10 @@ space_summary
 Those NAs for `science` and `religion` are annoying. One way to get rid of them is to filter them out. You can do that with an extra line in the chunk above. But we'll redo the whole chunk to compare them, though note it's not necessary to run this twice:
 
 ```{r}
-space_summary <- review %>%
-     filter(!is.na(science), !is.na(religion)) %>% 
-     #Keep (filter) the observations that are not na for science or religion
-     group_by(religion, science) %>%
+space_summary <- review |>
+     filter(!is.na(science), !is.na(religion)) |> 
+     #Keep the observations that are not na for science or religion
+     group_by(religion, science) |>
      summarise(not_interested = round(mean(space_not_interested, 
                                            na.rm=TRUE),3),
                moderately_interested = round(mean(space_moderately_interested,
@@ -175,21 +149,12 @@ space_summary
 You can clean up the column names of this table and pander it before you knit. Note that you can also add a table caption in the pander function.
 
 ```{r, echo = FALSE}
-colnames(space_summary) <- c("Religion", 
-                             "Confidence In Science",
-                             "Not Interested", 
-                             "Moderately Interested",
-                             "Very Interested")
-
-panderOptions('table.split.table', Inf) #this keeps the table from dividing
-pander(space_summary, 
-       caption = "Interest in Space Exploration by Religion and Confidence in Science")
+huxtable(space_summary) |> 
+  set_contents(1, 1:5, c("Religion", "Confidence in Science", 
+                         "Space Interest = None", "Space Interest = Moderate", "Space Interest = Very")) |> 
+  set_align(everywhere, 2:5, "center") |> 
+  theme_compact()
 ```
-
-```{r}
-round(prop.table(table(review$religion, review$science),1),3)
-```
-
 
 
 ## Dealing With NAs In Other Functions
@@ -214,7 +179,7 @@ For ggplot, R knows to only use complete cases but will warn you that it is doin
 
 ```{r, warning = FALSE}
 plot <- ggplot(review, aes(x = educ))
-plot + geom_density() +
+plot + geom_bar() +
   labs(x = "Education in Years",
        y = "Density",
        title = "Distribution of Education",
@@ -222,8 +187,6 @@ plot + geom_density() +
 ```
 
 Remember to change the axis labels and add a title to the figure above!
-
-### REPLACE THIS LINE WITH YOUR CODE ###
 
 Basic linear models also know to drop NAs. The notes section of the summary informs you how many cases have been deleted from the estimates (in the example below, 4210 observations are deleted due to missingness).
 
@@ -234,24 +197,22 @@ model <- lm(as.numeric(science) ~ religion * educ, data = review)
 summary(model)
 ```
 
-Use stargazer with this model for your final knitted version:
+Use huxreg with this model for your final knitted version:
 
-```{r, echo = FALSE, results = 'asis', warning = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 
-stargazer(model,
-          header=FALSE, type = 'latex', style = 'ajs',
-  title = "Model Predicting Confidence in Science by Years of Education",
-  covariate.labels = c("Education (in years)"),
-  dep.var.labels = "Confidence in Science",
-  keep.stat = c("n", "rsq"))
+huxreg(model,
+       statistics = c("N. obs." = "nobs")) |> 
+  set_caption("What is the title?") |> 
+  theme_compact()
 ```
 
-By default, the `fitted()` function will not work if there are NAs in your model. If you want to save predicted values from a model with missing values, add `na.action = na.exclude` to your `lm()` code. Now when you run the `fitted()` function any observations not inlcuded in your model will have NA as their predicted value.
+By default, the `fitted.values()` function will not work if there are NAs in your model. If you want to save predicted values from a model with missing values, add `na.action = na.exclude` to your `lm()` code. Now when you run the `fitted.values` function any observations not included in your model will have NA as their predicted value.
 
 ```{r}
 model <- lm(as.numeric(science) ~ educ, 
-            data = review, 
-            na.action = na.exclude)
+            data = review,
+            na.action=na.exclude) # Add to predict NA if observation has NAs
 
 review$predicted_science <- fitted(model)
 
@@ -362,62 +323,83 @@ This should be the start of a new page!
 
 ## Formatting Summary Tables 
 
-We have seen `pander()` a lot. It's great. Use it. 
+We have seen `huxtable()` and `huxreg()` a lot. They are great. Use them. 
 
-One additional way to use `pander()` is to combine it with `group_by()` and `summarize()` to make a nice summary table. Let's start with the code for getting means and standard deviations of the `age` and `educ` variables for each `religion` group:
+One additional way to use `huxtable()` is to combine it with `group_by()` and `summarize()` to make a nice summary table. Let's start with the code for getting means and standard deviations of the `age` and `educ` variables for each `religion` group:
 
 ```{r, echo = FALSE}
-summary_table <- review %>% 
-     filter(!is.na(religion)) %>%
-     group_by(religion) %>% 
+summary_table <- review |> 
+     filter(!is.na(religion)) |>
+     group_by(religion) |> 
      summarize(mean_age = round(mean(age, na.rm=TRUE),2),
                sd_age = round(sd(age, na.rm=TRUE),2),
                mean_educ = round(mean(educ, na.rm=TRUE),2),
                sd_educ = round(sd(educ, na.rm=TRUE),2))
 ```
 
-If we pander this table, we'll have the religion categories in the rows and the means and standard deviations in the columns:
+If we huxtable this table, we'll have the religion categories in the rows and the means and standard deviations in the columns:
 
 ```{r, echo = FALSE}
-pander(summary_table)
+huxtable(summary_table) |>
+  set_contents(1, 1:5, c("Religion", "Age Mean", "Age SD", "Education Mean", "Education SD")) |> 
+  set_caption("Summary Table: Age and Education by Religion") |> 
+  set_align(everywhere, 2:5, "center") |> 
+  theme_compact()
 ```
 
-Note that `pander()` also works well with `t.test()`... 
+Note that `huxtable()` also works well with `t.test()` after asserting that the results should be in tidy format... 
 
 ```{r, echo = FALSE}
-panderOptions('table.split.table' , Inf)
-pander(t.test(review$age[review$religion=="Jewish"], review$age[review$religion=="Eastern"]))
+tidy(t.test(review$age[review$religion=="Jewish"],
+                review$age[review$religion=="Eastern"])) |> 
+  huxtable() |> 
+  select(-method) |> 
+  set_caption("T Test: Difference in Mean Age between Jewish and Eastern Respondents") |> 
+  theme_compact()
 ```
 
 ...and `prop.test()`...
 
 ```{r, echo = FALSE}
-space_religion <- review %>%
-     filter(religion=="Protestant" | religion=="None") %>%
-     select(religion, space_very_interested) %>%
+space_religion <- review |>
+     filter(religion=="Protestant" | religion=="None") |>
+     select(religion, space_very_interested) |>
      droplevels()
 
 space_religion_table <- table(space_religion$religion, 
                               space_religion$space_very_interested)
-pander(prop.test(space_religion_table))
+
+tidy((prop.test(space_religion_table))) |> 
+  huxtable() |> 
+  select(-method) |> 
+  set_caption("Proportion Test: Protestant vs No Religion and Very Interested in Space") |> 
+  theme_compact()
 ```
 
 ...and `chisq.test()`...
 
 ```{r, echo = FALSE}
-pander(chisq.test(review$sex, review$consci))
+tidy(chisq.test(review$sex, review$consci)) |> 
+  huxtable() |>
+  select(-method) |> 
+  set_caption("Chi-square Test: Sex and Confidence in Science") |> 
+  theme_compact()
 ```
 
 ...and `fisher.test()`...
 
 ```{r, echo = FALSE}
 
-educ_11_years_only <- review %>%
-     filter(educ==11) %>%
+educ_11_years_only <- review |>
+     filter(educ==11) |>
      select(educ, religion, space)
 
 chisq.test(educ_11_years_only$religion, educ_11_years_only$space)$expected
 
-pander(fisher.test(educ_11_years_only$religion, educ_11_years_only$space, 
-                   simulate.p.value = TRUE))
+tidy(fisher.test(educ_11_years_only$religion, educ_11_years_only$space, 
+                   simulate.p.value = TRUE)) |> 
+  huxtable() |> 
+  select(-method) |> 
+  set_caption("Fisher Test: Religion and Interest in Space") |> 
+  theme_compact()
 ```

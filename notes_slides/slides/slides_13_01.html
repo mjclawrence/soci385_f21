@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Social Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2021-12-06" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="monofont.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, title-slide
+
+# Social Statistics
+## Wrapping Up Regression
+### December 6, 2021
+
+---
+
+
+
+
+
+
+
+
+
+# Assignment 8 Review
+
+### 1. Create a new binary variable identifying respondents who think they are most likely to find a marriage or long-term partner at Middlebury with a 1 and everyone else with a 0.
+
+--
+
+
+```r
+midd_survey &lt;- mutate(midd_survey, 
+                      find_partner_midd =
+                           ifelse(find_partner=="Middlebury",1,0))
+```
+
+--
+
+### What is the mean of this new variable, and what does that value represent?
+
+
+```r
+mean(midd_survey$find_partner_midd)
+```
+
+```
+## [1] 0.05076142
+```
+
+--
+
+The mean of this binary variable is the proportion of respondents who think they are most likely to find a marriage or long-term partner at Middlebury.
+
+---
+
+# Assignment 8 Review
+
+### How does this vary by gender?
+
+
+```r
+prop.table(table(midd_survey$gender, midd_survey$find_partner_midd),1)
+```
+
+```
+##        
+##                  0          1
+##   Man   0.92746114 0.07253886
+##   Other 1.00000000 0.00000000
+##   Woman 0.96245734 0.03754266
+```
+
+--
+
+No respondents in the "Other" gender category think they will find their partner at Middlebury. Let's take them out of the dataset so the rest of the models are easier to interpret.
+
+--
+
+
+```r
+midd_survey &lt;- midd_survey |&gt;
+     filter(gender!="Other") |&gt;
+     droplevels()
+```
+
+---
+
+# Assignment 8 Review
+
+### 2. Regress the binary variable you created in #1 on gender, and interpret the coefficients.
+
+--
+
+
+```r
+model1 &lt;- 
+      lm(find_partner_midd ~ gender, 
+      data = midd_survey)
+
+summary(model1)
+```
+
+---
+
+# Assignment 8 Review
+
+
+```
+## 
+## Call:
+## lm(formula = find_partner_midd ~ gender, data = midd_survey)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.07254 -0.07254 -0.03754 -0.03754  0.96246 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.07254    0.01122   6.465 1.61e-10 ***
+## genderWoman -0.03500    0.01445  -2.422   0.0156 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2205 on 970 degrees of freedom
+## Multiple R-squared:  0.006009,	Adjusted R-squared:  0.004985 
+## F-statistic: 5.864 on 1 and 970 DF,  p-value: 0.01563
+```
+
+---
+
+# Assignment 8 Review
+
+### On average, women are 3.5 percentage points less likely than men to think they will find a partner at Middlebury. This difference is significant.
+
+---
+
+# Assignment 8 Review
+
+### 3. Add type of housing as a control variable to the model, and interpret the coefficients. 
+
+--
+
+
+```r
+model2 &lt;- 
+      lm(find_partner_midd ~ gender + housing, 
+      data = midd_survey)
+
+summary(model2)
+```
+
+---
+
+# Assignment 8 Review
+
+
+
+```
+## 
+## Call:
+## lm(formula = find_partner_midd ~ gender + housing, data = midd_survey)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.07733 -0.07219 -0.03719 -0.03719  0.96281 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        0.072194   0.011711   6.165 1.03e-09 ***
+## genderWoman       -0.035008   0.014488  -2.416   0.0159 *  
+## housingHouse       0.005140   0.019964   0.257   0.7969    
+## housingOff Campus -0.005831   0.027595  -0.211   0.8327    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2207 on 968 degrees of freedom
+## Multiple R-squared:  0.006138,	Adjusted R-squared:  0.003058 
+## F-statistic: 1.993 on 3 and 968 DF,  p-value: 0.1134
+```
+
+---
+
+# Assignment 8 Review
+
+### Controlling for housing type, there is still a significant difference of 3.5 percentage points between men and women on average.
+
+### Or, controlling for gender, students living in dorms, in houses and off campus are equally likely to expect to find a partner at Midd, on average.
+
+---
+
+# Assignment 8 Review
+
+### 4. Add an interaction between gender and type of housing to the model, and interpret the coefficients.
+
+--
+
+
+```r
+model3 &lt;- 
+      lm(find_partner_midd ~ gender * housing, 
+      data = midd_survey)
+
+summary(model3)
+```
+
+---
+
+# Assignment 8 Review
+
+
+```
+## 
+## Call:
+## lm(formula = find_partner_midd ~ gender * housing, data = midd_survey)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.13462 -0.05788 -0.04719 -0.04719  0.98936 
+## 
+## Coefficients:
+##                               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                    0.05788    0.01246   4.646 3.85e-06 ***
+## genderWoman                   -0.01069    0.01624  -0.658  0.51059    
+## housingHouse                   0.07674    0.03291   2.331  0.01993 *  
+## housingOff Campus              0.07256    0.04747   1.528  0.12674    
+## genderWoman:housingHouse      -0.11329    0.04129  -2.743  0.00619 ** 
+## genderWoman:housingOff Campus -0.11975    0.05821  -2.057  0.03995 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2197 on 966 degrees of freedom
+## Multiple R-squared:  0.01697,	Adjusted R-squared:  0.01189 
+## F-statistic: 3.336 on 5 and 966 DF,  p-value: 0.005407
+```
+
+---
+
+# Assignment 8 Review
+
+### The differences between men and women vary across types of housing. The average differences between men and women are significantly larger for those who live in houses rather than dorms and for those who live off campus rather than in dorms. 
+
+---
+
+# Assignment 8 Review
+
+### 5. Save the predicted values from the model in #4. Create a table with `group_by()` and `summarize()` showing how the predicted values differ by gender and housing type. Interpret any interesting results.
+
+--
+
+
+```r
+midd_survey$pred_find_partner &lt;- model3$fitted.values
+
+find_partner_predictions &lt;- midd_survey |&gt;
+     group_by(gender, housing) |&gt;
+     summarize(prob_find_partner = 
+      round(mean(pred_find_partner, na.rm=TRUE),3))
+```
+
+---
+
+# Assignment 8 Review
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Housing &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Proportion &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Dorm &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.058 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; House &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.135 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Man &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Off Campus &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.130 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Dorm &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.047 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; House &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.011 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Woman &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Off Campus &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Getting Output Out Of R
+
+### Final project's report should not have R output. Will discuss formatting more on Wednesday
+- Figures should have titles
+- Use the `huxtable` package for tables
+
+- Let's turn to the `huxtable.Rmd` notebook...
+
+---
+
+# Previewing Huxtable
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-14">
+<col><col><col><col><tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 1pt 1pt 1pt 0pt; font-weight: bold;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 1pt 1pt 1pt 1pt; font-weight: bold;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 1pt 1pt 1pt 1pt; font-weight: bold;">(2)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 1pt 0pt 1pt 1pt; font-weight: bold;">(3)</th></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 1pt 1pt 1pt 0pt; font-weight: normal;">(Intercept)</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 1pt 1pt 1pt 1pt; font-weight: normal;">0.073 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 1pt 1pt 1pt 1pt; font-weight: normal;">0.072 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 1pt 0pt 1pt 1pt; font-weight: normal;">0.058 ***</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.011)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.012)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.012)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">Gender = Woman</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">-0.035 *&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">-0.035 *&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">-0.011&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.014)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.014)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.016)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">Housing = House</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">0.005&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">0.077 *&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.020)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.033)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">Housing = Off Campus</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">-0.006&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">0.073&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">(0.028)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.047)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">Woman x House</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">-0.113 **&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.041)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">Woman x Off Campus</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">-0.120 *&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">(0.058)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;">N. obs.</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">972&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 1pt 1pt 1pt; font-weight: normal;">972&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 1pt 0pt 1pt 1pt; font-weight: normal;">972&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th colspan="4" style="vertical-align: top; text-align: left; white-space: normal; padding: 1pt 1pt 1pt 0pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+</table>
+
+
+---
+
+# Meier and Musick (2014)
+
+### Motivation?
+
+--
+
+### Research Question?
+
+--
+
+### Hypotheses?
+
+--
+
+### Data?
+- Dependent Variables?
+- Independent Variable?
+- Control Variables?
+
+---
+
+# Meier and Musick (2014)
+
+![:scale 125%](385_figures/meier_musick_table.png)
+
+---
+
+# Meier and Musick (2014)
+
+![:scale 125%](385_figures/predicted1_depression.png)
+
+---
+
+# Meier and Musick (2014)
+
+![:scale 125%](385_figures/predicted2_substance_use.png)
+
+---
+
+# Meier and Musick (2014)
+
+![:scale 125%](385_figures/predicted3_delinquency.png)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "zenburn",
+"highlightSpans": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
