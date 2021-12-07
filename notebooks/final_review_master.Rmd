@@ -23,7 +23,9 @@ data(gss_doc)
 data(gss_all)
 ```
 
-Create a new dataframe called `review`. Filter the `gss_all` dataframe to keep only those observations from the 2010 waves and after. Select the variables we want.
+This review exercise will consider how interest in space exploration (the `intspace` variable) differs across religious preference. We will control for confidence in the scientific community (the `consci` variable) which could be a confounder between religion and interest in space exploration. Testing the interaction between religion and confidence in science will let us know if any association we may observe between religion and interest in space exploration varies across the distribution of confidence in science.
+
+Start by creating a new dataframe called `review`, filtering the full gss sample to include only the years we want, and selecting the variables we need.
 
 ```{r}
 review <- gss_all |> 
