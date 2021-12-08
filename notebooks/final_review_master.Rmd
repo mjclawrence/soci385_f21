@@ -19,8 +19,8 @@ We will be using the gss dataset for this review. Load the `gssr` package, the `
 
 ```{r, warning = FALSE, error = FALSE, message = FALSE}
 library(gssr)
-data(gss_doc)
-data(gss_all)
+data(gss_doc) # codebook
+data(gss_all) # dataset
 ```
 
 This review exercise will consider how interest in space exploration (the `intspace` variable) differs across religious preference. We will control for confidence in the scientific community (the `consci` variable) which could be a confounder between religion and interest in space exploration. Testing the interaction between religion and confidence in science will let us know if any association we may observe between religion and interest in space exploration varies across the distribution of confidence in science.
@@ -61,7 +61,8 @@ summary(review)
 Recall that you can use the `gss_get_marginals()` function with `gss_doc` to see the labels for specific variables. This is a nice place to use the `my_variables` vector. If you save the output of this function, you will be able to easily refer to it later. I recommend opening the spreadsheet view of `my_codebook` (in the top right pane) after running the chunk below.
 
 ```{r}
-my_codebook <- gss_get_marginals(varnames = my_variables, data = gss_doc) |> 
+my_codebook <- gss_get_marginals(varnames = my_variables, 
+                                 data = gss_doc) |> 
   select(id, percent, n, value, label)
 ```
 
@@ -131,6 +132,14 @@ review <- review |>
                  ifelse(space=="Very interested",1,0))
 ```
 
+```{r}
+library(pollster)
+review <- mutate(review, weight = 1)
+pollster_examples <- crosstab_3way(review, religion, space, science, pct_type = "row", weight = weight)
+
+```
+
+
 For each combination of `religion` and `science`, we can now summarize the means of each space binary variable (which represent the proportion of respondents in the related category of space interest):
 
 ```{r}
@@ -166,9 +175,22 @@ space_summary
 You can clean up the column names of this table and wrap it in huxtable before you knit. The new part of the code below is how to create a grouping row to use the "Interest in Space" header across the three levels of that variable. The idea is to first insert a new row, then merge it across columns 3:5, and finally assert that there are two rows (1:2) that should be treated as the table's header.
 
 ```{r}
+huxtable(space_summary)
+```
+
+```{r}
+space_summary |> 
+  pivot_longer(names_to = "space", values_to = "prop", 3:5) |> 
+  mutate(space = factor(space, levels = c("not_interested", "moderately_interested", "very_interested"))) |> 
+  ggplot(aes(x = religion, y = prop, fill = space)) + geom_col() + theme(legend.position = "bottom")
+```
+
+
+
+```{r}
 huxtable(space_summary) |> 
   insert_row("", "", "Interest in Space", "", "", after = 0) |> 
-  merge_cells(1, 3:5) |>
+  merge_cells(1, 3:5) |> # in row 1, in columns 3:5
   set_header_rows(1:2, TRUE) |> 
   set_contents(2, 1:5, c("Religion", "Confidence in Science", 
                          "None", "Moderate", "Very")) |> 
