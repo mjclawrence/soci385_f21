@@ -190,7 +190,7 @@ huxtable(space_summary) |>
                          "None", "Moderate", "Very")) |> 
   set_align(everywhere, 3:5, "center") |> 
   theme_compact() |> 
-  set_bold(row = 4, col = 3) |> # Bold the cell in row 4 and column 2
+  set_bold(row = 4, col = 3) |> # Bold the cell in row 4 and column 3
   set_italic(row = 5, col = everywhere) |> # Italicize cells in row 5 in all the columns
   set_background_color(row = -(1:2), col = 5, "grey") # Change the background color to grey for the cells in column 5 in all rows except the two header rows; lots of other colors work too
 ```
