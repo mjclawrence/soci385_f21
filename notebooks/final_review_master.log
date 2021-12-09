@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.11.30)  8 DEC 2021 15:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.11.30)  8 DEC 2021 20:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -636,292 +636,306 @@ Overfull \hbox (24.24522pt too wide) in paragraph at lines 237--237
  []
 
 [2] [3]
-Overfull \hbox (129.22028pt too wide) in paragraph at lines 385--385
+Overfull \hbox (129.22028pt too wide) in paragraph at lines 380--380
 []\T1/lmtt/m/n/12 ## `summarise()` has grouped output by 'religion'. You can ov
 erride using the `.groups` argument.[] 
  []
 
 [4]
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##    religion   science      not_interested moderately_inter
 ested very_interested[] 
  []
 
 
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##    <fct>      <fct>                 <dbl>                 
 <dbl>           <dbl>[] 
  []
 
 
-Overfull \hbox (36.57422pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.57422pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  1 Protestant Hardly any            0.596                 
 0.288           0.116[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  2 Protestant Only some             0.354                 
 0.493           0.153[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  3 Protestant A great deal          0.207                 
 0.474           0.319[] 
  []
 
 
-Overfull \hbox (24.23822pt too wide) in paragraph at lines 409--409
+Overfull \hbox (24.23822pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  4 Protestant <NA>                  0.342                 
 0.459           0.2[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  5 Catholic   Hardly any            0.585                 
 0.264           0.151[] 
  []
 
 
-Overfull \hbox (36.58122pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58122pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  6 Catholic   Only some             0.346                 
 0.47            0.184[] 
  []
 
 
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  7 Catholic   A great deal          0.22                  
 0.445           0.335[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  8 Catholic   <NA>                  0.313                 
 0.449           0.238[] 
  []
 
 
-Overfull \hbox (11.88821pt too wide) in paragraph at lines 409--409
+Overfull \hbox (11.88821pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ##  9 Jewish     Hardly any            0.5                   
 0.5             0[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 409--409
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 404--404
 []\T1/lmtt/m/n/12 ## 10 Jewish     Only some             0.161                 
 0.581           0.258[] 
  []
 
 
-Overfull \hbox (129.22028pt too wide) in paragraph at lines 433--433
+Overfull \hbox (129.22028pt too wide) in paragraph at lines 428--428
 []\T1/lmtt/m/n/12 ## `summarise()` has grouped output by 'religion'. You can ov
 erride using the `.groups` argument.[] 
  []
 
 
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##    religion   science      not_interested moderately_inter
 ested very_interested[] 
  []
 
 
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##    <fct>      <fct>                 <dbl>                 
 <dbl>           <dbl>[] 
  []
 
 
-Overfull \hbox (36.57422pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.57422pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  1 Protestant Hardly any            0.596                 
 0.288           0.116[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  2 Protestant Only some             0.354                 
 0.493           0.153[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  3 Protestant A great deal          0.207                 
 0.474           0.319[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  4 Catholic   Hardly any            0.585                 
 0.264           0.151[] 
  []
 
-[5]
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  5 Catholic   Only some             0.346                 
 0.47            0.184[] 
  []
 
-
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+[5]
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  6 Catholic   A great deal          0.22                  
 0.445           0.335[] 
  []
 
 
-Overfull \hbox (11.89522pt too wide) in paragraph at lines 464--464
+Overfull \hbox (11.89522pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  7 Jewish     Hardly any            0.5                   
 0.5             0[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  8 Jewish     Only some             0.161                 
 0.581           0.258[] 
  []
 
 
-Overfull \hbox (24.22421pt too wide) in paragraph at lines 464--464
+Overfull \hbox (24.22421pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ##  9 Jewish     A great deal          0.167                 
 0.633           0.2[] 
  []
 
 
-Overfull \hbox (24.24522pt too wide) in paragraph at lines 464--464
+Overfull \hbox (24.24522pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 10 Eastern    Hardly any            0.5                   
 0               0.5[] 
  []
 
 
-Overfull \hbox (24.24522pt too wide) in paragraph at lines 464--464
+Overfull \hbox (24.24522pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 11 Eastern    Only some             0.2                   
 0.4             0.4[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 12 Eastern    A great deal          0.2                   
 0.333           0.467[] 
  []
 
 
-Overfull \hbox (11.88821pt too wide) in paragraph at lines 464--464
+Overfull \hbox (11.88821pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 13 Other      Hardly any            0.4                   
 0.6             0[] 
  []
 
 
-Overfull \hbox (36.59523pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.59523pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 14 Other      Only some             0.472                 
 0.321           0.208[] 
  []
 
 
-Overfull \hbox (36.58122pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58122pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 15 Other      A great deal          0.184                 
 0.469           0.347[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 16 None       Hardly any            0.455                 
 0.242           0.303[] 
  []
 
 
-Overfull \hbox (36.58122pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58122pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 17 None       Only some             0.352                 
 0.496           0.152[] 
  []
 
 
-Overfull \hbox (36.58823pt too wide) in paragraph at lines 464--464
+Overfull \hbox (36.58823pt too wide) in paragraph at lines 459--459
 []\T1/lmtt/m/n/12 ## 18 None       A great deal          0.23                  
 0.378           0.393[] 
  []
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
-90.
+92.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
-90.
+92.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-490.
+492.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-490.
+492.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 490.
+(Font)              <12> on input line 492.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 490.
+(Font)              <8> on input line 492.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 490.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 490
+(Font)              <6> on input line 492.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 492
 .
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 490
+LaTeX Font Info:    Trying to load font information for U+msb on input line 492
 .
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [6] [7]
-Overfull \hbox (184.7953pt too wide) in paragraph at lines 1001--1001
+) [6]
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+969.
+(/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [7]
+<final_review_master_files/figure-latex/unnamed-chunk-18-1.pdf, id=96, 457.71pt
+ x 310.15875pt>
+File: final_review_master_files/figure-latex/unnamed-chunk-18-1.pdf Graphic fil
+e (type pdf)
+<use final_review_master_files/figure-latex/unnamed-chunk-18-1.pdf>
+Package pdftex.def Info: final_review_master_files/figure-latex/unnamed-chunk-1
+8-1.pdf  used on input line 975.
+(pdftex.def)             Requested size: 457.7089pt x 310.15799pt.
+[8] [9 <./final_review_master_files/figure-latex/unnamed-chunk-18-1.pdf>] [10] 
+[11]
+Overfull \hbox (184.7953pt too wide) in paragraph at lines 1420--1420
 []\T1/lmtt/m/n/12 ## Don't know how to automatically pick scale for object of t
 ype haven_labelled. Defaulting to continuous.[] 
  []
 
-[8]
-<final_review_master_files/figure-latex/unnamed-chunk-21-1.pdf, id=103, 459.717
+<final_review_master_files/figure-latex/unnamed-chunk-23-1.pdf, id=129, 459.717
 5pt x 316.18124pt>
-File: final_review_master_files/figure-latex/unnamed-chunk-21-1.pdf Graphic fil
+File: final_review_master_files/figure-latex/unnamed-chunk-23-1.pdf Graphic fil
 e (type pdf)
-<use final_review_master_files/figure-latex/unnamed-chunk-21-1.pdf>
+<use final_review_master_files/figure-latex/unnamed-chunk-23-1.pdf>
 Package pdftex.def Info: final_review_master_files/figure-latex/unnamed-chunk-2
-1-1.pdf  used on input line 1003.
+3-1.pdf  used on input line 1422.
 (pdftex.def)             Requested size: 459.74442pt x 316.19975pt.
-[9 <./final_review_master_files/figure-latex/unnamed-chunk-21-1.pdf>] [10]
+[12 <./final_review_master_files/figure-latex/unnamed-chunk-23-1.pdf>] [13]
 
-LaTeX Warning: Float too large for page by 21.86485pt on input line 1489.
+LaTeX Warning: Float too large for page by 21.86485pt on input line 1908.
 
-[11]
+[14]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 1541.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 1960.
 
 
-[12]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-590.
+[15]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+009.
 (/Users/lawrence/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [13] [14]
-Overfull \hbox (24.24522pt too wide) in paragraph at lines 1978--1978
+) [16] [17]
+Overfull \hbox (24.24522pt too wide) in paragraph at lines 2397--2397
 []\T1/lmtt/m/n/12 ## Warning in chisq.test(educ_11_years_only$religion, educ_11
 _years_only$space):[] 
  []
 
-[15] [16] [17] [18] (./final_review_master.aux)
+[18] [19] [20] [21] (./final_review_master.aux)
 Package rerunfilecheck Info: File `final_review_master.out' has not changed.
-(rerunfilecheck)             Checksum: 221C302BDC766AF0256B817DFD67943A;2103.
+(rerunfilecheck)             Checksum: 38796CA825A9495848D01AE418315C43;2104.
  ) 
 Here is how much of TeX's memory you used:
- 16132 strings out of 480313
- 301593 string characters out of 5896366
- 623489 words of memory out of 5000000
- 33676 multiletter control sequences out of 15000+600000
- 444284 words of font info for 58 fonts, out of 8000000 for 9000
+ 16186 strings out of 480313
+ 302834 string characters out of 5896366
+ 622668 words of memory out of 5000000
+ 33718 multiletter control sequences out of 15000+600000
+ 444591 words of font info for 59 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 68i,13n,77p,413b,897s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,13n,77p,416b,893s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}
 {/Users/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/Use
 rs/lawrence/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</Users/law
@@ -934,10 +948,10 @@ ary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/lawrence/Librar
 y/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/lawrence/Library
 /TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/lawrence/Library/T
 inyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on final_review_master.pdf (18 pages, 225430 bytes).
+Output written on final_review_master.pdf (21 pages, 246080 bytes).
 PDF statistics:
- 249 PDF objects out of 1000 (max. 8388607)
- 204 compressed objects within 3 object streams
- 69 named destinations out of 1000 (max. 500000)
- 110 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 279 PDF objects out of 1000 (max. 8388607)
+ 227 compressed objects within 3 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 115 words of extra memory for PDF output out of 10000 (max. 10000000)
 
