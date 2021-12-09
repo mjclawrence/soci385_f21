@@ -191,8 +191,8 @@ huxtable(space_summary) |>
   set_align(everywhere, 3:5, "center") |> 
   theme_compact() |> 
   set_bold(row = 4, col = 3) |> # Bold the cell in row 4 and column 2
-  set_italic(row = 5, col = everywhere) |> # Italicize all cells in row 5
-  set_background_color(row = -(1:2), col = 5, "grey") # Change the background color to grey for all cells but the header rows in column 5; lots of other colors work too
+  set_italic(row = 5, col = everywhere) |> # Italicize cells in row 5 in all the columns
+  set_background_color(row = -(1:2), col = 5, "grey") # Change the background color to grey for the cells in column 5 in all rows except the two header rows; lots of other colors work too
 ```
 
 In class on Wednesday, we talked about how to make a plot to visualize the information in the three way table. It's not necessary to do so for your final report! But if you are interested it is possible using all the code in the chunk below. The trick is to use `pivot_longer()` to collapse the three wide columns for the levels of space and make them two long columns - one with the column names and one with the values. Then we can use these columns in our ggplot aesthetic map. 
